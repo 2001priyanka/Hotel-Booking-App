@@ -25,7 +25,7 @@ const Home = () => {
     navigation.navigate('user');
   };
   const onNext2Pressed = () => {
-    navigation.navigate('user');
+    navigation.navigate('login');
   };
   const [showRealApp, setShowRealApp] = useState(false);
 

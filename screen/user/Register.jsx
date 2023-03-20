@@ -9,9 +9,10 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import AppIntroSlider from 'react-native-app-intro-slider';
+
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
+import {API_URI} from '../../config/Config';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -19,6 +20,34 @@ import {
 } from 'react-native-responsive-dimensions';
 
 const Register = ({navigation}) => {
+  const initialState = {
+    name: '',
+    email: '',
+    password: '',
+    role:'user',
+  };
+  const [userData, setUserData] = useState(initialState);
+
+  const submitHandler = async () => {
+    try {
+      console.log('submithandler click', userData);
+      const res = await axios({
+        url: API_URI + '/auth/signup',
+        method: 'POST',
+        data: {...userData, username: userData.email},
+      });
+      if(res.status==200){
+        console.log(res?.data);
+        setUserData(initialState)
+        navigation.navigate('login')
+      }else{
+        console.log('some credential issue')
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View>
@@ -55,7 +84,13 @@ const Register = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="account-outline" size={20} />
-            <TextInput placeholder="Full name" />
+            <TextInput
+              placeholder="Full name"
+              name="name"
+              onChangeText={text => setUserData({...userData, name: text})}
+              value={userData.name}
+              style={{height:vh(9),width:vw(100)}}
+            />
           </View>
           <View
             style={{
@@ -69,7 +104,12 @@ const Register = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="email-outline" size={20} />
-            <TextInput placeholder="Email" />
+            <TextInput
+              placeholder="Email"
+              onChangeText={text => setUserData({...userData, email: text})}
+              value={userData.email}
+              style={{height:vh(9),width:vw(100)}}
+            />
           </View>
           <View
             style={{
@@ -83,7 +123,13 @@ const Register = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="lock-outline" size={20} />
-            <TextInput placeholder="Password" />
+            <TextInput
+              placeholder="Password"
+              onChangeText={text => setUserData({...userData, password: text})}
+              value={userData.password}
+              style={{height:vh(9),width:vw(100)}}
+            />
+            {/* /> */}
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity>
@@ -106,66 +152,12 @@ const Register = ({navigation}) => {
                 borderRadius: vw(3),
                 justifyContent: 'center',
                 alignItems: 'center',
-              }}>
+              }}
+              onPress={submitHandler}>
               <Text style={{color: '#fff'}}>Register</Text>
             </TouchableOpacity>
           </View>
-          {/* <View
-              style={{
-                position: 'relative',
-                height: vh(20),
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <View
-                style={{
-                  width: vw(90),
-                  height: vh(0.1),
-                  backgroundColor: `rgba(0,0,0,0.5)`,
-                }}></View>
-              <View
-                style={{
-                  backgroundColor: `#fff`,
-                  padding: vw(2),
-                  position: 'absolute',
-                  paddingHorizontal: vw(10),
-                }}>
-                <Text>OR</Text>
-              </View>
-            </View> */}
-          {/* <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-              <View
-                style={{
-                  height: vh(8),
-                  backgroundColor: `#F4F4F4`,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: vw(5),
-                  width:vw(42)
-                }}>
-                <Image
-                  source={require('../../images/google.png')}
-                  resizeMode="contain"
-                  style={{width: vw(13), height: vh(5)}}
-                />
-              </View>
-              <View
-                style={{
-                  height: vh(8),
-                  backgroundColor: `#F4F4F4`,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: vw(5),
-                  width:vw(42)
-                }}>
-                <Image
-                  source={require('../../images/face.png')}
-                  resizeMode="contain"
-                  style={{width: vw(13), height: vh(5)}}
-                />
-              </View>
-             
-            </View> */}
+
           <TouchableOpacity onPress={() => navigation.navigate('login')}>
             <Text style={{textAlign: 'center', marginTop: vh(1)}}>
               Already have an accoun?{' '}

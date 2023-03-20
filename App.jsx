@@ -22,7 +22,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="search"
       screenOptions={{
         headerTitleAlign: 'center',
         headerShadowVisible: false,
@@ -31,9 +31,9 @@ const App = () => {
       }}
       >
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="user" component={UserPage} />
         <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="register" component={Register} />
-        <Stack.Screen name="user" component={UserPage} />
         <Stack.Screen name="dashboard" component={Dashboard} />
         <Stack.Screen name="type" component={EstateType} />
         <Stack.Screen name="agent" component={EstateAgent} />

@@ -8,7 +8,9 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
+import axios from 'axios'
+import { API_URI } from '../config/Config';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
@@ -17,6 +19,24 @@ import {
 } from 'react-native-responsive-dimensions';
 
 const SearchEstate = () => {
+  const [room, setRoom] = useState([]);
+  const getAllRooms = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/admin/room',
+        method: 'GET',
+      });
+      if (res.status == 200) {
+        console.log('rooms', res?.data);
+        setRoom(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  useEffect(()=>{
+    getAllRooms()
+  },[])
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(5), position: 'relative'}}>

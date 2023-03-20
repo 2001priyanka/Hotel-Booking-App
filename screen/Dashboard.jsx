@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useRoute } from '@react-navigation/native';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -17,6 +18,10 @@ import {
 } from 'react-native-responsive-dimensions';
 
 const Dashboard = () => {
+  const route=useRoute()
+  const userData=route?.params?.data
+  console.log(userData);
+
   const data = [
     {id: 1, title: 'All'},
     {id: 2, title: 'House'},
@@ -47,7 +52,7 @@ const Dashboard = () => {
           </View>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
             Hey,{' '}
-            <Text style={{color: '#204D6C', fontWeight: '700'}}>Jonathan!</Text>
+            <Text style={{color: '#204D6C', fontWeight: '700'}}>{userData?.name}</Text>
           </Text>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
             Let's start exploring
@@ -79,7 +84,8 @@ const Dashboard = () => {
             marginVertical: vh(2),
           }}>
           {data.map(item => (
-            <View
+            <TouchableOpacity key={item.id}>
+              <View
               style={{
                 height: vh(6),
                 backgroundColor: '#234F68',
@@ -88,9 +94,10 @@ const Dashboard = () => {
                 borderRadius: vw(4),
                 marginLeft: 5,
               }}
-              key={item.id}>
+              >
               <Text style={{color: '#fff'}}>{item.title}</Text>
             </View>
+            </TouchableOpacity>
           ))}
         </View>
         <View style={{paddingHorizontal: vw(5), marginVertical: vh(1)}}>

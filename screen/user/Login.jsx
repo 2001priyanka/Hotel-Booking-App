@@ -9,8 +9,8 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
-import AppIntroSlider from 'react-native-app-intro-slider';
+import axios from 'axios'
+import { API_URI } from '../../config/Config';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
@@ -19,6 +19,31 @@ import {
 } from 'react-native-responsive-dimensions';
 
 const Login = ({navigation}) => {
+  const [loginData,setLoginData]=useState({
+    username:'',
+    password:''
+  })
+  const loginHandler=async()=>{
+    try {
+      console.log('loginhandler click', loginData);
+      const res = await axios({
+        url: API_URI + '/auth/signin',
+        method: 'POST',
+        data: {...loginData},
+      });
+      if(res.status==200){
+        console.log(res.data?.user);
+        let data=res?.data?.user
+        navigation.navigate('dashboard',{data})
+      }else{
+        console.log('some credential issue')
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View>
@@ -50,7 +75,11 @@ const Login = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="email-outline" size={20} />
-            <TextInput placeholder="Email" />
+            <TextInput placeholder="Email"
+            onChangeText={text => setLoginData({...loginData, username: text})}
+            value={loginData.email}
+            style={{height:vh(9),width:vw(100)}}
+            />
           </View>
           <View
             style={{
@@ -64,7 +93,11 @@ const Login = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="lock-outline" size={20} />
-            <TextInput placeholder="Password" />
+            <TextInput placeholder="Password"
+            onChangeText={text => setLoginData({...loginData, password: text})}
+            value={loginData.password}
+            style={{height:vh(9),width:vw(100)}}
+            />
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity>
@@ -87,7 +120,7 @@ const Login = ({navigation}) => {
                 borderRadius: vw(3),
                 justifyContent: 'center',
                 alignItems: 'center',
-              }} onPress={()=>navigation.navigate('dashboard')}>
+              }} onPress={loginHandler}>
               <Text style={{color: '#fff',fontWeight:'600',fontSize:vf(2)}}>Login</Text>
             </TouchableOpacity>
           </View>
