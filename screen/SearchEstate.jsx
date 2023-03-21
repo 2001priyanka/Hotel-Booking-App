@@ -20,6 +20,7 @@ import {
 
 const SearchEstate = () => {
   const [room, setRoom] = useState([]);
+  const [singleRoom, setSingleRoom] = useState({});
   const getAllRooms = async () => {
     try {
       const res = await axios({
@@ -34,9 +35,25 @@ const SearchEstate = () => {
       console.log('error', error);
     }
   };
+  const singleRoomData=async(_id)=>{
+    try {
+      const res=await axios({
+        url:API_URI+`/admin/room/${_id}`,
+        method:'GET'
+      })
+      if(res?.status==200){
+        console.log('single room detail',res?.data)
+        setSingleRoom(res?.data?.results)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(()=>{
     getAllRooms()
+    // singleRoomData('64184cf462f5c90db4fbcb30')
   },[])
+
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(5), position: 'relative'}}>
