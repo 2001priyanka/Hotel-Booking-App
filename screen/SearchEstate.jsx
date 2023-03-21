@@ -134,7 +134,7 @@ const SearchEstate = () => {
               }} key={item._id}>
               <View style={{position: 'relative'}}>
                 <Image
-                  source={{uri:BASE_URL+item.photo}}
+                  source={item?.photo?{uri:BASE_URL+item.photo}:require('../images/house4.jpg')}
                   resizeMode="contain"
                   style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
                 />
