@@ -12,6 +12,7 @@ import EstateAgent from './screen/EstateAgent';
 import Profile from './screen/Profile';
 import SearchEstate from './screen/SearchEstate';
 import FeatureEstate from './screen/FeatureEstate';
+import DocumentUpload from './screen/uploadDocument/DocumentUpload';
 
 
 
@@ -22,7 +23,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName="search"
+      initialRouteName="Home"
       screenOptions={{
         headerTitleAlign: 'center',
         headerShadowVisible: false,
@@ -40,6 +41,7 @@ const App = () => {
         <Stack.Screen name="profile" component={Profile} />
         <Stack.Screen name="search" component={SearchEstate} />
         <Stack.Screen name="feature" component={FeatureEstate} />
+        <Stack.Screen name="document" component={DocumentUpload} />
       </Stack.Navigator>
       {/* <Footer/> */}
     </NavigationContainer>

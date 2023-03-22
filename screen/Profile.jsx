@@ -8,15 +8,18 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
+import axios from 'axios';
+import { API_URI } from '../config/Config';
 
 const Profile = () => {
+  
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(5), position: 'relative'}}>
@@ -110,7 +113,7 @@ const Profile = () => {
         <View
           style={{
             flexDirection: 'row',
-            gap: 15,
+            gap: 10,
             marginVertical: vh(2),
             flexWrap: 'wrap',
           }}>
@@ -354,7 +357,7 @@ const Profile = () => {
           <View
             style={{
               position: 'absolute',
-              bottom: vh(23),
+              bottom: vh(18),
               height: vh(9),
               backgroundColor: '#89C93D',
               width: vw(80),

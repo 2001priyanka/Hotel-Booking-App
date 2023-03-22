@@ -36,7 +36,7 @@ const Home = () => {
   const RenderNextButton = () => {
     return (
       <View onPress={onNext2Pressed} style={{}}>
-        <Text style={{width:vw(100),color: '#fff', fontSize: vf(2.5),textAlign:'center',left:vw(5),bottom:vh(4)}}>
+        <Text style={{width:vw(100),color: '#fff', fontSize: vf(2.5),textAlign:'center',left:vw(5),bottom:vh(5)}}>
           Let's start
         </Text>
       </View>
@@ -45,7 +45,7 @@ const Home = () => {
   const RenderDoneButton = () => {
     return (
       <View onPress={onNext2Pressed}>
-        <View style={{bottom: vh(4), borderRadius: vw(3),left:vw(5)}}>
+        <View style={{bottom: vh(5), borderRadius: vw(3),left:vw(5)}}>
           <TouchableOpacity
             style={{
               width: vw(90),
@@ -94,9 +94,28 @@ const Home = () => {
                     }
               }
               source={item.image}
-              resizeMode="contain"
+              resizeMode={item.key=='s1'?"cover":'contain'}
               onPress={onNext2Pressed}
             />
+            {
+              item.key=='s1' &&<View
+              style={{
+                position:'absolute',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: vw(100),
+                paddingHorizontal: vw(5),
+                height:vh(100),
+                alignItems:'center'
+              }}>
+              <Image
+                source={require('../images/logo.png')}
+                resizeMode="contain"
+                style={{height: vh(100), width: vw(50)}}
+              />
+             
+            </View>
+            }
             {item.key != 's1' && (
               <View
                 style={{
