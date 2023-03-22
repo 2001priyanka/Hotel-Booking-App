@@ -8,10 +8,10 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, {useState,useEffect} from 'react';
-import axios from 'axios'
-import { API_URI } from '../config/Config';
-import { BASE_URL } from '../config/Config';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import {API_URI} from '../config/Config';
+import {BASE_URL} from '../config/Config';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
@@ -36,24 +36,24 @@ const SearchEstate = () => {
       console.log('error', error);
     }
   };
-  const singleRoomData=async(_id)=>{
+  const singleRoomData = async _id => {
     try {
-      const res=await axios({
-        url:API_URI+`/admin/room/${_id}`,
-        method:'GET'
-      })
-      if(res?.status==200){
-        console.log('single room detail',res?.data)
-        setSingleRoom(res?.data?.results)
+      const res = await axios({
+        url: API_URI + `/admin/room/${_id}`,
+        method: 'GET',
+      });
+      if (res?.status == 200) {
+        console.log('single room detail', res?.data);
+        setSingleRoom(res?.data?.results);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  useEffect(()=>{
-    getAllRooms()
+  };
+  useEffect(() => {
+    getAllRooms();
     // singleRoomData('64184cf462f5c90db4fbcb30')
-  },[])
+  }, []);
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -122,8 +122,8 @@ const SearchEstate = () => {
             marginVertical: vh(2),
             flexWrap: 'wrap',
           }}>
-          {
-            rooms.map(item=><View
+          {rooms.map(item => (
+            <View
               style={{
                 height: vh(32),
                 width: vw(43),
@@ -131,21 +131,39 @@ const SearchEstate = () => {
                 borderRadius: vw(5),
                 // elevation:1
                 padding: 5,
-              }} key={item._id}>
+              }}
+              key={item._id}>
               <View style={{position: 'relative'}}>
                 <Image
-                  source={item?.photo?{uri:BASE_URL+item.photo}:require('../images/house4.jpg')}
+                  source={
+                    item?.photo
+                      ? {uri: BASE_URL + item.photo}
+                      : require('../images/preview.png')
+                  }
                   resizeMode="contain"
                   style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
                 />
                 <Text
-                  style={{
-                    color: '#fff',
-                    position: 'absolute',
-                    bottom: 12,
-                    right: 15,
-                  }}>
-                  $220<Text style={{fontSize: 11}}>/month</Text>
+                  style={
+                    item.photo
+                      ? {
+                          color: '#fff',
+                          position: 'absolute',
+                          bottom: 12,
+                          right: 15,
+                        }
+                      : {
+                          color: '#fff',
+                          position: 'absolute',
+                          bottom: 12,
+                          right: 15,
+                          backgroundColor:'#234459',
+                          padding:3,
+                          borderRadius:vw(2)
+                        }
+                  }>
+                  ${item.rent}
+                  <Text style={{fontSize: 11}}>/month</Text>
                 </Text>
               </View>
               <View>
@@ -179,8 +197,8 @@ const SearchEstate = () => {
                   </View>
                 </View>
               </View>
-            </View>)
-          }
+            </View>
+          ))}
           {/* <View
             style={{
               height: vh(32),
