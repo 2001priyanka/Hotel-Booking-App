@@ -17,9 +17,27 @@ import {
 } from 'react-native-responsive-dimensions';
 import axios from 'axios';
 import { API_URI } from '../config/Config';
+import { useRoute } from '@react-navigation/native';
+import DocumentPicker from "react-native-document-picker";
+
 
 const Profile = () => {
-  
+  const route=useRoute()
+  const user_data=route.params?.userData
+  const userImage=async()=>{
+    try {
+      const res=await DocumentPicker.pick({
+        type: [DocumentPicker.types.allFiles],
+      })
+      console.log(res)
+    } catch (error) {
+      if (DocumentPicker.isCancel(error)) {
+        console.log("error -----", error);
+      } else {
+        throw error;
+      }
+    }
+  }
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(5), position: 'relative'}}>
@@ -48,11 +66,12 @@ const Profile = () => {
           style={{
             textAlign: 'center',
             color: '#000',
-            fontWeight: '600',
+            fontWeight: '700',
             fontSize: vf(2.5),
             marginTop: vh(2),
+            letterSpacing:1
           }}>
-          Amanda
+          {user_data?.email.split('@')[0]}
         </Text>
         <Text
           style={{
@@ -60,15 +79,19 @@ const Profile = () => {
             color: '#000',
             fontWeight: '400',
             fontSize: vf(2),
+            letterSpacing:1
           }}>
-          amanda.trust@email.com
+          {user_data?.email}
         </Text>
         <View style={{position: 'relative'}}>
-          <Image
+         <TouchableOpacity onPress={()=>userImage()}>
+         <Image
             source={require('../images/image5.jpg')}
             style={{height: vh(20), marginTop: vh(2)}}
             resizeMode="contain"
           />
+         </TouchableOpacity>
+          
           <View
             style={{
               position: 'absolute',

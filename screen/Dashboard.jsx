@@ -10,16 +10,16 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
 
-const Dashboard = () => {
-  const route=useRoute()
-  const userData=route?.params?.data
+const Dashboard = ({navigation}) => {
+  const route = useRoute();
+  const userData = route?.params?.data;
   console.log(userData);
 
   const data = [
@@ -43,6 +43,7 @@ const Dashboard = () => {
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View>
         <View style={{padding: vw(5)}}>
+          <TouchableOpacity onPress={()=>navigation.navigate('profile',{userData})}>
           <View style={{alignItems: 'flex-end', borderRadius: vw(100)}}>
             <Image
               source={require('../images/profile.jpg')}
@@ -50,9 +51,12 @@ const Dashboard = () => {
               resizeMode="contain"
             />
           </View>
+          </TouchableOpacity>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
             Hey,{' '}
-            <Text style={{color: '#204D6C', fontWeight: '700'}}>{userData?.name}</Text>
+            <Text style={{color: '#204D6C', fontWeight: '700'}}>
+              {`${userData?.email.split('@')[0].slice(0,6)}...`}
+            </Text>
           </Text>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
             Let's start exploring
@@ -86,17 +90,16 @@ const Dashboard = () => {
           {data.map(item => (
             <TouchableOpacity key={item.id}>
               <View
-              style={{
-                height: vh(6),
-                backgroundColor: '#234F68',
-                paddingHorizontal: vw(6),
-                justifyContent: 'center',
-                borderRadius: vw(4),
-                marginLeft: 5,
-              }}
-              >
-              <Text style={{color: '#fff'}}>{item.title}</Text>
-            </View>
+                style={{
+                  height: vh(6),
+                  backgroundColor: '#234F68',
+                  paddingHorizontal: vw(6),
+                  justifyContent: 'center',
+                  borderRadius: vw(4),
+                  marginLeft: 5,
+                }}>
+                <Text style={{color: '#fff'}}>{item.title}</Text>
+              </View>
             </TouchableOpacity>
           ))}
         </View>

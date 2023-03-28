@@ -118,7 +118,7 @@ const SearchEstate = () => {
         <View
           style={{
             flexDirection: 'row',
-            gap: 15,
+            gap: 10,
             marginVertical: vh(2),
             flexWrap: 'wrap',
           }}>
@@ -133,36 +133,31 @@ const SearchEstate = () => {
                 padding: 5,
               }}
               key={item._id}>
-              <View style={{position: 'relative'}}>
+              <View style={{position: 'relative',}}>
                 <Image
                   source={
                     item?.photo
-                      ? {uri: BASE_URL + item.photo}
+                      ? {uri: BASE_URL + item.photo.replace('Storage\\', '/')}
                       : require('../images/preview.png')
                   }
                   resizeMode="contain"
                   style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
                 />
                 <Text
-                  style={
-                    item.photo
-                      ? {
-                          color: '#fff',
-                          position: 'absolute',
-                          bottom: 12,
-                          right: 15,
-                        }
-                      : {
-                          color: '#fff',
-                          position: 'absolute',
-                          bottom: 12,
-                          right: 15,
-                          backgroundColor:'#234459',
-                          padding:3,
-                          borderRadius:vw(2)
-                        }
-                  }>
-                  ${item.rent}
+                  style={{
+                    color: '#fff',
+                    position: 'absolute',
+                    bottom: 12,
+                    right: 15,
+                    backgroundColor: '#234459',
+                    // width: vw(18),
+                    // height: vh(3),
+                    textAlign:'center',
+                    padding:4,
+                    fontSize:vf(1.5),
+                    borderRadius:vw(2)
+                  }}>
+                  ₹{item.rent?item.rent:'0'}
                   <Text style={{fontSize: 11}}>/month</Text>
                 </Text>
               </View>
@@ -177,7 +172,7 @@ const SearchEstate = () => {
                   Wings Tower
                 </Text>
                 <View style={{flexDirection: 'row', gap: 10}}>
-                  <View
+                  {/* <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -185,7 +180,7 @@ const SearchEstate = () => {
                     }}>
                     <IconFa name="star" color="yellow" size={20} />
                     <Text style={{color: '#000'}}>4.9</Text>
-                  </View>
+                  </View> */}
                   <View
                     style={{
                       flexDirection: 'row',
@@ -199,183 +194,6 @@ const SearchEstate = () => {
               </View>
             </View>
           ))}
-          {/* <View
-            style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
-            }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house4.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
-            }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house5.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                  backgroundColor: '#2D5067',
-                  borderRadius: vw(2),
-                  padding: 2,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
-            }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house6.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                  backgroundColor: '#2D5067',
-                  borderRadius: vw(2),
-                  padding: 2,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View> */}
         </View>
       </View>
     </ScrollView>
