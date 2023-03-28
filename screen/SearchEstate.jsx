@@ -74,7 +74,7 @@ const SearchEstate = () => {
               borderRadius: vw(5),
               // margin: vw(5),
             }}>
-            <IconFa name="chevron-left" size={20} />
+            <IconFa name="chevron-left" size={20} color="#000" />
           </View>
           <Text style={{color: '#000', fontSize: vf(2.5)}}>Search result</Text>
           <View
@@ -106,7 +106,7 @@ const SearchEstate = () => {
             marginTop: vh(3),
           }}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TextInput placeholder="Search House, Apartment etc" />
+            <TextInput placeholder="Search House, Apartment etc" placeholderTextColor='gray' />
           </View>
           <View>
             <IconFa name="magnify" size={25} color="#000" />
@@ -168,8 +168,9 @@ const SearchEstate = () => {
                     fontWeight: '600',
                     fontSize: vf(2),
                     padding: vw(2),
+                    letterSpacing:1
                   }}>
-                  Wings Tower
+                  {item?.roomdetails[0]?.name?item?.roomdetails[0]?.name:'no name'}
                 </Text>
                 <View style={{flexDirection: 'row', gap: 10}}>
                   {/* <View
@@ -187,8 +188,8 @@ const SearchEstate = () => {
                       alignItems: 'center',
                       // marginVertical: vh(1),
                     }}>
-                    <IconFa name="map-marker" size={15} />
-                    <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
+                    <IconFa name="map-marker" size={15} color="#000" />
+                    <Text style={{fontSize: 10,color:'#000'}}>{item?.roomdetails[0]?.state}</Text>
                   </View>
                 </View>
               </View>
