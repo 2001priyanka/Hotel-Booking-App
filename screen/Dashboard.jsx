@@ -16,6 +16,7 @@ import {
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
+import { BASE_URL } from '../config/Config';
 
 const Dashboard = ({navigation}) => {
   const route = useRoute();
@@ -46,8 +47,8 @@ const Dashboard = ({navigation}) => {
           <TouchableOpacity onPress={()=>navigation.navigate('profile',{userData})}>
           <View style={{alignItems: 'flex-end', borderRadius: vw(100)}}>
             <Image
-              source={require('../images/profile.jpg')}
-              style={{width: vw(15), height: vh(6)}}
+              source={{uri: userData && BASE_URL+userData.profilePic?.replace('Storage\\','/')}}
+              style={{width: vw(12), height: vh(6),borderWidth:1,borderColor:`rgba(0,0,0,0.1)`,borderRadius:vw(100)}}
               resizeMode="contain"
             />
           </View>
