@@ -8,7 +8,7 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
@@ -16,11 +16,11 @@ import {
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
 import {Dropdown} from 'react-native-element-dropdown';
-import { MimeTypeMap } from '../../MimeTypeMap';
+import {MimeTypeMap} from '../../MimeTypeMap';
 import DocumentPicker from 'react-native-document-picker';
 import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
-import { API_URI,URL } from '../../config/Config';
+import {API_URI, URL} from '../../config/Config';
 import axios from 'axios';
 
 const data = [
@@ -29,45 +29,41 @@ const data = [
   {label: 'Address proof', value: '3'},
   {label: 'Cheque copy', value: '4'},
   {label: 'Passport', value: '5'},
- 
 ];
 
 const DocumentUpload = () => {
-    const [imageUri, setimageUri] = useState(null);
-    const [files, setFiles] = useState([]);
-    const [file, setFile] = useState(null);
-    const [users, setUsers] = useState([]);
-    const [transactiondetails, setTransactionDetails] = useState({
-        user2_id: '',
-        tokens: '',
-        amount: '',
-        txn_id: '',
-        txn_mode: '',
-        txn_channel: '',
-        txn_meta: '',
-        type: 'BUY',
-        screenshot: '',
-      });
+  const [imageUri, setimageUri] = useState(null);
+  const [files, setFiles] = useState([]);
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [image, setImage] = useState(null);
+  // const [transactiondetails, setTransactionDetails] = useState({
+  //   user2_id: '',
+  //   tokens: '',
+  //   amount: '',
+  //   txn_id: '',
+  //   txn_mode: '',
+  //   txn_channel: '',
+  //   txn_meta: '',
+  //   type: 'BUY',
+  //   screenshot: '',
+  // });
   const [value, setValue] = useState(null);
   const [isTrue, setIsTrue] = useState(false);
   const submitTransaction = async () => {
+    // const id="6422b8e68d924ec8e15ea7e4"
+    let i = 2;
     try {
       const res = await axios({
-        url: API_URI + '/transaction',
-        method: 'POST',
-        data: {
-          ...transactiondetails,
-          tokens,
-          amount,
-          screenshot: imageUri,
-        },
+        url: API_URI + `/admin/user`,
+        method: 'GET',
       });
       if (res) {
-        console.log('transaction success', res);
-        uploadFilesToAPI(res?.data?.transaction?._id);
-        Alert.alert('Purchase Successful!!');
+        console.log('transaction success', res?.data?.results);
+        uploadFilesToAPI(res?.data?.results[i]?._id);
+        // Alert.alert('Purchase Successful!!');
 
-        navigation.navigate('home');
+        // navigation.navigate('home');
       }
     } catch (error) {
       console.log('submit error', error);
@@ -167,7 +163,7 @@ const DocumentUpload = () => {
       var filesArr = [];
       // files.map(async (item, index) => {
       if (files.uri.startsWith('content://')) {
-        const urlComponents = files.uri.split('/');
+        // const urlComponents = files.uri.split('/');
         // const fileNameAndExtension = urlComponents[urlComponents.length - 1];
         const destPath = `${RNFS.ExternalCachesDirectoryPath}/${files.name}.${
           MimeTypeMap[files.type]
@@ -208,7 +204,7 @@ const DocumentUpload = () => {
         fields: {
           // name: 'MHN1.mp3',
           model_id: _id,
-          model: 'transaction',
+          model: 'building',
           model_key: 'screenshot',
           // user_id: doc.id,
           // reqType: 'FCM_BCAST',
@@ -216,12 +212,14 @@ const DocumentUpload = () => {
         begin: uploadBegin,
         progress: uploadProgress,
       })
-        .then(response => {
-          console.log('responseZZZ1', response);
+        .promise.then(response => {
           if (response.statusCode == 200) {
+            console.log(
+              'responseZZZ1',
+              JSON.parse(response.body)?.filePaths[0],
+            );
+            setImage(JSON.parse(response.body)?.filePaths[0]);
             console.log('FILES UPLOADED!'); // response.statusCode, response.headers, response.body
-            Alert.alert('Purchase Successful!!');
-            navigation.navigate('Dashboard');
           } else {
             console.log('SERVER ERROR');
           }
@@ -284,10 +282,13 @@ const DocumentUpload = () => {
         });
     }
   };
-
+  useEffect(()=>{
+    // uploadFilesToAPI("641c3baf4178fe2b7094dd6c")
+  },[])
+console.log(image);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-      <View style={{flex:1,padding: vw(5), position: 'relative'}}>
+      <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -323,7 +324,7 @@ const DocumentUpload = () => {
               color: '#000',
               fontWeight: '400',
               fontSize: vf(3),
-              marginVertical:vh(5)
+              marginVertical: vh(5),
             }}>
             please select the file to upload
           </Text>
@@ -334,8 +335,12 @@ const DocumentUpload = () => {
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
             data={data}
+            // backgroundColor='#000'
+            containerStyle={{borderColor: '#000'}}
+            itemTextStyle={{color: '#000'}}
+            itemContainerStyle={{borderBottomWidth: 0.1}}
             search
-            maxHeight={300}
+            maxHeight={270}
             labelField="label"
             valueField="value"
             placeholder="Select item"
@@ -346,19 +351,33 @@ const DocumentUpload = () => {
               setValue(item.value);
             }}
             renderLeftIcon={() => (
-              <IconFa style={styles.icon} name="shield-account-outline" color="black" size={20} />
+              <IconFa
+                style={styles.icon}
+                name="shield-account-outline"
+                color="black"
+                size={20}
+              />
             )}
           />
-          
         </View>
+        {/* <Image
+          source={
+            image
+              ? {uri: URL + image.replace('Storage\\', '/')}
+              : require('../../images/preview.png')
+          }
+        style={{height:vh(50),width:vw(90)}} resizeMode='contain'  /> */}
         <TouchableOpacity
-          style={imageUri?{display:'none'}:{height:vh(50), justifyContent: 'center', alignItems: 'center'}}
-          onPress={() => selectAllFiles()}
-          >
+          style={
+            imageUri
+              ? {display: 'none',position: 'absolute',}
+              : {height: vh(30), justifyContent: 'center', alignItems: 'center'}
+          }
+          onPress={() => selectAllFiles()}>
           <View
             style={{
-            //   position: 'absolute',
-            //   top: vh(0),
+                
+              //   top: vh(0),
               height: vh(9),
               backgroundColor: '#89C93D',
               width: vw(80),
@@ -366,46 +385,49 @@ const DocumentUpload = () => {
               alignItems: 'center',
               borderRadius: vw(5),
             }}>
-            <Text style={{fontSize: vf(2.5), color: '#fff'}}>Start Chat</Text>
+            <Text style={{fontSize: vf(2.5), color: '#fff'}}>
+              upload document
+            </Text>
           </View>
         </TouchableOpacity>
         {imageUri ? (
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginVertical: vh(25),
-                // marginRight: 20,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  submitTransaction();
-                }}
-                style={{width: 250,}}
-                // style={{position: 'absolute', bottom: 10, right: 10, marginTop: 10}}
-              >
-                <View
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: vh(25),
+              // marginRight: 20,
+
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                submitTransaction();
+              }}
+              style={{width: 250}}
+              // style={{position: 'absolute', bottom: 10, right: 10, marginTop: 10}}
+            >
+              <View
+                style={{
+                  padding: 15,
+                  marginTop: 2,
+                  borderRadius: 15,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#89C93D',
+                }}>
+                <Text
                   style={{
-                    padding: 15,
-                    marginTop: 2,
-                    borderRadius: 15,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#89C93D',
+                    fontSize: 17,
+                    fontWeight: '500',
+                    color: 'white',
                   }}>
-                  <Text
-                    style={{
-                      fontSize: 17,
-                      fontWeight: '500',
-                      color: 'white',
-                    }}>
-                    Make Payment
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ) : null}
+                  upload
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : null}
       </View>
     </ScrollView>
   );
@@ -419,23 +441,23 @@ const styles = StyleSheet.create({
     height: vh(8),
     borderBottomColor: '#234459',
     borderBottomWidth: 0.5,
-    width:vw(70),
-    backgroundColor:'#234459',
-    paddingHorizontal:vw(5),
-    borderRadius:vw(2)
+    width: vw(70),
+    backgroundColor: '#234459',
+    paddingHorizontal: vw(5),
+    borderRadius: vw(2),
     // color:'#fff'
   },
   icon: {
     marginRight: 10,
-    color:'#fff'
+    color: '#fff',
   },
   placeholderStyle: {
     fontSize: vf(2),
   },
   selectedTextStyle: {
     fontSize: 16,
-    color:'#fff',
-    fontWeight:'600'
+    color: '#fff',
+    fontWeight: '600',
   },
   iconStyle: {
     width: vw(5),
