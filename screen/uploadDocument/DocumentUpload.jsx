@@ -20,7 +20,7 @@ import {MimeTypeMap} from '../../MimeTypeMap';
 import DocumentPicker from 'react-native-document-picker';
 import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
-import {API_URI, URL} from '../../config/Config';
+import {API_URI, BASE_URL, URL} from '../../config/Config';
 import axios from 'axios';
 
 const data = [
@@ -34,9 +34,9 @@ const data = [
 const DocumentUpload = () => {
   const [imageUri, setimageUri] = useState(null);
   const [files, setFiles] = useState([]);
-  const [file, setFile] = useState(null);
+  const [label, setLabel] = useState(' ');
   const [loading, setLoading] = useState(null);
-  const [image, setImage] = useState(null);
+  const [user, setUserData] = useState(null);
   // const [transactiondetails, setTransactionDetails] = useState({
   //   user2_id: '',
   //   tokens: '',
@@ -50,17 +50,19 @@ const DocumentUpload = () => {
   // });
   const [value, setValue] = useState(null);
   const [isTrue, setIsTrue] = useState(false);
-  const submitTransaction = async () => {
-    // const id="6422b8e68d924ec8e15ea7e4"
-    let i = 2;
+  let userId = '6422b8e68d924ec8e15ea7e4';
+
+  const getUserData = async () => {
+    console.log('getuser called');
     try {
       const res = await axios({
-        url: API_URI + `/admin/user`,
+        url: API_URI + `/admin/user/${userId}`,
         method: 'GET',
       });
       if (res) {
-        console.log('transaction success', res?.data?.results);
-        uploadFilesToAPI(res?.data?.results[i]?._id);
+        console.log('USER DETAIL success', res?.data?.results);
+        setUserData(res?.data?.results)
+        // uploadFilesToAPI(res?.data?.results[i]?._id);
         // Alert.alert('Purchase Successful!!');
 
         // navigation.navigate('home');
@@ -69,26 +71,13 @@ const DocumentUpload = () => {
       console.log('submit error', error);
     }
   };
+
   const requestCameraPermission = async () => {
     try {
-      // const granted = await PermissionsAndroid.request(
-      //   PermissionsAndroid.PERMISSIONS.CAMERA,
-      //   {
-      //     title: 'App Camera Permission',
-      //     message: 'App needs access to your camera ',
-      //     buttonNeutral: 'Ask Me Later',
-      //     buttonNegative: 'Cancel',
-      //     buttonPositive: 'OK',
-      //   },
-      // );
-      // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       const grants = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        // PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         PermissionsAndroid.PERMISSIONS.CAMERA,
-        // PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        // PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
       ]);
       if (
         grants['android.permission.CAMERA'] ===
@@ -101,13 +90,6 @@ const DocumentUpload = () => {
           PermissionsAndroid.RESULTS.GRANTED
       ) {
         console.log('Camera permission given');
-        // const options = {
-        //   storageOptions: {
-        //     path: 'images',
-        //     mediaType: 'photo',
-        //   },
-        //   includeBase64: true,
-        // };
       } else {
         console.log('Camera permission denied');
       }
@@ -115,10 +97,10 @@ const DocumentUpload = () => {
       console.warn(err);
     }
   };
+
   const selectAllFiles = async () => {
-    setimageUri(null);
     setFiles(null);
-    setFile(null);
+    // setFile(null);
     requestCameraPermission();
     //Opening Document Picker for selection of one file
     try {
@@ -127,20 +109,14 @@ const DocumentUpload = () => {
         allowMultiSelection: true,
       });
       //Printing the log realted to the file
-      console.log('123asdrfvbgt res x: ', res);
-      console.log('123asdrfvbgt typeof res : ' + typeof res);
-      console.log('123asdrfvbgt URI : ' + res[0].uri);
-      console.log('123asdrfvbgt Type : ' + res[0].type);
-      console.log('123asdrfvbgt File Name : ' + res[0].name);
-      console.log('123asdrfvbgt File Size : ' + res[0].size);
+      console.log('selectAllFiles res x: ', res);
+      console.log('selectAllFiles typeof res : ' + typeof res);
+      console.log('selectAllFiles URI : ' + res[0].uri);
+      console.log('selectAllFiles Type : ' + res[0].type);
+      console.log('selectAllFiles File Name : ' + res[0].name);
+      console.log('selectAllFiles File Size : ' + res[0].size);
       setimageUri(res[0].uri);
-      setIsTrue(true);
-
-      //Setting the state to show single file attributes
       setFiles(res[0]);
-      console.log('123asdrfvbgt results>>', res);
-
-      // uploadFile(res[0]);
     } catch (err) {
       //Handling any exception (If any)
       if (DocumentPicker.isCancel(err)) {
@@ -154,10 +130,10 @@ const DocumentUpload = () => {
     }
   };
   const uploadFilesToAPI = async _id => {
-    const data = files;
-    // console.log('Config 9fb83f', Config);
+    // const data = files;
     // Check if any file is selected or not
-    var uploadUrl = `${URL}/upload`; // For testing purposes, go to http://requestb.in/ and create your own link
+    var uploadUrl = `${API_URI}/upload`;
+    console.log('uploadFilesToAPI >> uploadUrl', uploadUrl, files, MimeTypeMap);
     try {
       // create an array of objects of the files you want to upload
       var filesArr = [];
@@ -168,10 +144,9 @@ const DocumentUpload = () => {
         const destPath = `${RNFS.ExternalCachesDirectoryPath}/${files.name}.${
           MimeTypeMap[files.type]
         }`;
-
+        console.log('selectAllFiles File Size : ', destPath);
         filesArr.push({
           name: files.name + MimeTypeMap[files.type],
-          // name: 'file',
           filename: files.name + MimeTypeMap[files.type],
           filepath: destPath,
           filetype: files.type,
@@ -184,14 +159,18 @@ const DocumentUpload = () => {
 
       var uploadBegin = response => {
         var jobId = response.jobId;
-        console.log('UPLOAD HAS BEGUN! JobId: ' + jobId, filesArr);
+        console.log(
+          'uploadFilesToAPI UPLOAD HAS BEGUN! JobId: ' + jobId,
+          filesArr,
+          response,
+        );
       };
       // uploadFiles;
       var uploadProgress = response => {
         var percentage = Math.floor(
           (response.totalBytesSent / response.totalBytesExpectedToSend) * 100,
         );
-        console.log('UPLOAD IS ' + percentage + '% DONE!');
+        console.log('uploadFilesToAPI UPLOAD IS ' + percentage + '% DONE!');
       };
       RNFS.uploadFiles({
         toUrl: uploadUrl,
@@ -199,29 +178,23 @@ const DocumentUpload = () => {
         method: 'POST',
         headers: {
           Accept: '*/*',
-          // 'Content-Type': 'multipart/form-data',
         },
         fields: {
-          // name: 'MHN1.mp3',
           model_id: _id,
-          model: 'building',
-          model_key: 'screenshot',
-          // user_id: doc.id,
-          // reqType: 'FCM_BCAST',
+          model: 'user',
+          model_key: 'document',
         },
         begin: uploadBegin,
         progress: uploadProgress,
       })
         .promise.then(response => {
+          console.log('uploadFilesToAPI responseZZZ1', response);
           if (response.statusCode == 200) {
-            console.log(
-              'responseZZZ1',
-              JSON.parse(response.body)?.filePaths[0],
-            );
-            setImage(JSON.parse(response.body)?.filePaths[0]);
-            console.log('FILES UPLOADED!'); // response.statusCode, response.headers, response.body
+            console.log('uploadFilesToAPI FILES UPLOADED!'); // response.statusCode, response.headers, response.body
+            // Alert.alert('Purchase Successful!!');
+            // navigation.navigate('home');
           } else {
-            console.log('SERVER ERROR');
+            console.log('uploadFilesToAPI SERVER ERROR');
           }
         })
         .catch(err => {
@@ -231,61 +204,21 @@ const DocumentUpload = () => {
           console.log(err);
         });
     } catch (error) {
-      console.log('UPLOADS', error);
-    }
-    if (data != null && data?.length > 0 && false) {
-      // If file selected then create FormData
-      const fileToUpload = data;
-      const form = new FormData();
-
-      console.log('TextReq.js:290 58eef2 item', filesArr);
-      filesArr.map((item, index) => {
-        // form.append(`files[${index}]`, item);
-        // console.log('TextReq.js:231 b3f667 ', {
-        //   uri: item?.uri,
-        //   name: 'image.jpg',
-        //   type: 'image/jpeg',
-        // });
-      });
-      // form.append('files', {
-      //   uri: fileToUpload[0]?.uri,
-      //   name: 'image.jpg',
-      //   type: 'image/jpeg',
-      // });
-      // form.append('files[]', fileToUpload);
-      form.append('files', filesArr);
-      // form.append('files', fileToUpload[0]);
-      // form.append('apiRoute', 'prescription');
-      form.append('userId', doc._id);
-      console.log('TextReq.js:227 9fb83f form', form);
-      await axios({
-        url: `${URL}/upload`,
-        // url: 'http://3.16.156.10:3001/api/upload',
-        //url: 'http://13.232.211.114:3000/api/upload',
-        method: 'POST',
-        data: form,
-        headers: {
-          'Content-Type': 'multipart/form-data; boundary=BOUNDARY',
-          // 'Access-Control-Allow-Origin': '*',
-          // 'Access-Control-Allow-Credentials': true,
-        },
-      })
-        .then(res => {
-          console.log('res.data >>> ' + res.data);
-          if (res.data) {
-            alert('File Upload Successfully!');
-          }
-        })
-        .catch(err => {
-          alert(err);
-          console.log('err >>> ' + err);
-        });
+      console.log('uploadFilesToAPI UPLOADS', error);
     }
   };
-  useEffect(()=>{
-    // uploadFilesToAPI("641c3baf4178fe2b7094dd6c")
-  },[])
-console.log(image);
+
+  useEffect(() => {
+    if (files) {
+      uploadFilesToAPI(userId);
+    }
+  }, [files]);
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  console.log(imageUri);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
@@ -314,7 +247,7 @@ console.log(image);
         </View>
         <View
           style={{
-            height: vh(50),
+            // height: vh(20),
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -348,7 +281,9 @@ console.log(image);
             value={value}
             // backgroundColor="#234459"
             onChange={item => {
+              console.log(item);
               setValue(item.value);
+              setLabel(item.label);
             }}
             renderLeftIcon={() => (
               <IconFa
@@ -360,23 +295,35 @@ console.log(image);
             )}
           />
         </View>
-        {/* <Image
-          source={
-            image
-              ? {uri: URL + image.replace('Storage\\', '/')}
-              : require('../../images/preview.png')
-          }
-        style={{height:vh(50),width:vw(90)}} resizeMode='contain'  /> */}
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            height: vh(30),
+            width: vw(90),
+            marginTop: vh(4),
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius:vw(2)
+
+          }} onPress={() => selectAllFiles()}>
+          <Image
+            source={imageUri?imageUri:require('../../images/preview.png')}
+            style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+        <View style={{marginVertical: vh(3)}}>
+          <Text style={{textAlign: 'center'}}>{label ? label : ' '}</Text>
+        </View>
         <TouchableOpacity
           style={
             imageUri
-              ? {display: 'none',position: 'absolute',}
-              : {height: vh(30), justifyContent: 'center', alignItems: 'center'}
+              ? {display: 'none', position: 'absolute'}
+              : {justifyContent: 'center', alignItems: 'center'}
           }
-          onPress={() => selectAllFiles()}>
+          >
           <View
             style={{
-                
               //   top: vh(0),
               height: vh(9),
               backgroundColor: '#89C93D',
@@ -395,14 +342,11 @@ console.log(image);
             style={{
               justifyContent: 'center',
               alignItems: 'center',
-              marginVertical: vh(25),
+              // marginVertical: vh(25),
               // marginRight: 20,
-
             }}>
             <TouchableOpacity
-              onPress={() => {
-                submitTransaction();
-              }}
+              onPress={()=>uploadFilesToAPI()}
               style={{width: 250}}
               // style={{position: 'absolute', bottom: 10, right: 10, marginTop: 10}}
             >
