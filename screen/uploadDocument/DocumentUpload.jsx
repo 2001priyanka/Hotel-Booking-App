@@ -218,7 +218,7 @@ const DocumentUpload = () => {
     getUserData();
   }, []);
 
-  console.log(imageUri);
+  console.log(BASE_URL+ user?.document.replace('Storage\\',"/"));
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
@@ -307,7 +307,7 @@ const DocumentUpload = () => {
 
           }} onPress={() => selectAllFiles()}>
           <Image
-            source={imageUri?imageUri:require('../../images/preview.png')}
+            source={imageUri? imageUri:{uri:BASE_URL+ user?.document.replace('Storage\\',"/")}}
             style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
             resizeMode="cover"
           />
