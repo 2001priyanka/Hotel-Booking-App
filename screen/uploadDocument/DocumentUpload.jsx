@@ -218,7 +218,7 @@ const DocumentUpload = () => {
     getUserData();
   }, []);
 
-  console.log(BASE_URL+ user?.document.replace('Storage\\',"/"));
+  console.log(imageUri);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, padding: vw(5), position: 'relative'}}>

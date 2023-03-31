@@ -111,7 +111,7 @@ const FeatureEstate = () => {
           <View
             style={{
               flexDirection: 'row',
-              gap: 15,
+              gap: 10,
               // marginVertical: vh(2),
               flexWrap: 'wrap',
             }}>
