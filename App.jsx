@@ -23,7 +23,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName="document"
+      initialRouteName="login"
       screenOptions={{
         headerTitleAlign: 'center',
         headerShadowVisible: false,

@@ -8,22 +8,73 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
-import axios from 'axios'
-import { API_URI } from '../../config/Config';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
+import {API_URI} from '../../config/Config';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {LoginButton, AccessToken} from 'react-native-fbsdk-next';
+import { LoginManager } from "react-native-fbsdk-next";
+import { Profile } from "react-native-fbsdk-next";
+
 
 const Login = ({navigation}) => {
-  const [loginData,setLoginData]=useState({
-    username:'',
-    password:''
-  })
-  const loginHandler=async()=>{
+  const [googleAcoount, setGoogleAccount] = useState({});
+  const [loginData, setLoginData] = useState({
+    username: '',
+    password: '',
+  });
+  useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId:
+        '679018857631-61vv3lgie70dljpi6mh372qpmltmrq86.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+      hostedDomain: '', // specifies a hosted domain restriction
+      forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
+      // [iOS] The OpenID2 realm of the home web server. This allows Google to include the user's OpenID Identifier in the OpenID Connect ID token.
+      profileImageSize: 120, // [iOS] The desired height (and width) of the profile image. Defaults to 120px
+    });
+    // GoogleSignin.configure({
+    //   webClientId:"679018857631-61vv3lgie70dljpi6mh372qpmltmrq86.apps.googleusercontent.com",
+    //   offlineAccess:true,
+    //   forceCodeForRefreshToken:true
+    // })
+  }, []);
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      // await GoogleSignin.revokeAccess();
+      // await GoogleSignin.signOut();
+      const userInfo = await GoogleSignin.signIn();
+      // setGoogleAccount({ userInfo });
+      console.log('userinfo', userInfo);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('cancelled by user');
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('login in progress');
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        console.log('service not available');
+      } else {
+        // some other error happened
+        console.log('server not responding',error);
+      }
+    }
+  };
+  let userData=null
+  const loginHandler = async () => {
     try {
       console.log('loginhandler click', loginData);
       const res = await axios({
@@ -31,18 +82,45 @@ const Login = ({navigation}) => {
         method: 'POST',
         data: {...loginData},
       });
-      if(res.status==200){
+      if (res.status == 200) {
         console.log(res.data?.user);
-        let data=res?.data?.user
-        navigation.navigate('dashboard',{data})
-      }else{
-        console.log('some credential issue')
+         userData = res?.data?.user;
+        navigation.navigate('dashboard', {userData});
+      } else {
+        console.log('some credential issue');
       }
-      
     } catch (error) {
       console.log(error);
     }
-    
+  };
+  const signFacebook=()=>{
+    LoginManager.logInWithPermissions(["public_profile"]).then(
+      function(result) {
+        if (result.isCancelled) {
+          console.log("Login cancelled");
+        } else {
+          console.log(
+            "Login success with permissions: " +
+              result.grantedPermissions.toString()
+              );
+              profileObject()
+        }
+      },
+      function(error) {
+        console.log("Login fail with error: " + error);
+      }
+    );
+  }
+  function profileObject(){
+    const currentProfile = Profile.getCurrentProfile().then(
+      function(currentProfile) {
+        if (currentProfile) {
+          console.log(currentProfile);
+          userData=currentProfile;
+          navigation.navigate('dashboard',{userData})
+        }
+      }
+    );
   }
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -75,10 +153,13 @@ const Login = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="email-outline" size={20} />
-            <TextInput placeholder="Email"
-            onChangeText={text => setLoginData({...loginData, username: text})}
-            value={loginData.email}
-            style={{height:vh(9),width:vw(100)}}
+            <TextInput
+              placeholder="Email"
+              onChangeText={text =>
+                setLoginData({...loginData, username: text})
+              }
+              value={loginData.email}
+              style={{height: vh(9), width: vw(100)}}
             />
           </View>
           <View
@@ -93,10 +174,13 @@ const Login = ({navigation}) => {
               marginTop: vh(2),
             }}>
             <IconFa name="lock-outline" size={20} />
-            <TextInput placeholder="Password"
-            onChangeText={text => setLoginData({...loginData, password: text})}
-            value={loginData.password}
-            style={{height:vh(9),width:vw(100)}}
+            <TextInput
+              placeholder="Password"
+              onChangeText={text =>
+                setLoginData({...loginData, password: text})
+              }
+              value={loginData.password}
+              style={{height: vh(9), width: vw(100)}}
             />
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -120,8 +204,11 @@ const Login = ({navigation}) => {
                 borderRadius: vw(3),
                 justifyContent: 'center',
                 alignItems: 'center',
-              }} onPress={loginHandler}>
-              <Text style={{color: '#fff',fontWeight:'600',fontSize:vf(2)}}>Login</Text>
+              }}
+              onPress={loginHandler}>
+              <Text style={{color: '#fff', fontWeight: '600', fontSize: vf(2)}}>
+                Login
+              </Text>
             </TouchableOpacity>
           </View>
           <View
@@ -147,41 +234,45 @@ const Login = ({navigation}) => {
               <Text>OR</Text>
             </View>
           </View>
-          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-            <View
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
               style={{
                 height: vh(8),
                 backgroundColor: `#F4F4F4`,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: vw(5),
-                width:vw(42)
-              }}>
+                width: vw(42),
+              }}
+              onPress={() => signIn()}>
               <Image
                 source={require('../../images/google.png')}
                 resizeMode="contain"
                 style={{width: vw(13), height: vh(5)}}
               />
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 height: vh(8),
                 backgroundColor: `#F4F4F4`,
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: vw(5),
-                width:vw(42)
-              }}>
+                width: vw(42),
+              }} onPress={()=>signFacebook()}>
+              
               <Image
                 source={require('../../images/face.png')}
                 resizeMode="contain"
                 style={{width: vw(13), height: vh(5)}}
               />
-            </View>
-           
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={()=>navigation.navigate('register')}>
-          <Text style={{textAlign:'center',marginTop:vh(1)}}>Don't have an accoun? <Text style={{color: '#204D6C'}}>Register</Text></Text>
+          <TouchableOpacity onPress={() => navigation.navigate('register')}>
+            <Text style={{textAlign: 'center', marginTop: vh(1),color:'gray'}}>
+              Don't have an accoun?{' '}
+              <Text style={{color: '#204D6C'}}>Register</Text>
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

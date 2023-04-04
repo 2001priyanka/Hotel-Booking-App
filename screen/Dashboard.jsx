@@ -16,7 +16,7 @@ import {
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
-import { BASE_URL } from '../config/Config';
+import {BASE_URL} from '../config/Config';
 
 const Dashboard = ({navigation}) => {
   const route = useRoute();
@@ -44,19 +44,34 @@ const Dashboard = ({navigation}) => {
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View>
         <View style={{padding: vw(5)}}>
-          <TouchableOpacity onPress={()=>navigation.navigate('profile',{userData})}>
-          <View style={{alignItems: 'flex-end', borderRadius: vw(100)}}>
-            <Image
-              source={{uri: userData && BASE_URL+userData.profilePic?.replace('Storage\\','/')}}
-              style={{width: vw(12), height: vh(6),borderWidth:1,borderColor:`rgba(0,0,0,0.1)`,borderRadius:vw(100)}}
-              resizeMode="contain"
-            />
-          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('profile', {userData})}>
+            <View style={{alignItems: 'flex-end', borderRadius: vw(100)}}>
+              <Image
+                source={{
+                  uri: userData?.profilePic
+                    ? BASE_URL + userData.profilePic?.replace('Storage\\', '/')
+                    : userData?.imageURL,
+                }}
+                style={{
+                  width: vw(12),
+                  height: vh(6),
+                  borderWidth: 1,
+                  borderColor: `rgba(0,0,0,0.1)`,
+                  borderRadius: vw(100),
+                }}
+                resizeMode="contain"
+              />
+            </View>
           </TouchableOpacity>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
             Hey,{' '}
             <Text style={{color: '#204D6C', fontWeight: '700'}}>
-              {`${userData?.email.split('@')[0].slice(0,6)}...`}
+              {`${
+                userData?.email
+                  ? userData.email.split('@')[0].slice(0, 6)
+                  : userData?.name
+              }...`}
             </Text>
           </Text>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>

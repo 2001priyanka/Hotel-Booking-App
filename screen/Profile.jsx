@@ -220,11 +220,11 @@ const Profile = () => {
     if (files) {
       uploadFilesToAPI(user_data?._id);
     }
-  },[files]);
+  }, [files]);
   // useEffect(() => {
   //   getUserData();
   // }, []);
-  console.log(BASE_URL+user_data.profilePic?.replace('Storage\\','/'));
+  // console.log(BASE_URL+user_data.profilePic?.replace('Storage\\','/'));
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(5), position: 'relative'}}>
@@ -277,7 +277,11 @@ const Profile = () => {
             <Image
               source={{
                 // uri: 'https://6.vikiplatform.com/image/f39b70cc709449058542b107d493cff7.jpg?x=b&a=0x0&s=460x268&e=t&f=t&cb=1',
-                uri: imageUri ?imageUri : BASE_URL+user_data.profilePic?.replace('Storage\\','/')
+                uri: imageUri
+                  ? imageUri
+                  : user_data?.profilePic
+                  ? BASE_URL + user_data?.profilePic?.replace('Storage\\', '/')
+                  : user_data?.imageURL,
               }}
               style={{
                 height: vh(20),

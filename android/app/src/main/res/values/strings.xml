@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">RealEstate</string>
+    <string name="server_client_id">679018857631-61vv3lgie70dljpi6mh372qpmltmrq86.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">6151602591620256</string>
+    <string name="facebook_client_token">d206042dd00b29ccef7330e149936260</string>
 </resources>
