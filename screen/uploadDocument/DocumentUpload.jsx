@@ -20,7 +20,7 @@ import {MimeTypeMap} from '../../MimeTypeMap';
 import DocumentPicker from 'react-native-document-picker';
 import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
-import {API_URI, BASE_URL, URL} from '../../config/Config';
+import {API_URI, BASE_URL} from '../../config/Config';
 import axios from 'axios';
 
 const data = [
