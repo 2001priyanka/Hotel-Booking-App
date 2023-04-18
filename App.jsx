@@ -13,6 +13,7 @@ import Profile from './screen/Profile';
 import SearchEstate from './screen/SearchEstate';
 import FeatureEstate from './screen/FeatureEstate';
 import DocumentUpload from './screen/uploadDocument/DocumentUpload';
+import Details from './screen/Details';
 
 
 
@@ -23,14 +24,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName="document"
-      screenOptions={{
-        headerTitleAlign: 'center',
-        headerShadowVisible: false,
-       headerShown:false
-       
-      }}
-      >
+        initialRouteName="dashboard"
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerShadowVisible: false,
+          headerShown: false,
+        }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="user" component={UserPage} />
         <Stack.Screen name="login" component={Login} />
@@ -42,10 +41,11 @@ const App = () => {
         <Stack.Screen name="search" component={SearchEstate} />
         <Stack.Screen name="feature" component={FeatureEstate} />
         <Stack.Screen name="document" component={DocumentUpload} />
+        <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
       {/* <Footer/> */}
     </NavigationContainer>
-  )
+  );
 }
 
 export default App

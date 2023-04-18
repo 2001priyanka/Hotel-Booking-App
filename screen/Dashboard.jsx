@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useRoute} from '@react-navigation/native';
+import {useRoute, useNavigation} from '@react-navigation/native';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -18,10 +18,14 @@ import {
 } from 'react-native-responsive-dimensions';
 import {BASE_URL} from '../config/Config';
 
-const Dashboard = ({navigation}) => {
+const Dashboard = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
   console.log(userData);
+   const navigation = useNavigation();
+   const onNextPressed = () => {
+     navigation.navigate('Details');
+   };
 
   const data = [
     {id: 1, title: 'All'},
@@ -321,63 +325,65 @@ const Dashboard = ({navigation}) => {
               marginVertical: vh(2),
               flexWrap: 'wrap',
             }}>
-            <View
-              style={{
-                height: vh(32),
-                width: vw(43),
-                backgroundColor: `rgba(0,0,0,0.1)`,
-                borderRadius: vw(5),
-                // elevation:1
-                padding: 5,
-              }}>
-              <View style={{position: 'relative'}}>
-                <Image
-                  source={require('../images/house1.jpg')}
-                  resizeMode="contain"
-                  style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-                />
-                <Text
-                  style={{
-                    color: '#fff',
-                    position: 'absolute',
-                    bottom: 12,
-                    right: 15,
-                  }}>
-                  $220<Text style={{fontSize: 11}}>/month</Text>
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: '#000',
-                    fontWeight: '600',
-                    fontSize: vf(2),
-                    padding: vw(2),
-                  }}>
-                  Wings Tower
-                </Text>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                  <View
+            <TouchableOpacity onPress={onNextPressed}>
+              <View
+                style={{
+                  height: vh(32),
+                  width: vw(43),
+                  backgroundColor: `rgba(0,0,0,0.1)`,
+                  borderRadius: vw(5),
+                  // elevation:1
+                  padding: 5,
+                }}>
+                <View style={{position: 'relative'}}>
+                  <Image
+                    source={require('../images/house1.jpg')}
+                    resizeMode="contain"
+                    style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
+                  />
+                  <Text
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
+                      color: '#fff',
+                      position: 'absolute',
+                      bottom: 12,
+                      right: 15,
                     }}>
-                    <IconFa name="star" color="yellow" size={20} />
-                    <Text style={{color: '#000'}}>4.9</Text>
-                  </View>
-                  <View
+                    $220<Text style={{fontSize: 11}}>/month</Text>
+                  </Text>
+                </View>
+                <View>
+                  <Text
                     style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
+                      color: '#000',
+                      fontWeight: '600',
+                      fontSize: vf(2),
+                      padding: vw(2),
                     }}>
-                    <IconFa name="map-marker" size={15} />
-                    <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
+                    Wings Tower
+                  </Text>
+                  <View style={{flexDirection: 'row', gap: 10}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        // marginVertical: vh(1),
+                      }}>
+                      <IconFa name="star" color="yellow" size={20} />
+                      <Text style={{color: '#000'}}>4.9</Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        // marginVertical: vh(1),
+                      }}>
+                      <IconFa name="map-marker" size={15} />
+                      <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
             <View
               style={{
                 height: vh(32),
