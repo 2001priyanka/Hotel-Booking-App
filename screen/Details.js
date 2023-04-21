@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
+  FlatList,
   SafeAreaView,
   ScrollView,
 } from 'react-native';
@@ -16,25 +17,56 @@ import {
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
-const Details = () => {
-  const [rooms, setRooms] = useState([
-    {
-      icon: <IconFa name="bed" style={{fontSize: vf(4), color: '#8BC83F'}} />,
-      name: '2 Bedroom',
-    },
-    {
-      icon: (
-        <IconFa name="bathtub" style={{fontSize: vf(3), color: '#8BC83F'}} />
-      ),
-      name: '1 Bathroom',
-    },
-    {
-      icon: (
-        <IconFa name="hoop-house" style={{fontSize: vf(3), color: '#8BC83F'}} />
-      ),
-      name: '1 Hall',
-    },
-  ]);
+import {API_URI} from '../config/Config';
+import axios from 'axios';
+
+const Details = ({route}) => {
+  const {data: roomId} = route?.params;
+  console.log('data', roomId.key);
+
+  const [roomsDetails, setRoomsDetails] = useState({});
+  // const [buidingsDetails, setBuidingsDetails] = useState([]);
+
+  const getSingleRoomsDetails = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + `/user/room/${roomId.key}`,
+        method: 'GET',
+        // data: roomId.key,
+      });
+      if (res) {
+        console.log('getSingleRoomsDetails', res);
+        setRoomsDetails(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  // const getSingleBuildingDetails = async () => {
+  //   try {
+  //     const res = await {
+  //       url: API_URI + `/user/building`,
+  //       method: 'GET',
+  //     };
+  //     if (res) {
+  //       console.log('getSingleBuildingDetails', res);
+  //       setBuidingsDetails(res?.data?.results);
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (roomId) {
+      getSingleRoomsDetails();
+    }
+  }, [roomId]);
+  // useEffect(() => {
+  //   getSingleBuildingDetails();
+  // }, []);
+
   return (
     <SafeAreaView style={{backgroundColor: 'white', height: vh(100)}}>
       <ScrollView>
@@ -57,14 +89,18 @@ const Details = () => {
             marginTop: 30,
           }}>
           <View>
-            <Text style={{fontSize: vf(3), color: 'black'}}>Wings Tower</Text>
+            <Text style={{fontSize: vf(3), color: 'black'}}>
+              {roomsDetails?.building_id && roomsDetails?.building_id[0]?.name}
+            </Text>
             <Text style={{fontSize: vf(2)}}>
               <IconFa name="map-marker" style={{fontSize: vf(2)}} />
-              Jakarta, Indonesia
+              {/* {roomsDetails.building_id[0]?.state} */}
             </Text>
           </View>
           <View>
-            <Text style={{fontSize: vf(3), color: 'black'}}>$220</Text>
+            <Text style={{fontSize: vf(3), color: 'black'}}>
+              Rs{roomsDetails?.rent}
+            </Text>
             <Text style={{fontSize: vf(2)}}>per month</Text>
           </View>
         </View>
@@ -83,10 +119,11 @@ const Details = () => {
               borderRadius: 20,
               paddingHorizontal: 30,
               height: vh(7),
+              width: vw(70),
             }}>
             <Text style={{color: 'white'}}>Rent</Text>
           </View>
-          <View
+          {/* <View
             style={{
               backgroundColor: '#F5F4F8',
               flexDirection: 'row',
@@ -96,7 +133,7 @@ const Details = () => {
               paddingHorizontal: 40,
             }}>
             <Text>Buy</Text>
-          </View>
+          </View> */}
         </View>
         <View style={styles.uppersection1}>
           <View>
@@ -119,7 +156,7 @@ const Details = () => {
                 color: 'black',
                 // marginTop: 4,
               }}>
-              Anderson
+              {roomsDetails.manager_id[0]?.name}
             </Text>
             <Text
               style={{
@@ -138,23 +175,47 @@ const Details = () => {
             />
           </View>
         </View>
+        {/* <FlatList data={roomsDetails} renderItem={_renderItem} /> */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {rooms.map(item => (
-            <View style={styles.uppersection2}>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                {item.icon}
-                <Text
-                  style={{
-                    fontSize: vf(2),
-                    paddingLeft: 10,
-                    color: 'black',
-                  }}>
-                  {item.name}
-                </Text>
-              </View>
+          <View style={styles.uppersection2}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text
+                style={{
+                  fontSize: vf(2),
+                  paddingLeft: 10,
+                  color: 'black',
+                }}>
+                {roomsDetails.bedrooms} Bedrooms
+              </Text>
             </View>
-          ))}
+          </View>
+          <View style={styles.uppersection2}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text
+                style={{
+                  fontSize: vf(2),
+                  paddingLeft: 10,
+                  color: 'black',
+                }}>
+                {roomsDetails.bathrooms} Bathrooms
+              </Text>
+            </View>
+          </View>
+          <View style={styles.uppersection2}>
+            <View
+              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text
+                style={{
+                  fontSize: vf(2),
+                  paddingLeft: 10,
+                  color: 'black',
+                }}>
+                {roomsDetails.halls} Halls
+              </Text>
+            </View>
+          </View>
         </ScrollView>
         <View>
           <Text
@@ -178,8 +239,8 @@ const Details = () => {
             </View> */}
           <IconFa name="map-marker" />
           <View>
-            <Text style={{paddingLeft: 10,color:'black'}}>
-              St. Cikoko Timur, Kec. Pancoran, Jakarta Selatan, Indonesia 12770
+            <Text style={{paddingLeft: 10, color: 'black'}}>
+              {roomsDetails.building_id[0]?.address1}
             </Text>
           </View>
         </View>
@@ -187,19 +248,21 @@ const Details = () => {
           style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',
-            alignItems:'center',
-            borderRadius:30,
-            paddingLeft:20,
+            alignItems: 'center',
+            borderRadius: 30,
+            paddingLeft: 20,
             margin: 20,
-            borderWidth:0.4,
-            height:vh(7)
+            borderWidth: 0.4,
+            height: vh(7),
           }}>
           {/* <View>
                 <Text>hello</Text>
             </View> */}
           <IconFa name="map-marker" />
           <View>
-            <Text style={{paddingLeft: 10,color:'black'}}>2.5km from Location</Text>
+            <Text style={{paddingLeft: 10, color: 'black'}}>
+              2.5km from Location
+            </Text>
           </View>
         </View>
       </ScrollView>

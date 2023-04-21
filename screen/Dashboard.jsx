@@ -7,8 +7,9 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState } from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {
@@ -16,16 +17,23 @@ import {
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
-import {BASE_URL} from '../config/Config';
+import {API_URI, BASE_URL} from '../config/Config';
 
+import axios from 'axios';
 const Dashboard = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
-  console.log(userData);
-   const navigation = useNavigation();
-   const onNextPressed = () => {
-     navigation.navigate('Details');
-   };
+  
+  // console.log(userData);
+  const navigation = useNavigation();
+  const onNextPressed = (param) => {
+    const data = {
+      key: param,
+    };
+    console.log("data",data)
+    console.log("param",param)
+    navigation.navigate('Details', {data});
+  };
 
   const data = [
     {id: 1, title: 'All'},
@@ -44,6 +52,104 @@ const Dashboard = ({}) => {
     {id: 3, image: require('../images/image3.jpg'), title: 'Samantha'},
     {id: 4, image: require('../images/image1.jpg'), title: 'Amanda'},
   ];
+  // const [rooms,setRooms] = useState([]);
+  const [roomsData, setRoomsData] = useState([]);
+
+  const getAllRooms = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + `/user/room/`,
+        method: 'GET',
+      });
+      if (res) {
+        console.log('getAllRooms', res);
+        setRoomsData(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    getAllRooms();
+  }, []);
+
+  const _renderItem = ({item, index}) => {
+    return (
+      <View
+        key={index + item?._id}
+        style={{
+          height: vh(32),
+          width: vw(45),
+          marginHorizontal: vw(1.5),
+          backgroundColor: `rgba(0,0,0,0.1)`,
+          borderRadius: vw(5),
+          // elevation:1
+          padding: 5,
+        }}>
+        <TouchableOpacity onPress={() => onNextPressed(item._id)}>
+          <View>
+            <View style={{position: 'relative'}}>
+              <Image
+                source={require('../images/house1.jpg')}
+                resizeMode="contain"
+                style={{
+                  height: vh(22),
+                  width: vw(40),
+                  borderRadius: vw(5),
+                }}
+              />
+              <Text
+                style={{
+                  color: '#fff',
+                  position: 'absolute',
+                  bottom: 12,
+                  right: 15,
+                }}>
+                {item.rent}/month
+              </Text>
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: '#000',
+                  fontWeight: '600',
+                  fontSize: vf(2),
+                  padding: vw(2),
+                }}>
+                {item.building_id[0]?.name}
+              </Text>
+              <View style={{flexDirection: 'row', gap: 10}}>
+                {/* <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    
+                  }}>
+                  <IconFa name="star" color="yellow" size={20} />
+                  <Text style={{color: '#000'}}>
+                    {' '}
+                    {item.building_id[0]?.address1}
+                  </Text>
+                </View> */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    // marginVertical: vh(1),
+                  }}>
+                  <IconFa name="map-marker" size={15} />
+                  <Text style={{fontSize:vf(2), color: '#000'}}>
+                    {item.building_id[0]?.address1}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View>
@@ -69,7 +175,7 @@ const Dashboard = ({}) => {
             </View>
           </TouchableOpacity>
           <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
-            Hey,{' '}
+            Hey,
             <Text style={{color: '#204D6C', fontWeight: '700'}}>
               {`${
                 userData?.email
@@ -162,7 +268,7 @@ const Dashboard = ({}) => {
               <View style={{flex: 1}}>
                 <Text
                   style={{color: '#000', fontWeight: '600', letterSpacing: 1}}>
-                  Sky Dendelion Apartment{' '}
+                  Sky Dendelion Apartment
                 </Text>
                 <View
                   style={{
@@ -220,7 +326,7 @@ const Dashboard = ({}) => {
               <View style={{flex: 1}}>
                 <Text
                   style={{color: '#000', fontWeight: '600', letterSpacing: 1}}>
-                  Sky Dendelion Apartment{' '}
+                  Sky Dendelion Apartment
                 </Text>
                 <View
                   style={{
@@ -318,245 +424,88 @@ const Dashboard = ({}) => {
           <Text style={{fontSize: vf(2), color: '#000', marginTop: vh(2)}}>
             Explore Nearby Estate
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 10,
-              marginVertical: vh(2),
-              flexWrap: 'wrap',
-            }}>
-            <TouchableOpacity onPress={onNextPressed}>
-              <View
-                style={{
-                  height: vh(32),
-                  width: vw(43),
-                  backgroundColor: `rgba(0,0,0,0.1)`,
-                  borderRadius: vw(5),
-                  // elevation:1
-                  padding: 5,
-                }}>
-                <View style={{position: 'relative'}}>
-                  <Image
-                    source={require('../images/house1.jpg')}
-                    resizeMode="contain"
-                    style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-                  />
-                  <Text
-                    style={{
-                      color: '#fff',
-                      position: 'absolute',
-                      bottom: 12,
-                      right: 15,
-                    }}>
-                    $220<Text style={{fontSize: 11}}>/month</Text>
-                  </Text>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      color: '#000',
-                      fontWeight: '600',
-                      fontSize: vf(2),
-                      padding: vw(2),
-                    }}>
-                    Wings Tower
-                  </Text>
-                  <View style={{flexDirection: 'row', gap: 10}}>
+          {/* {roomsData.map(item =>{
+            return (
+              <ScrollView horizontal>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent:'space-around',
+                    gap: 10,
+                    marginVertical: vh(2),
+                    flexWrap: 'wrap',
+                  }}>
+                  <TouchableOpacity onPress={()=>onNextPressed(item._id)}>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        // marginVertical: vh(1),
+                        height: vh(32),
+                        width: vw(43),
+                        backgroundColor: `rgba(0,0,0,0.1)`,
+                        borderRadius: vw(5),
+                        // elevation:1
+                        padding: 5,
                       }}>
-                      <IconFa name="star" color="yellow" size={20} />
-                      <Text style={{color: '#000'}}>4.9</Text>
+                      <View style={{position: 'relative'}}>
+                        <Image
+                          source={require('../images/house1.jpg')}
+                          resizeMode="contain"
+                          style={{
+                            height: vh(22),
+                            width: vw(40),
+                            borderRadius: vw(5),
+                          }}
+                        />
+                        <Text
+                          style={{
+                            color: '#fff',
+                            position: 'absolute',
+                            bottom: 12,
+                            right: 15,
+                          }}>
+                          $220<Text style={{fontSize: 11}}>/month</Text>
+                        </Text>
+                      </View>
+                      <View>
+                        <Text
+                          style={{
+                            color: '#000',
+                            fontWeight: '600',
+                            fontSize: vf(2),
+                            padding: vw(2),
+                          }}>
+                          {item.bedrooms}
+                        </Text>
+                        <View style={{flexDirection: 'row', gap: 10}}>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              // marginVertical: vh(1),
+                            }}>
+                            <IconFa name="star" color="yellow" size={20} />
+                            <Text style={{color: '#000'}}>
+                              {item.balconies}
+                            </Text>
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              // marginVertical: vh(1),
+                            }}>
+                            <IconFa name="map-marker" size={15} />
+                            <Text style={{fontSize: 10}}>{item.halls}</Text>
+                          </View>
+                        </View>
+                      </View>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        // marginVertical: vh(1),
-                      }}>
-                      <IconFa name="map-marker" size={15} />
-                      <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                    </View>
-                  </View>
+                  </TouchableOpacity>
                 </View>
-              </View>
-            </TouchableOpacity>
-            <View
-              style={{
-                height: vh(32),
-                width: vw(43),
-                backgroundColor: `rgba(0,0,0,0.1)`,
-                borderRadius: vw(5),
-                // elevation:1
-                padding: 5,
-              }}>
-              <View style={{position: 'relative'}}>
-                <Image
-                  source={require('../images/house2.jpg')}
-                  resizeMode="contain"
-                  style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-                />
-                <Text
-                  style={{
-                    color: '#fff',
-                    position: 'absolute',
-                    bottom: 12,
-                    right: 15,
-                  }}>
-                  $270<Text style={{fontSize: 11}}>/month</Text>
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: '#000',
-                    fontWeight: '600',
-                    fontSize: vf(2),
-                    padding: vw(2),
-                  }}>
-                  Mill Sper House
-                </Text>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
-                    }}>
-                    <IconFa name="star" color="yellow" size={20} />
-                    <Text style={{color: '#000'}}>4.9</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
-                    }}>
-                    <IconFa name="map-marker" size={15} />
-                    <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                height: vh(32),
-                width: vw(43),
-                backgroundColor: `rgba(0,0,0,0.1)`,
-                borderRadius: vw(5),
-                // elevation:1
-                padding: 5,
-              }}>
-              <View style={{position: 'relative'}}>
-                <Image
-                  source={require('../images/house3.jpg')}
-                  resizeMode="contain"
-                  style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-                />
-                <Text
-                  style={{
-                    color: '#fff',
-                    position: 'absolute',
-                    bottom: 12,
-                    right: 15,
-                  }}>
-                  $330<Text style={{fontSize: 11}}>/month</Text>
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: '#000',
-                    fontWeight: '600',
-                    fontSize: vf(2),
-                    padding: vw(2),
-                  }}>
-                  Bungalow House
-                </Text>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
-                    }}>
-                    <IconFa name="star" color="yellow" size={20} />
-                    <Text style={{color: '#000'}}>4.9</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
-                    }}>
-                    <IconFa name="map-marker" size={15} />
-                    <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                height: vh(32),
-                width: vw(43),
-                backgroundColor: `rgba(0,0,0,0.1)`,
-                borderRadius: vw(5),
-                // elevation:1
-                padding: 5,
-              }}>
-              <View style={{position: 'relative'}}>
-                <Image
-                  source={require('../images/house4.jpg')}
-                  resizeMode="contain"
-                  style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-                />
-                <Text
-                  style={{
-                    color: '#fff',
-                    position: 'absolute',
-                    bottom: 12,
-                    right: 15,
-                  }}>
-                  $230<Text style={{fontSize: 11}}>/month</Text>
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: '#000',
-                    fontWeight: '600',
-                    fontSize: vf(2),
-                    padding: vw(2),
-                  }}>
-                  Sky Dendelion
-                </Text>
-                <View style={{flexDirection: 'row', gap: 10}}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
-                    }}>
-                    <IconFa name="star" color="yellow" size={20} />
-                    <Text style={{color: '#000'}}>4.9</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      // marginVertical: vh(1),
-                    }}>
-                    <IconFa name="map-marker" size={15} />
-                    <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View>
+              </ScrollView>
+            );
+          })} */}
         </View>
+        <FlatList data={roomsData} renderItem={_renderItem} numColumns={2} contentContainerStyle={{padding:vw(1.5)}}/>
       </View>
     </ScrollView>
   );
