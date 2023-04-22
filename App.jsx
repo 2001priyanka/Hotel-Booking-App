@@ -16,6 +16,7 @@ import DocumentUpload from './screen/uploadDocument/DocumentUpload';
 import Details from './screen/Details';
 import RoomList from './screen/RoomList';
 import EditProfile from './screen/EditProfile';
+import DocumentList from './screen/DocumentList';
 
 
 
@@ -45,7 +46,8 @@ const App = () => {
         <Stack.Screen name="document" component={DocumentUpload} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="RoomList" component={RoomList} />
-        <Stack.Screen name="EditProfile" component={EditProfile}/>
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="DocumentList" component={DocumentList} />
       </Stack.Navigator>
       {/* <Footer/> */}
     </NavigationContainer>

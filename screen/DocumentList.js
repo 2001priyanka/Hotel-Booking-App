@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFA from 'react-native-vector-icons/FontAwesome';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -24,49 +25,22 @@ import DocumentPicker from 'react-native-document-picker';
 import {MimeTypeMap} from '../MimeTypeMap';
 // import { API_URI } from '../config/Config';
 
-const Profile = () => {
+const DocumentList = () => {
   const [files, setFiles] = useState(null);
   // const [userData, setUsersData] = useState({});
   const [imageUri, setimageUri] = useState(null);
   const route = useRoute();
   const user_data = route.params?.userData;
   const navigation = useNavigation();
-  const onNextPressed = ()=>{
+  const onNextPressed = () => {
     navigation.navigate('RoomList');
-  }
-  const onNextPressed1= ()=>{
-    navigation.navigate('DocumentList');
-  }
-  const onNextPressed2= ()=>{
+  };
+  const onNextPressed1 = () => {
+    navigation.navigate('document');
+  };
+  const onNextPressed2 = () => {
     navigation.navigate('EditProfile');
-  }
-  // const getUserData = async () => {
-  //   if (user) {
-  //     try {
-  //       const res = await axios({
-  //         url: API_URI + `admin/user/${user_data?._id}`,
-  //         method: 'GET',
-  //         // data: {
-  //         //   profilePic: imageUri,
-  //         // },
-  //         // headers: {
-  //         //   Authorization: `Bearer ${token}`,
-  //         // },
-  //       });
-
-  //       if (res) {
-  //         console.log('updateUserDatax res', res?.data);
-  //         setUsersData(res?.data?.user);
-  //         // navigation.navigate('ProfilePage');
-  //       }
-  //     } catch (error) {
-  //       console.log('updateUserData error', error);
-  //     }
-  //   } else {
-  //     Alert.alert('Required Fields Missing!');
-  //   }
-  // };
-  // console.log(route.params?.userData);
+  };
   const requestCameraPermission = async () => {
     try {
       const grants = await PermissionsAndroid.requestMultiple([
@@ -238,118 +212,6 @@ const Profile = () => {
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(3)}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: vh(6),
-              width: vw(12),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // margin: vw(5),
-            }}>
-            <IconFa name="chevron-left" size={20} />
-          </View>
-          <Text style={{color: '#000', fontSize: vf(3.5)}}>Profile</Text>
-          <Text style={{color: '#fff'}}>hhhhhhg</Text>
-        </View>
-        <Text
-          style={{
-            textAlign: 'center',
-            color: '#000',
-            fontWeight: '700',
-          }}>
-          {user_data?.email.split('@')[0]}
-        </Text>
-        <Text
-          style={{
-            textAlign: 'center',
-            color: '#000',
-            fontWeight: '400',
-            fontSize: vf(2),
-            letterSpacing: 1,
-          }}>
-          {user_data?.email}
-        </Text>
-        <View style={{position: 'relative'}}>
-          <TouchableOpacity
-            onPress={() => selectAllFiles()}
-            style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Image
-              source={{
-                // uri: 'https://6.vikiplatform.com/image/f39b70cc709449058542b107d493cff7.jpg?x=b&a=0x0&s=460x268&e=t&f=t&cb=1',
-                uri: imageUri
-                  ? imageUri
-                  : user_data?.profilePic
-                  ? BASE_URL + user_data?.profilePic?.replace('Storage\\', '/')
-                  : user_data?.imageURL,
-              }}
-              style={{
-                height: vh(20),
-                borderWidth: 1,
-                borderColor: '#000',
-                width: vw(40),
-                borderRadius: vw(100),
-              }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <View
-            style={{
-              position: 'absolute',
-              top: vh(18),
-              right: vw(30),
-              backgroundColor: '#89C93D',
-              height: vh(3.5),
-              width: vw(7),
-              zIndex: 1,
-              borderRadius: vw(2),
-            }}>
-            <Text
-              style={{
-                color: '#fff',
-                fontWeight: '600',
-                textAlign: 'center',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{fontSize: vf(1.5)}}>#</Text>8
-            </Text>
-          </View>
-        </View>
-        <TouchableOpacity onPress={onNextPressed2}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-              marginVertical: vh(2),
-              height: vh(5),
-              width: vw(30),
-              // marginHorizontal: vw(1.5),
-              backgroundColor: '#89C93D',
-              borderRadius: vw(3),
-              // padding: 5,
-            }}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Edit Profile
-            </Text>
-          </View>
-        </TouchableOpacity>
         <Text
           style={{
             // alignItems:'center',
@@ -357,90 +219,119 @@ const Profile = () => {
             fontSize: vf(3),
             color: '#000',
             paddingLeft: 20,
-            // marginTop: vh(1),
+            marginTop: vh(3),
           }}>
-          Anderson
+          Document List
         </Text>
-        <TouchableOpacity onPress={onNextPressed}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-              marginVertical: vh(2),
-              height: vh(10),
-              width: vw(90),
-              // marginHorizontal: vw(1.5),
-              backgroundColor: '#204D6C',
-              borderRadius: vw(5),
-              padding: 5,
-            }}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.5),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Your Rooms
-            </Text>
+        <TouchableOpacity>
+          <View style={styles.uppersection1}>
+            <View>
+              <IconFa
+                name="file-document-outline"
+                style={{fontSize: vf(3.5), paddingRight: 30}}
+              />
+            </View>
+            <View>
+              <Text
+                style={{
+                  paddingRight: 90,
+                  fontSize: vf(2),
+                  color: 'black',
+                  // marginTop: 4,
+                }}>
+                Aadhar
+              </Text>
+            </View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: '#fff',
+                  // alignSelf: 'center',
+                  backgroundColor: '#204D6C',
+                  borderRadius: 50,
+                  padding: 5,
+                  paddingHorizontal: 30,
+                  // marginTop: 30,
+                  paddingRight: 30,
+                }}>
+                View
+              </Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onNextPressed1}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'center',
-              backgroundColor: '#204D6C',
-              marginVertical: vh(2),
-              height: vh(10),
-              width: vw(90),
-              // marginHorizontal: vw(1.5),
-              // backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              padding: 5,
-            }}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.5),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Upload Document
-            </Text>
+        <TouchableOpacity>
+          <View style={styles.uppersection1}>
+            <View>
+              <IconFa
+                name="file-document-outline"
+                style={{fontSize: vf(3.5), paddingRight: 30}}
+              />
+            </View>
+            <View>
+              <Text
+                style={{
+                  paddingRight: 90,
+                  fontSize: vf(2),
+                  color: 'black',
+                  // marginTop: 4,
+                }}>
+                Aadhar
+              </Text>
+            </View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: '#fff',
+                  // alignSelf: 'center',
+                  backgroundColor: '#204D6C',
+                  borderRadius: 50,
+                  padding: 5,
+                  paddingHorizontal: 30,
+                  // marginTop: 30,
+                  paddingRight: 30,
+                }}>
+                View
+              </Text>
+            </TouchableOpacity>
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginVertical: vh(2),
-            height: vh(10),
-            width: vw(90),
-            // marginHorizontal: vw(1.5),
-            backgroundColor: '#204D6C',
-            borderRadius: vw(5),
-            padding: 5,
-          }}>
-          <Text
-            style={{
-              color: '#fff',
-              alignSelf: 'center',
-              fontSize: vf(2.5),
-              // marginTop: 20,
-              borderRadius: 50,
-            }}>
-            Pending Payments
-          </Text>
-        </View>
+        <TouchableOpacity>
+          <View style={styles.uppersection1}>
+            <View>
+              <IconFA
+                name="id-card-o"
+                style={{fontSize: vf(3.5), paddingRight: 10}}
+              />
+            </View>
+            <View>
+              <Text
+                style={{
+                  paddingRight: 25,
+                  fontSize: vf(2),
+                  color: 'black',
+                  // marginTop: 4,
+                }}>
+                Name Of Document
+              </Text>
+            </View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: '#fff',
+                  // alignSelf: 'center',
+                  backgroundColor: '#204D6C',
+                  borderRadius: 50,
+                  padding: 5,
+                  paddingHorizontal: 30,
+                  // marginTop: 30,
+                  paddingRight: 30,
+                }}>
+                View
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+
         <View
           style={{
             flexDirection: 'row',
@@ -449,11 +340,12 @@ const Profile = () => {
             alignSelf: 'center',
             marginVertical: vh(4),
             height: vh(7),
-            width: vw(40),
+            width: vw(90),
             // marginHorizontal: vw(1.5),
             backgroundColor: '#89C93D',
             borderRadius: vw(5),
             padding: 5,
+            marginTop:vh(20)
           }}>
           <Text
             style={{
@@ -463,7 +355,7 @@ const Profile = () => {
               // marginTop: 20,
               borderRadius: 50,
             }}>
-            LOGOUT
+            I have Submitted all document
           </Text>
         </View>
 
@@ -488,6 +380,29 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default DocumentList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  uppersection1: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 30,
+    marginTop: 30,
+    width: vw(90),
+    paddingLeft: 20,
+    backgroundColor: '#F5F4F8',
+    height: vh(10),
+  },
+  uppersection2: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderRadius: 30,
+    marginTop: 30,
+    width: vw(40),
+    backgroundColor: '#F5F4F8',
+    height: vh(7),
+  },
+});
