@@ -17,7 +17,7 @@ import {
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
-import {API_URI} from '../config/Config';
+import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
 
 const Details = ({route}) => {
@@ -77,10 +77,15 @@ const Details = ({route}) => {
             marginTop: 20,
             borderRadius: 20,
           }}>
-          <Image
-            source={require('../images/11.jpg')}
-            style={{height: vh(50), width: vw(90), borderRadius: 40}}
-          />
+          {roomsDetails?.photo && (
+            <Image
+              // source={require('../images/11.jpg')}
+              source={{
+                uri: BASE_URL + roomsDetails?.photo?.replace('Storage\\', ''),
+              }}
+              style={{height: vh(50), width: vw(90), borderRadius: 40}}
+            />
+          )}
         </View>
         <View
           style={{
@@ -94,7 +99,7 @@ const Details = ({route}) => {
             </Text>
             <Text style={{fontSize: vf(2)}}>
               <IconFa name="map-marker" style={{fontSize: vf(2)}} />
-              {/* {roomsDetails.building_id[0]?.state} */}
+              {roomsDetails.building_id && roomsDetails.building_id[0]?.state}
             </Text>
           </View>
           <View>
@@ -156,7 +161,7 @@ const Details = ({route}) => {
                 color: 'black',
                 // marginTop: 4,
               }}>
-              {roomsDetails.manager_id[0]?.name}
+              {roomsDetails.manager_id && roomsDetails.manager_id[0]?.name}
             </Text>
             <Text
               style={{
@@ -237,34 +242,15 @@ const Details = ({route}) => {
           {/* <View>
                 <Text>hello</Text>
             </View> */}
-          <IconFa name="map-marker" />
+          <IconFa name="map-marker" style={{fontSize:20}} />
           <View>
             <Text style={{paddingLeft: 10, color: 'black'}}>
-              {roomsDetails.building_id[0]?.address1}
+              {roomsDetails.building_id &&
+                roomsDetails.building_id[0]?.address1}
             </Text>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            borderRadius: 30,
-            paddingLeft: 20,
-            margin: 20,
-            borderWidth: 0.4,
-            height: vh(7),
-          }}>
-          {/* <View>
-                <Text>hello</Text>
-            </View> */}
-          <IconFa name="map-marker" />
-          <View>
-            <Text style={{paddingLeft: 10, color: 'black'}}>
-              2.5km from Location
-            </Text>
-          </View>
-        </View>
+        
       </ScrollView>
     </SafeAreaView>
   );

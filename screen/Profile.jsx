@@ -19,7 +19,7 @@ import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
 import axios from 'axios';
 import {API_URI, BASE_URL} from '../config/Config';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import {MimeTypeMap} from '../MimeTypeMap';
 // import { API_URI } from '../config/Config';
@@ -30,6 +30,16 @@ const Profile = () => {
   const [imageUri, setimageUri] = useState(null);
   const route = useRoute();
   const user_data = route.params?.userData;
+  const navigation = useNavigation();
+  const onNextPressed = ()=>{
+    navigation.navigate('RoomList');
+  }
+  const onNextPressed1= ()=>{
+    navigation.navigate('document');
+  }
+  const onNextPressed2= ()=>{
+    navigation.navigate('EditProfile');
+  }
   // const getUserData = async () => {
   //   if (user) {
   //     try {
@@ -227,7 +237,7 @@ const Profile = () => {
   // console.log(BASE_URL+user_data.profilePic?.replace('Storage\\','/'));
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-      <View style={{padding: vw(5), position: 'relative'}}>
+      <View style={{padding: vw(3)}}>
         <View
           style={{
             flexDirection: 'row',
@@ -246,7 +256,7 @@ const Profile = () => {
             }}>
             <IconFa name="chevron-left" size={20} />
           </View>
-          <Text style={{color: '#000', fontSize: vf(2.5)}}>Profile</Text>
+          <Text style={{color: '#000', fontSize: vf(3.5)}}>Profile</Text>
           <Text style={{color: '#fff'}}>hhhhhhg</Text>
         </View>
         <Text
@@ -254,9 +264,6 @@ const Profile = () => {
             textAlign: 'center',
             color: '#000',
             fontWeight: '700',
-            fontSize: vf(2.5),
-            marginTop: vh(2),
-            letterSpacing: 1,
           }}>
           {user_data?.email.split('@')[0]}
         </Text>
@@ -285,18 +292,14 @@ const Profile = () => {
               }}
               style={{
                 height: vh(20),
-                marginTop: vh(2),
                 borderWidth: 1,
                 borderColor: '#000',
                 width: vw(40),
                 borderRadius: vw(100),
-                // justifyContent:'center',
-                // marginLeft:'auto'
               }}
               resizeMode="contain"
             />
           </TouchableOpacity>
-
           <View
             style={{
               position: 'absolute',
@@ -320,267 +323,151 @@ const Profile = () => {
             </Text>
           </View>
         </View>
+        <TouchableOpacity onPress={onNextPressed2}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+              marginVertical: vh(2),
+              height: vh(5),
+              width: vw(30),
+              // marginHorizontal: vw(1.5),
+              backgroundColor: '#89C93D',
+              borderRadius: vw(3),
+              // padding: 5,
+            }}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              Edit Profile
+            </Text>
+          </View>
+        </TouchableOpacity>
         <Text
           style={{
-            fontWeight: '700',
-            fontSize: vf(2),
+            // alignItems:'center',
+            fontWeight: '500',
+            fontSize: vf(3),
             color: '#000',
-            marginTop: vh(2),
+            paddingLeft: 20,
+            // marginTop: vh(1),
           }}>
-          140
-          <Text
-            style={{
-              color: `rgba(0,0,0,0.7)`,
-              fontSize: vf(1.8),
-              letterSpacing: 1,
-            }}>
-            {' '}
-            listings
-          </Text>
+          Anderson
         </Text>
+        <TouchableOpacity onPress={onNextPressed}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+              marginVertical: vh(2),
+              height: vh(10),
+              width: vw(90),
+              // marginHorizontal: vw(1.5),
+              backgroundColor: '#204D6C',
+              borderRadius: vw(5),
+              padding: 5,
+            }}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.5),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              Your Rooms
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onNextPressed1}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'center',
+              backgroundColor: '#204D6C',
+              marginVertical: vh(2),
+              height: vh(10),
+              width: vw(90),
+              // marginHorizontal: vw(1.5),
+              // backgroundColor: `rgba(0,0,0,0.1)`,
+              borderRadius: vw(5),
+              padding: 5,
+            }}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.5),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              Upload Document
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             flexDirection: 'row',
-            gap: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
             marginVertical: vh(2),
-            flexWrap: 'wrap',
+            height: vh(10),
+            width: vw(90),
+            // marginHorizontal: vw(1.5),
+            backgroundColor: '#204D6C',
+            borderRadius: vw(5),
+            padding: 5,
           }}>
-          <View
+          <Text
             style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
+              color: '#fff',
+              alignSelf: 'center',
+              fontSize: vf(2.5),
+              // marginTop: 20,
+              borderRadius: 50,
             }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house3.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
-            }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house4.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
-            }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house5.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                  backgroundColor: '#2D5067',
-                  borderRadius: vw(2),
-                  padding: 2,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              height: vh(32),
-              width: vw(43),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-              // elevation:1
-              padding: 5,
-            }}>
-            <View style={{position: 'relative'}}>
-              <Image
-                source={require('../images/house6.jpg')}
-                resizeMode="contain"
-                style={{height: vh(22), width: vw(40), borderRadius: vw(5)}}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                  backgroundColor: '#2D5067',
-                  borderRadius: vw(2),
-                  padding: 2,
-                }}>
-                $220<Text style={{fontSize: 11}}>/month</Text>
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                Wings Tower
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="star" color="yellow" size={20} />
-                  <Text style={{color: '#000'}}>4.9</Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: 10}}>Jakarta Indonesia</Text>
-                </View>
-              </View>
-            </View>
-          </View>
+            Pending Payments
+          </Text>
         </View>
-        <TouchableOpacity
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginVertical: vh(4),
+            height: vh(7),
+            width: vw(40),
+            // marginHorizontal: vw(1.5),
+            backgroundColor: '#89C93D',
+            borderRadius: vw(5),
+            padding: 5,
+          }}>
+          <Text
+            style={{
+              color: '#fff',
+              alignSelf: 'center',
+              fontSize: vf(2.5),
+              // marginTop: 20,
+              borderRadius: 50,
+            }}>
+            LOGOUT
+          </Text>
+        </View>
+
+        {/* <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}>
           <View
             style={{
@@ -595,7 +482,7 @@ const Profile = () => {
             }}>
             <Text style={{fontSize: vf(2.5), color: '#fff'}}>Start Chat</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );

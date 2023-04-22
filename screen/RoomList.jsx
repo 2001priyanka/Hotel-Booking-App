@@ -34,9 +34,7 @@ const Dashboard = ({}) => {
     console.log('param', param);
     navigation.navigate('Details', {data});
   };
-   const onNextPressed1 = ()=>{
-    navigation.navigate('RoomList')
-   }
+
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
   const [roomstype, setRoomstype] = useState([
@@ -138,7 +136,7 @@ const Dashboard = ({}) => {
                   }}>
                   <IconFa name="map-marker" size={15} />
                   <Text style={{fontSize: vf(1.5), color: '#000'}}>
-                    {item.building_id && item.building_id[0]?.address1}
+                    {item.building_id[0]?.address1}
                   </Text>
                 </View>
               </View>
@@ -148,58 +146,7 @@ const Dashboard = ({}) => {
       </View>
     );
   };
-  const _renderItem1 = ({item, index}) => {
-    return (
-      <View
-        key={index + item?._id}
-        style={{
-          height: vh(20),
-          width: vw(45),
-          marginHorizontal: vw(1.5),
-          margin: 10,
-          backgroundColor: `rgba(0,0,0,0.1)`,
-          borderRadius: vw(5),
-          padding: 5,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              color: '#000',
-              fontWeight: '600',
-              fontSize: vf(2),
-              // padding: vw(2),
-            }}>
-            {item.name}
-          </Text>
-        </View>
-        <View
-          style={{
-            alignItems: 'center',
-          }}>
-          {item.icon}
-        </View>
-        <TouchableOpacity onPress={onNextPressed1}>
-          <Text
-            style={{
-              color: '#fff',
-              alignSelf: 'center',
-              backgroundColor: '#204D6C',
-              borderRadius: 50,
-              padding: 5,
-              paddingHorizontal: 30,
-              marginTop: 30,
-            }}>
-            View
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+  
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -252,81 +199,8 @@ const Dashboard = ({}) => {
         </TouchableOpacity>
       </View>
       <View>
-        <View style={{padding: 10}}>
-          <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
-            Hey,
-            <Text style={{color: '#204D6C', fontWeight: '700'}}>
-              {`${
-                userData?.email
-                  ? userData.email.split('@')[0].slice(0, 6)
-                  : userData?.name
-              }...`}
-            </Text>
-          </Text>
-          <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
-            Let's start exploring
-          </Text>
-          <View
-            style={{
-              height: vh(10),
-              backgroundColor: `rgba(0,0,0,0.05)`,
-              borderRadius: vw(5),
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: vw(5),
-              marginTop: vh(3),
-            }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <IconFa name="magnify" size={25} color="#000" />
-              <TextInput placeholder="Search House, Apartment etc" />
-            </View>
-            <View>
-              <IconFa name="microphone-outline" size={25} />
-            </View>
-          </View>
-        </View>
-        <FlatList
-          data={roomstype}
-          renderItem={_renderItem1}
-          numColumns={2}
-          contentContainerStyle={{padding: vw(1.5)}}
-        />
+        
         <View style={{paddingHorizontal: vw(5), marginVertical: vh(1)}}>
-          {/* <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: vh(1),
-            }}>
-            <Text style={{fontSize: vf(2), color: '#000'}}>
-              Top Estate Agent
-            </Text>
-            <Text style={{color: '#204D6C'}}>explore</Text>
-          </View> */}
-          {/* <ScrollView horizontal>
-            <View style={{flexDirection: 'row'}}>
-              {item1.map(item => (
-                <View
-                  style={{
-                    alignItems: 'center',
-                    marginVertical: vw(2),
-                    gap: 5,
-                    borderRadius: vw(20),
-                    marginRight: 10,
-                  }}
-                  key={item.id}>
-                  <Image
-                    source={item.image}
-                    resizeMode="contain"
-                    style={{height: vh(10), width: vw(20), borderRadius: vw(2)}}
-                  />
-                  <Text style={{color: '#000'}}>{item.title}</Text>
-                </View>
-              ))}
-            </View>
-          </ScrollView> */}
           <Text style={{fontSize: vf(2), color: '#000', marginTop: vh(2)}}>
             Explore Nearby Estate
           </Text>

@@ -14,6 +14,8 @@ import SearchEstate from './screen/SearchEstate';
 import FeatureEstate from './screen/FeatureEstate';
 import DocumentUpload from './screen/uploadDocument/DocumentUpload';
 import Details from './screen/Details';
+import RoomList from './screen/RoomList';
+import EditProfile from './screen/EditProfile';
 
 
 
@@ -42,6 +44,8 @@ const App = () => {
         <Stack.Screen name="feature" component={FeatureEstate} />
         <Stack.Screen name="document" component={DocumentUpload} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="RoomList" component={RoomList} />
+        <Stack.Screen name="EditProfile" component={EditProfile}/>
       </Stack.Navigator>
       {/* <Footer/> */}
     </NavigationContainer>
