@@ -22,11 +22,13 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {LoginButton, AccessToken} from 'react-native-fbsdk-next';
-import { LoginManager } from "react-native-fbsdk-next";
-import { Profile } from "react-native-fbsdk-next";
-
+import {LoginManager} from 'react-native-fbsdk-next';
+import {Profile} from 'react-native-fbsdk-next';
+import {useDispatch} from 'react-redux';
+import {setIsLoggedIn, setLoggedInUser} from '../Redux/Slice/LoginSlice';
 
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
     username: '',
@@ -69,11 +71,11 @@ const Login = ({navigation}) => {
         console.log('service not available');
       } else {
         // some other error happened
-        console.log('server not responding',error);
+        console.log('server not responding', error);
       }
     }
   };
-  let userData=null
+  let userData = null;
   const loginHandler = async () => {
     try {
       console.log('loginhandler click', loginData);
@@ -84,7 +86,9 @@ const Login = ({navigation}) => {
       });
       if (res.status == 200) {
         console.log(res.data?.user);
-         userData = res?.data?.user;
+        userData = res?.data;
+        dispatch(setIsLoggedIn(true));
+        dispatch(setLoggedInUser(userData));
         navigation.navigate('dashboard', {userData});
       } else {
         console.log('some credential issue');
@@ -93,34 +97,34 @@ const Login = ({navigation}) => {
       console.log(error);
     }
   };
-  const signFacebook=()=>{
-    LoginManager.logInWithPermissions(["public_profile"]).then(
-      function(result) {
+  const signFacebook = () => {
+    LoginManager.logInWithPermissions(['public_profile']).then(
+      function (result) {
         if (result.isCancelled) {
-          console.log("Login cancelled");
+          console.log('Login cancelled');
         } else {
           console.log(
-            "Login success with permissions: " +
-              result.grantedPermissions.toString()
-              );
-              profileObject()
+            'Login success with permissions: ' +
+              result.grantedPermissions.toString(),
+          );
+          profileObject();
         }
       },
-      function(error) {
-        console.log("Login fail with error: " + error);
-      }
+      function (error) {
+        console.log('Login fail with error: ' + error);
+      },
     );
-  }
-  function profileObject(){
-    const currentProfile = Profile.getCurrentProfile().then(
-      function(currentProfile) {
-        if (currentProfile) {
-          console.log(currentProfile);
-          userData=currentProfile;
-          navigation.navigate('dashboard',{userData})
-        }
+  };
+  function profileObject() {
+    const currentProfile = Profile.getCurrentProfile().then(function (
+      currentProfile,
+    ) {
+      if (currentProfile) {
+        console.log(currentProfile);
+        userData = currentProfile;
+        navigation.navigate('dashboard', {userData});
       }
-    );
+    });
   }
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -259,8 +263,8 @@ const Login = ({navigation}) => {
                 alignItems: 'center',
                 borderRadius: vw(5),
                 width: vw(42),
-              }} onPress={()=>signFacebook()}>
-              
+              }}
+              onPress={() => signFacebook()}>
               <Image
                 source={require('../../images/face.png')}
                 resizeMode="contain"
@@ -269,7 +273,8 @@ const Login = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('register')}>
-            <Text style={{textAlign: 'center', marginTop: vh(1),color:'gray'}}>
+            <Text
+              style={{textAlign: 'center', marginTop: vh(1), color: 'gray'}}>
               Don't have an accoun?{' '}
               <Text style={{color: '#204D6C'}}>Register</Text>
             </Text>

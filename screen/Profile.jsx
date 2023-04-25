@@ -18,6 +18,7 @@ import {
 import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 import {API_URI, BASE_URL} from '../config/Config';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
@@ -25,21 +26,56 @@ import {MimeTypeMap} from '../MimeTypeMap';
 // import { API_URI } from '../config/Config';
 
 const Profile = () => {
+  const token = useSelector(reduxState => reduxState?.login?.user?.accessToken);
+  console.log('token', token);
   const [files, setFiles] = useState(null);
   // const [userData, setUsersData] = useState({});
   const [imageUri, setimageUri] = useState(null);
   const route = useRoute();
   const user_data = route.params?.userData;
   const navigation = useNavigation();
-  const onNextPressed = ()=>{
+  const onNextPressed = () => {
     navigation.navigate('RoomList');
-  }
-  const onNextPressed1= ()=>{
+  };
+  const onNextPressed1 = () => {
     navigation.navigate('DocumentList');
-  }
-  const onNextPressed2= ()=>{
+  };
+  const onNextPressed2 = () => {
     navigation.navigate('EditProfile');
-  }
+  };
+  const onNextPressed3 = () => {
+    navigation.navigate('PendingBills');
+  };
+
+  const [userData, setUserData] = useState({
+    name: '',
+    address1: '',
+    email: '',
+  });
+
+  const getUserData = async () => {
+    if (token) {
+      try {
+        const res = await axios({
+          url: API_URI + '/user/user/editProfile',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res) {
+          console.log('user data with token', res?.data?.user);
+          setUserData(res?.data.user);
+        }
+      } catch (error) {
+        console.log('profile data error', error);
+      }
+    }
+  };
+  useEffect(() => {
+    getUserData();
+  }, [token]);
+
   // const getUserData = async () => {
   //   if (user) {
   //     try {
@@ -354,12 +390,34 @@ const Profile = () => {
           style={{
             // alignItems:'center',
             fontWeight: '500',
-            fontSize: vf(3),
+            fontSize: vf(2.5),
             color: '#000',
             paddingLeft: 20,
             // marginTop: vh(1),
           }}>
-          Anderson
+          {userData.name}
+        </Text>
+        <Text
+          style={{
+            // alignItems:'center',
+            fontWeight: '500',
+            fontSize: vf(2),
+            color: '#000',
+            paddingLeft: 20,
+            // marginTop: vh(1),
+          }}>
+          {userData.email}
+        </Text>
+        <Text
+          style={{
+            // alignItems:'center',
+            fontWeight: '500',
+            fontSize: vf(2),
+            color: '#000',
+            paddingLeft: 20,
+            // marginTop: vh(1),
+          }}>
+          {userData.address1}
         </Text>
         <TouchableOpacity onPress={onNextPressed}>
           <View
@@ -416,31 +474,34 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginVertical: vh(2),
-            height: vh(10),
-            width: vw(90),
-            // marginHorizontal: vw(1.5),
-            backgroundColor: '#204D6C',
-            borderRadius: vw(5),
-            padding: 5,
-          }}>
-          <Text
+
+        <TouchableOpacity onPress={onNextPressed3}>
+          <View
             style={{
-              color: '#fff',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
               alignSelf: 'center',
-              fontSize: vf(2.5),
-              // marginTop: 20,
-              borderRadius: 50,
+              marginVertical: vh(2),
+              height: vh(10),
+              width: vw(90),
+              // marginHorizontal: vw(1.5),
+              backgroundColor: '#204D6C',
+              borderRadius: vw(5),
+              padding: 5,
             }}>
-            Pending Payments
-          </Text>
-        </View>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.5),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              Pending Payments
+            </Text>
+          </View>
+        </TouchableOpacity>
         <View
           style={{
             flexDirection: 'row',
@@ -466,7 +527,6 @@ const Profile = () => {
             LOGOUT
           </Text>
         </View>
-
         {/* <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}>
           <View

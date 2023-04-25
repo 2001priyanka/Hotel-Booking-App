@@ -13,13 +13,15 @@ import {useNavigation} from '@react-navigation/native';
 // import axios from 'axios';
 import {API_URL} from '../../../Config';
 import axios from 'axios';
-import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 // import {useSelector} from 'react-redux';
+import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSelector} from 'react-redux';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
+import {API_URI} from '../config/Config';
 const EditProfile = () => {
   const navigation = useNavigation();
 
@@ -27,59 +29,119 @@ const EditProfile = () => {
     name: '',
     email: '',
     address1: '',
-    mobile: '',
   });
-  //   const token = useSelector(
-  //     reduxsState => reduxsState?.login?.user?.accessToken,
-  //   );
-  //   console.log('token', token);
+  const token = useSelector(
+    reduxsState => reduxsState?.login?.user?.accessToken,
+  );
+  console.log('token', token);
 
-  //   const getUserData = async () => {
-  //     if () {
-  //       // console.log('token',token)
-  //       try {
-  //         const res = await axios({
-  //           url: API_URL + 'user/user/getProfile',
-  //           method: 'GET',
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         if (res) {
-  //           console.log('users data in edit profile', res?.data?.user);
-  //           setUsersData(res?.data?.user);
-  //         }
-  //       } catch (error) {
-  //         console.log('profile data error', error);
-  //       }
+  // const getUserData = async () => {
+  //   // if () {
+  //   // console.log('token',token)
+  //   try {
+  //     const res = await axios({
+  //       url: API_URL + 'user/user/getProfile',
+  //       method: 'GET',
+  //       // headers: {
+  //       //   Authorization: `Bearer ${token}`,
+  //       // },
+  //     });
+  //     if (res) {
+  //       console.log('users data in edit profile', res?.data?.user);
+  //       setUsersData(res?.data?.user);
   //     }
-  //   };
+  //   } catch (error) {
+  //     console.log('profile data error', error);
+  //     // }
+  //   }
+  // };
 
-  //   const updateProfile = async () => {
-  //     if (token) {
-  //       try {
-  //         const res = await axios({
-  //           url: API_URL + 'user/user/_id',
-  //           method: 'PUT',
-  //           data: {
-  //             ...usersData,
-  //           },
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         });
-  //         if (res) {
-  //           console.log('update users res', res);
-  //           navigation.navigate('Profile');
-  //         }
-  //       } catch (error) {
-  //         console.log('edit profile error', error);
-  //       }
+  const getUserData = async () => {
+    if (token) {
+      try {
+        const res = await axios({
+          url: API_URI + '/user/user/getProfile',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res) {
+          console.log('user data in edit profile', res?.data?.user);
+          setUsersData(res?.data?.user);
+        }
+      } catch (error) {
+        console.log('profile data error', error);
+      }
+    }
+  };
+  // const getRoomData = async () => {
+  //   try {
+  //     // const token = res?.data?.token;
+  //     // console.log('token', token);
+  //     const res = await axios({
+  //       url: API_URI + '/user/room',
+  //       method: 'GET',
+  //       // header: {
+  //       //   Authorization: `Bearer ${token}`,
+  //       // },
+  //     });
+
+  //     if (res) {
+  //       console.log('roomdata', res?.data?.user);
   //     }
-  //   };
-  //   useEffect(() => {
-  //     getUserData();
-  //   }, []);
+  //   } catch (error) {
+  //     console.log('room', error);
+  //   }
+  // };
+  // const updateProfile = async () => {
+  //   // if (token) {
+  //   try {
+  //     const res = await axios({
+  //       url: API_URL + 'user/user/_id',
+  //       method: 'PUT',
+  //       data: {
+  //         ...usersData,
+  //       },
+  //       // headers: {
+  //       //   Authorization: `Bearer ${token}`,
+  //       // },
+  //     });
+  //     if (res) {
+  //       console.log('update users res', res);
+  //       navigation.navigate('Profile');
+  //     }
+  //   } catch (error) {
+  //     console.log('edit profile error', error);
+  //   }
+  // };
+
+  const updateProfile = async () => {
+    if (token) {
+      try {
+        const res = await axios({
+          url: API_URI + '/user/user/_id',
+          method: 'PUT',
+          data: {
+            ...usersData,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (res) {
+          console.log('update users res', res);
+          navigation.navigate('profile');
+        }
+      } catch (error) {
+        console.log('edit profile error', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <SafeAreaView>
@@ -151,7 +213,7 @@ const EditProfile = () => {
                   }}
                   value={usersData?.address1}
                 />
-                <View>
+                {/* <View>
                   <Text
                     style={{
                       color: 'black',
@@ -175,7 +237,7 @@ const EditProfile = () => {
                     }}
                     value={usersData?.mobile}
                   />
-                </View>
+                </View> */}
                 <View>
                   <Text
                     style={{
@@ -191,7 +253,7 @@ const EditProfile = () => {
                     style={styles.input2}
                     placeholder="Email"
                     multiline={true}
-                    numberOfLines={10}
+                    numberOfLines={4}
                     onChangeText={e => {
                       console.log(e);
                       setUsersData({
@@ -205,7 +267,7 @@ const EditProfile = () => {
               </View>
             </View>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={updateProfile}>
             <View
               style={{
                 flexDirection: 'row',
@@ -219,7 +281,7 @@ const EditProfile = () => {
               <Text
                 style={{
                   color: '#fff',
-                  fontSize:vf(2.5),
+                  fontSize: vf(2.5),
                 }}>
                 Submit
               </Text>

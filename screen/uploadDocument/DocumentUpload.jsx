@@ -22,6 +22,7 @@ import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
 import {API_URI, BASE_URL} from '../../config/Config';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 const data = [
   {label: 'Aadhar card', value: '1'},
@@ -37,6 +38,9 @@ const DocumentUpload = () => {
   const [label, setLabel] = useState(' ');
   const [loading, setLoading] = useState(null);
   const [user, setUserData] = useState(null);
+   const [documentImageData, setDocumentImageData] = useState({
+     tenant_id: '',
+   });
   // const [transactiondetails, setTransactionDetails] = useState({
   //   user2_id: '',
   //   tokens: '',
@@ -50,27 +54,28 @@ const DocumentUpload = () => {
   // });
   const [value, setValue] = useState(null);
   const [isTrue, setIsTrue] = useState(false);
-  let userId = '6422b8e68d924ec8e15ea7e4';
+  // let userId = '6422b8e68d924ec8e15ea7e4';
+  const userId = useSelector(reduxState => reduxState?.login?.user_id)
 
-  const getUserData = async () => {
-    console.log('getuser called');
-    try {
-      const res = await axios({
-        url: API_URI + `/admin/user/${userId}`,
-        method: 'GET',
-      });
-      if (res) {
-        console.log('USER DETAIL success', res?.data?.results);
-        setUserData(res?.data?.results)
-        // uploadFilesToAPI(res?.data?.results[i]?._id);
-        // Alert.alert('Purchase Successful!!');
+  // const getUserData = async () => {
+  //   console.log('getuser called');
+  //   try {
+  //     const res = await axios({
+  //       url: API_URI + `/admin/user/${userId}`,
+  //       method: 'GET',
+  //     });
+  //     if (res) {
+  //       console.log('USER DETAIL success', res?.data?.results);
+  //       setUserData(res?.data?.results)
+  //       // uploadFilesToAPI(res?.data?.results[i]?._id);
+  //       // Alert.alert('Purchase Successful!!');
 
-        // navigation.navigate('home');
-      }
-    } catch (error) {
-      console.log('submit error', error);
-    }
-  };
+  //       // navigation.navigate('home');
+  //     }
+  //   } catch (error) {
+  //     console.log('submit error', error);
+  //   }
+  // };
 
   const requestCameraPermission = async () => {
     try {
@@ -129,6 +134,33 @@ const DocumentUpload = () => {
       }
     }
   };
+  
+   const submitHandler = async () => {
+     console.log('submitHandler called');
+     if (documentImageData.room_id != '' && media) {
+       console.log('CALL API');
+       try {
+         const DocumentImageRes = await axios({
+           url: API_URI + '/admin/document',
+           method: 'POST',
+           data: {
+             user_id: documentImageData.user_id,
+           },
+         });
+         if (DocumentImageRes) {
+           console.log('DocumentImageRes ', DocumentImageRes?.data?.data?._id);
+           if (DocumentImageRes?.data?.success) {
+             //   navigate("/roomImages");
+             uploadImage(DocumentImageRes?.data?.data?._id);
+           }
+         }
+       } catch (error) {
+         console.log('API error', error);
+       }
+     } else {
+       window.alert('Required Fields Missing');
+     }
+   };
   const uploadFilesToAPI = async _id => {
     // const data = files;
     // Check if any file is selected or not
@@ -181,8 +213,8 @@ const DocumentUpload = () => {
         },
         fields: {
           model_id: _id,
-          model: 'user',
-          model_key: 'document',
+          model: 'document',
+          model_key: 'media1',
         },
         begin: uploadBegin,
         progress: uploadProgress,
@@ -210,13 +242,13 @@ const DocumentUpload = () => {
 
   useEffect(() => {
     if (files) {
-      uploadFilesToAPI(userId);
+      // uploadFilesToAPI(userId);
     }
   }, [files]);
 
-  useEffect(() => {
-    getUserData();
-  }, []);
+  // useEffect(() => {
+  //   getUserData();
+  // }, []);
 
   console.log(imageUri);
   return (
@@ -240,10 +272,12 @@ const DocumentUpload = () => {
             }}>
             <IconFa name="chevron-left" size={20} />
           </View>
-          <Text style={{color: '#000', fontSize: vf(2.5)}}>
-            Upload document
-          </Text>
-          <Text style={{color: '#fff'}}>hhhhhhg</Text>
+          <TouchableOpacity onPress={submitHandler}>
+            <Text style={{color: '#000', fontSize: vf(2.5)}}>
+              Upload document
+            </Text>
+          </TouchableOpacity>
+          {/* <Text style={{color: '#fff'}}>hhhhhhg</Text> */}
         </View>
         <View
           style={{
@@ -303,11 +337,15 @@ const DocumentUpload = () => {
             marginTop: vh(4),
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius:vw(2)
-
-          }} onPress={() => selectAllFiles()}>
+            borderRadius: vw(2),
+          }}
+          onPress={() => selectAllFiles()}>
           <Image
-            source={imageUri? imageUri:{uri:BASE_URL+ user?.document.replace('Storage\\',"/")}}
+            source={
+              imageUri
+                ? {uri: imageUri}
+                : {uri: BASE_URL + user?.document.replace('Storage\\', '/')}
+            }
             style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
             resizeMode="cover"
           />
@@ -320,8 +358,7 @@ const DocumentUpload = () => {
             imageUri
               ? {display: 'none', position: 'absolute'}
               : {justifyContent: 'center', alignItems: 'center'}
-          }
-          >
+          }>
           <View
             style={{
               //   top: vh(0),
@@ -346,7 +383,7 @@ const DocumentUpload = () => {
               // marginRight: 20,
             }}>
             <TouchableOpacity
-              onPress={()=>uploadFilesToAPI()}
+              onPress={() => uploadFilesToAPI()}
               style={{width: 250}}
               // style={{position: 'absolute', bottom: 10, right: 10, marginTop: 10}}
             >

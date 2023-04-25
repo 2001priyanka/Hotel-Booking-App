@@ -25,7 +25,7 @@ import DocumentPicker from 'react-native-document-picker';
 import {MimeTypeMap} from '../MimeTypeMap';
 // import { API_URI } from '../config/Config';
 
-const DocumentList = () => {
+const PendingBills = () => {
   const [files, setFiles] = useState(null);
   // const [userData, setUsersData] = useState({});
   const [imageUri, setimageUri] = useState(null);
@@ -221,97 +221,25 @@ const DocumentList = () => {
             paddingLeft: 20,
             marginTop: vh(3),
           }}>
-          Document List
+          Pending Bills
         </Text>
         <TouchableOpacity>
           <View style={styles.uppersection1}>
             <View>
-              <IconFa
-                name="file-document-outline"
-                style={{fontSize: vf(3.5), paddingRight: 30}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 90,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Aadhar
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                View
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFa
-                name="file-document-outline"
-                style={{fontSize: vf(3.5), paddingRight: 30}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 120,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Pan
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                View
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
               <IconFA
-                name="id-card-o"
-                style={{fontSize: vf(3.5), paddingRight: 10}}
+                name="rupee"
+                style={{fontSize: vf(3.5), paddingRight: 30}}
               />
             </View>
             <View>
               <Text
                 style={{
-                  paddingRight: 25,
+                  paddingRight: 80,
                   fontSize: vf(2),
                   color: 'black',
                   // marginTop: 4,
                 }}>
-                Name Of Document
+                Rent 1000
               </Text>
             </View>
             <TouchableOpacity>
@@ -326,12 +254,84 @@ const DocumentList = () => {
                   // marginTop: 30,
                   paddingRight: 30,
                 }}>
-                View
+                Pay
               </Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-         
+        <TouchableOpacity>
+          <View style={styles.uppersection1}>
+            <View>
+              <IconFa
+                name="lightbulb-on-outline"
+                style={{fontSize: vf(3.5), paddingRight: 15}}
+              />
+            </View>
+            <View>
+              <Text
+                style={{
+                  paddingRight: 55,
+                  fontSize: vf(2),
+                  color: 'black',
+                  // marginTop: 4,
+                }}>
+                Electricity 500
+              </Text>
+            </View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: '#fff',
+                  // alignSelf: 'center',
+                  backgroundColor: '#204D6C',
+                  borderRadius: 50,
+                  padding: 5,
+                  paddingHorizontal: 30,
+                  // marginTop: 30,
+                  paddingRight: 30,
+                }}>
+                Pay
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <View style={styles.uppersection1}>
+            <View>
+              <IconFa
+                name="tools"
+                style={{fontSize: vf(3.5), paddingRight: 20}}
+              />
+            </View>
+            <View>
+              <Text
+                style={{
+                  paddingRight: 80,
+                  fontSize: vf(2),
+                  color: 'black',
+                  // marginTop: 4,
+                }}>
+                Maintenance
+              </Text>
+            </View>
+            <TouchableOpacity>
+              <Text
+                style={{
+                  color: '#fff',
+                  // alignSelf: 'center',
+                  backgroundColor: '#204D6C',
+                  borderRadius: 50,
+                  padding: 5,
+                  paddingHorizontal: 30,
+                  // marginTop: 30,
+                  paddingRight: 30,
+                }}>
+                Pay
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+
         <View
           style={{
             flexDirection: 'row',
@@ -347,7 +347,6 @@ const DocumentList = () => {
             padding: 5,
             marginTop: vh(20),
           }}>
-          
           <Text
             style={{
               color: '#fff',
@@ -356,32 +355,15 @@ const DocumentList = () => {
               // marginTop: 20,
               borderRadius: 50,
             }}>
-            I have Submitted all document
+            View Previous Bills
           </Text>
         </View>
-
-        {/* <TouchableOpacity
-          style={{justifyContent: 'center', alignItems: 'center'}}>
-          <View
-            style={{
-              position: 'absolute',
-              bottom: vh(18),
-              height: vh(9),
-              backgroundColor: '#89C93D',
-              width: vw(80),
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: vw(5),
-            }}>
-            <Text style={{fontSize: vf(2.5), color: '#fff'}}>Start Chat</Text>
-          </View>
-        </TouchableOpacity> */}
       </View>
     </ScrollView>
   );
 };
 
-export default DocumentList;
+export default PendingBills;
 
 const styles = StyleSheet.create({
   uppersection1: {
