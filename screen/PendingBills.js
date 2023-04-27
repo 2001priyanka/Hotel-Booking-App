@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  FlatList,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -32,15 +33,27 @@ const PendingBills = () => {
   const route = useRoute();
   const user_data = route.params?.userData;
   const navigation = useNavigation();
-  const onNextPressed = () => {
-    navigation.navigate('RoomList');
+  const onNextPressed = bill => {
+    navigation.navigate('BillsDetails', bill);
   };
-  const onNextPressed1 = () => {
-    navigation.navigate('document');
+  // const [bills, setBills] = useState([]);
+  const [pendingBills, setPendingBills] = useState([]);
+
+  const getPendingBills = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/user/bill',
+        method: 'GET',
+      });
+      if (res) {
+        console.log('getPendingBills', res);
+        setPendingBills(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
   };
-  const onNextPressed2 = () => {
-    navigation.navigate('EditProfile');
-  };
+
   const requestCameraPermission = async () => {
     try {
       const grants = await PermissionsAndroid.requestMultiple([
@@ -205,10 +218,138 @@ const PendingBills = () => {
       uploadFilesToAPI(user_data?._id);
     }
   }, [files]);
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
+  useEffect(() => {
+    getPendingBills();
+  }, []);
   // console.log(BASE_URL+user_data.profilePic?.replace('Storage\\','/'));
+
+  const _renderItem = ({item, index}) => {
+    return (
+      <View style={styles.uppersection2}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop:20}}>
+          <Text style={{fontSize: vf(2.5), color: '#000'}}>
+            {item.billType} Bill:
+          </Text>
+          <Text
+            style={{
+              fontSize: vf(2.5),
+              color: '#000',
+              backgroundColor: '#C1C3C0',
+              borderRadius:10,
+              paddingHorizontal:20,
+            }}>
+            {item.amount}Rs
+          </Text>
+        </View>
+        <View style={styles.uppersection1}>
+          <View>
+            <Text
+              style={{
+                paddingRight: 30,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              billDate
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.billDate}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                paddingRight: 30,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              dueDate
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.dueDate}
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={{
+                paddingRight: 5,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Over Due Amount
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.overdueAmount}
+            </Text>
+          </View>
+          <View>
+            <TouchableOpacity onPress={() => onNextPressed(item)}>
+              <View
+                style={{
+                  // paddingVertical: 8,
+                  paddingHorizontal: 10,
+                  backgroundColor: '#204D6C',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  borderRadius: 50,
+                  margin: 10,
+                  padding: 5,
+                }}>
+                <Text
+                  style={{
+                    color: '#fff',
+                  }}>
+                  View
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              {/* onPress={() => onNextPressed(item)} */}
+              <View
+                style={{
+                  backgroundColor: '#204D6C',
+                  paddingHorizontal: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  borderRadius: 50,
+                  margin: 10,
+                  padding: 5,
+                }}>
+                <Text
+                  style={{
+                    color: '#fff',
+                    borderRadius: 50,
+                    // padding: 5,
+                  }}>
+                  Pay
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  };
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{padding: vw(3)}}>
@@ -223,141 +364,33 @@ const PendingBills = () => {
           }}>
           Pending Bills
         </Text>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFA
-                name="rupee"
-                style={{fontSize: vf(3.5), paddingRight: 30}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 80,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Rent 1000
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                Pay
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFa
-                name="lightbulb-on-outline"
-                style={{fontSize: vf(3.5), paddingRight: 15}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 55,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Electricity 500
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                Pay
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFa
-                name="tools"
-                style={{fontSize: vf(3.5), paddingRight: 20}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 80,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Maintenance
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                Pay
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-
-        <View
+      </View>
+      <FlatList data={pendingBills} renderItem={_renderItem} />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+          marginVertical: vh(4),
+          height: vh(7),
+          width: vw(90),
+          // marginHorizontal: vw(1.5),
+          backgroundColor: '#89C93D',
+          borderRadius: vw(5),
+          padding: 5,
+          marginTop: vh(10),
+        }}>
+        <Text
           style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
+            color: '#fff',
             alignSelf: 'center',
-            marginVertical: vh(4),
-            height: vh(7),
-            width: vw(90),
-            // marginHorizontal: vw(1.5),
-            backgroundColor: '#89C93D',
-            borderRadius: vw(5),
-            padding: 5,
-            marginTop: vh(20),
+            fontSize: vf(2.5),
+            // marginTop: 20,
+            borderRadius: 50,
           }}>
-          <Text
-            style={{
-              color: '#fff',
-              alignSelf: 'center',
-              fontSize: vf(2.5),
-              // marginTop: 20,
-              borderRadius: 50,
-            }}>
-            View Previous Bills
-          </Text>
-        </View>
+          View Previous Bills
+        </Text>
       </View>
     </ScrollView>
   );
@@ -371,21 +404,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    borderRadius: 30,
-    marginTop: 30,
-    width: vw(90),
-    paddingLeft: 20,
-    backgroundColor: '#F5F4F8',
-    height: vh(10),
+    borderRadius: 10,
+    // paddingLeft: 20,
+    height: vh(15),
   },
   uppersection2: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 30,
-    marginTop: 30,
-    width: vw(40),
+    borderRadius: 10,
+    paddingLeft: 20,
+    margin: 10,
+    // width: vw(100),
     backgroundColor: '#F5F4F8',
-    height: vh(7),
+    elevation: 5,
+    // height: vh(15),
   },
 });

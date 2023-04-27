@@ -223,42 +223,41 @@ const DocumentList = () => {
           }}>
           Document List
         </Text>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFa
-                name="file-document-outline"
-                style={{fontSize: vf(3.5), paddingRight: 30}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 90,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Aadhar
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                View
-              </Text>
-            </TouchableOpacity>
+
+        <View style={styles.uppersection1}>
+          <View>
+            <IconFa
+              name="file-document-outline"
+              style={{fontSize: vf(3.5), paddingRight: 30}}
+            />
           </View>
-        </TouchableOpacity>
+          <View>
+            <Text
+              style={{
+                paddingRight: 90,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Aadhar
+            </Text>
+          </View>
+          <TouchableOpacity onPress={onNextPressed1}>
+            <Text
+              style={{
+                color: '#fff',
+                // alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 5,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              View
+            </Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity>
           <View style={styles.uppersection1}>
             <View>
@@ -331,7 +330,7 @@ const DocumentList = () => {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
-         
+
         <View
           style={{
             flexDirection: 'row',
@@ -347,7 +346,6 @@ const DocumentList = () => {
             padding: 5,
             marginTop: vh(20),
           }}>
-          
           <Text
             style={{
               color: '#fff',

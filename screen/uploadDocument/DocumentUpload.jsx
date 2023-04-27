@@ -353,6 +353,12 @@ const DocumentUpload = () => {
         <View style={{marginVertical: vh(3)}}>
           <Text style={{textAlign: 'center'}}>{label ? label : ' '}</Text>
         </View>
+        <TextInput
+          placeholder="Aadhar Card Number"
+          // onChangeText={text => setLoginData({...loginData, username: text})}
+          // value={loginData.email}
+          style={{height: vh(9), width: vw(90),borderBottomWidth:1,padding:20,paddingHorizontal:30}}
+        />
         <TouchableOpacity
           style={
             imageUri
@@ -368,6 +374,7 @@ const DocumentUpload = () => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: vw(5),
+              marginTop:20
             }}>
             <Text style={{fontSize: vf(2.5), color: '#fff'}}>
               upload document
