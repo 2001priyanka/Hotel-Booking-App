@@ -33,7 +33,7 @@ const PendingBills = () => {
   const route = useRoute();
   const user_data = route.params?.userData;
   const navigation = useNavigation();
-  const onNextPressed = bill => {
+  const viewBillDetails = bill => {
     navigation.navigate('BillsDetails', bill);
   };
   // const [bills, setBills] = useState([]);
@@ -225,8 +225,11 @@ const PendingBills = () => {
 
   const _renderItem = ({item, index}) => {
     return (
-      <View style={styles.uppersection2}>
-        <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop:20}}>
+      <View style={{...styles.card}}>
+        <View
+          style={{
+            ...styles.titleRow,
+          }}>
           <Text style={{fontSize: vf(2.5), color: '#000'}}>
             {item.billType} Bill:
           </Text>
@@ -234,18 +237,24 @@ const PendingBills = () => {
             style={{
               fontSize: vf(2.5),
               color: '#000',
-              backgroundColor: '#C1C3C0',
-              borderRadius:10,
-              paddingHorizontal:20,
+              backgroundColor: '#d7d7d7',
+              borderRadius: 10,
+              paddingHorizontal: 20,
             }}>
-            {item.amount}Rs
+            Rs. {item.amount}
           </Text>
         </View>
-        <View style={styles.uppersection1}>
-          <View>
+        <View style={styles.detailsRow}>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '25%',
+            }}>
             <Text
               style={{
-                paddingRight: 30,
+                // paddingRight: 30,
                 fontSize: vf(1.8),
                 color: 'black',
                 // marginTop: 4,
@@ -262,10 +271,16 @@ const PendingBills = () => {
               {item.billDate}
             </Text>
           </View>
-          <View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '25%',
+            }}>
             <Text
               style={{
-                paddingRight: 30,
+                // paddingRight: 30,
                 fontSize: vf(1.8),
                 color: 'black',
                 // marginTop: 4,
@@ -282,10 +297,16 @@ const PendingBills = () => {
               {item.dueDate}
             </Text>
           </View>
-          <View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '40%',
+            }}>
             <Text
               style={{
-                paddingRight: 5,
+                // paddingRight: 5,
                 fontSize: vf(1.8),
                 color: 'black',
                 // marginTop: 4,
@@ -302,50 +323,30 @@ const PendingBills = () => {
               {item.overdueAmount}
             </Text>
           </View>
-          <View>
-            <TouchableOpacity onPress={() => onNextPressed(item)}>
-              <View
-                style={{
-                  // paddingVertical: 8,
-                  paddingHorizontal: 10,
-                  backgroundColor: '#204D6C',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                  margin: 10,
-                  padding: 5,
-                }}>
-                <Text
-                  style={{
-                    color: '#fff',
-                  }}>
-                  View
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              {/* onPress={() => onNextPressed(item)} */}
-              <View
-                style={{
-                  backgroundColor: '#204D6C',
-                  paddingHorizontal: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  borderRadius: 50,
-                  margin: 10,
-                  padding: 5,
-                }}>
-                <Text
-                  style={{
-                    color: '#fff',
-                    borderRadius: 50,
-                    // padding: 5,
-                  }}>
-                  Pay
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+        </View>
+        <View
+          style={{
+            ...styles.buttonRow,
+          }}>
+          <TouchableOpacity
+            style={{
+              ...styles.actionButton,
+              backgroundColor: '#EE023D',
+              width: '50%',
+              borderBottomLeftRadius: 10,
+            }}>
+            <Text style={{color: '#fff'}}>pay</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => viewBillDetails(item)}
+            style={{
+              ...styles.actionButton,
+              backgroundColor: '#89C93D',
+              width: '50%',
+              borderBottomRightRadius: 10,
+            }}>
+            <Text style={{color: '#fff'}}>View</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -409,6 +410,7 @@ const styles = StyleSheet.create({
     height: vh(15),
   },
   uppersection2: {
+    flex: 1,
     borderRadius: 10,
     paddingLeft: 20,
     margin: 10,
@@ -416,5 +418,49 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F4F8',
     elevation: 5,
     // height: vh(15),
+  },
+  card: {
+    flex: 1,
+    flexDirection: 'column',
+    borderRadius: 10,
+    // paddingHorizontal: 10,
+    // paddingTop: 10,
+    alignSelf: 'center',
+    // margin: 10,
+    width: vw(90),
+    backgroundColor: '#F5F4F8',
+    elevation: 5,
+    marginBottom: 20,
+  },
+  titleRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: vw(90),
+    padding: 10,
+  },
+  detailsRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: vw(90),
+    padding: 20,
+  },
+  buttonRow: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: vw(90),
+  },
+  actionButton: {
+    width: vw(45),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    elevation: 5,
   },
 });

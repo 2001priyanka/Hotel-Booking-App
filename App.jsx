@@ -22,6 +22,8 @@ import EditProfile from './screen/EditProfile';
 import DocumentList from './screen/DocumentList';
 import PendingBills from './screen/PendingBills';
 import BillsDetails from './screen/BillsDetails';
+import Request from './screen/Request';
+// import Request from './screen/Request';
 
 
 
@@ -57,6 +59,7 @@ const App = () => {
             <Stack.Screen name="DocumentList" component={DocumentList} />
             <Stack.Screen name="PendingBills" component={PendingBills} />
             <Stack.Screen name="BillsDetails" component={BillsDetails} />
+            <Stack.Screen name="Request" component={Request} />
 
           </Stack.Navigator>
           {/* <Footer/> */}

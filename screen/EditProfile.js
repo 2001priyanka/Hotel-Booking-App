@@ -35,27 +35,6 @@ const EditProfile = () => {
   );
   console.log('token', token);
 
-  // const getUserData = async () => {
-  //   // if () {
-  //   // console.log('token',token)
-  //   try {
-  //     const res = await axios({
-  //       url: API_URL + 'user/user/getProfile',
-  //       method: 'GET',
-  //       // headers: {
-  //       //   Authorization: `Bearer ${token}`,
-  //       // },
-  //     });
-  //     if (res) {
-  //       console.log('users data in edit profile', res?.data?.user);
-  //       setUsersData(res?.data?.user);
-  //     }
-  //   } catch (error) {
-  //     console.log('profile data error', error);
-  //     // }
-  //   }
-  // };
-
   const getUserData = async () => {
     if (token) {
       try {
@@ -75,46 +54,6 @@ const EditProfile = () => {
       }
     }
   };
-  // const getRoomData = async () => {
-  //   try {
-  //     // const token = res?.data?.token;
-  //     // console.log('token', token);
-  //     const res = await axios({
-  //       url: API_URI + '/user/room',
-  //       method: 'GET',
-  //       // header: {
-  //       //   Authorization: `Bearer ${token}`,
-  //       // },
-  //     });
-
-  //     if (res) {
-  //       console.log('roomdata', res?.data?.user);
-  //     }
-  //   } catch (error) {
-  //     console.log('room', error);
-  //   }
-  // };
-  // const updateProfile = async () => {
-  //   // if (token) {
-  //   try {
-  //     const res = await axios({
-  //       url: API_URL + 'user/user/_id',
-  //       method: 'PUT',
-  //       data: {
-  //         ...usersData,
-  //       },
-  //       // headers: {
-  //       //   Authorization: `Bearer ${token}`,
-  //       // },
-  //     });
-  //     if (res) {
-  //       console.log('update users res', res);
-  //       navigation.navigate('Profile');
-  //     }
-  //   } catch (error) {
-  //     console.log('edit profile error', error);
-  //   }
-  // };
 
   const updateProfile = async () => {
     if (token) {
@@ -213,31 +152,6 @@ const EditProfile = () => {
                   }}
                   value={usersData?.address1}
                 />
-                {/* <View>
-                  <Text
-                    style={{
-                      color: 'black',
-                      fontSize: 15,
-                      marginTop: 20,
-                      textTransform: 'uppercase',
-                    }}>
-                    phone number:
-                  </Text>
-                  <TextInput
-                    style={styles.input2}
-                    placeholder="Conatct"
-                    editable
-                    maxLength={20}
-                    onChangeText={e => {
-                      console.log(e);
-                      setUsersData({
-                        ...usersData,
-                        mobile: e,
-                      });
-                    }}
-                    value={usersData?.mobile}
-                  />
-                </View> */}
                 <View>
                   <Text
                     style={{

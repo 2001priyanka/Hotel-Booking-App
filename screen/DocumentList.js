@@ -35,8 +35,8 @@ const DocumentList = () => {
   const onNextPressed = () => {
     navigation.navigate('RoomList');
   };
-  const onNextPressed1 = () => {
-    navigation.navigate('document');
+  const onNextPressed1 = docType => {
+    navigation.navigate('document', docType);
   };
   const onNextPressed2 = () => {
     navigation.navigate('EditProfile');
@@ -242,7 +242,7 @@ const DocumentList = () => {
               Aadhar
             </Text>
           </View>
-          <TouchableOpacity onPress={onNextPressed1}>
+          <TouchableOpacity onPress={() => onNextPressed1('AADHAR')}>
             <Text
               style={{
                 color: '#fff',
@@ -277,7 +277,7 @@ const DocumentList = () => {
                 Pan
               </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => onNextPressed1('PAN')}>
               <Text
                 style={{
                   color: '#fff',
@@ -305,12 +305,12 @@ const DocumentList = () => {
             <View>
               <Text
                 style={{
-                  paddingRight: 25,
+                  paddingRight: 80,
                   fontSize: vf(2),
                   color: 'black',
                   // marginTop: 4,
                 }}>
-                Name Of Document
+                Document
               </Text>
             </View>
             <TouchableOpacity>
@@ -394,14 +394,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F4F8',
     height: vh(10),
   },
-  uppersection2: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 30,
-    marginTop: 30,
-    width: vw(40),
-    backgroundColor: '#F5F4F8',
-    height: vh(7),
-  },
+ 
 });

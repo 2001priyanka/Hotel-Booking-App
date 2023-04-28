@@ -16,38 +16,45 @@ import {
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
 import {Dropdown} from 'react-native-element-dropdown';
-import {MimeTypeMap} from '../../MimeTypeMap';
+// import {MimeTypeMap} from '../../MimeTypeMap';
+import {MimeTypeMap} from '../MimeTypeMap';
 import DocumentPicker from 'react-native-document-picker';
 import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
-import {API_URI, BASE_URL} from '../../config/Config';
+// import {API_URI, BASE_URL} from '../../config/Config';
+import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
 const data = [
-  {label: 'Aadhar card', value: 'AADHAR'},
-  {label: 'Pan card', value: 'PAN'},
-  {label: 'Address proof', value: 'ADDRESS'},
-  {label: 'Cheque copy', value: 'CHEQUE'},
-  {label: 'Passport', value: 'PASSWORD'},
+  {label: 'Electricity', value: 'ELECTRICITY'},
+  {label: 'maintenance', value: 'MAINTENANCE'},
+  {label: 'Plumbing', value: 'PLUMBING'},
+  //   {label: 'Cheque copy', value: 'CHEQUE'},
+  //   {label: 'Passport', value: 'PASSWORD'},
 ];
 
-const DocumentUpload = ({route}) => {
-  const docType = route?.params
+const Request = ({route}) => {
+  const navigation = useNavigation();
+  const onNextPressed = () => {
+    navigation.navigate('RoomList');
+  };
+  const docType = route?.params;
   const [imageUri, setimageUri] = useState(null);
   const [files, setFiles] = useState([]);
   const [label, setLabel] = useState(' ');
   const [loading, setLoading] = useState(null);
   const [user, setUserData] = useState(null);
-   const [documentImageData, setDocumentImageData] = useState({
-     tenant_id: '',
-   });
- 
-  const [value, setValue] = useState(docType);
+  const [documentImageData, setDocumentImageData] = useState({
+    tenant_id: '',
+  });
+
+  const [value, setValue] = useState();
   const [isTrue, setIsTrue] = useState(false);
   // let userId = '6422b8e68d924ec8e15ea7e4';
-  const userId = useSelector(reduxState => reduxState?.login?.user?.id)
-   console.log(userId)
+  const userId = useSelector(reduxState => reduxState?.login?.user?.id);
+  console.log(userId);
   const requestCameraPermission = async () => {
     try {
       const grants = await PermissionsAndroid.requestMultiple([
@@ -107,35 +114,33 @@ const DocumentUpload = ({route}) => {
       }
     }
   };
-  
-   const submitHandler = async () => {
-     console.log('submitHandler called');
-     if (imageUri && docType) {
-       console.log('CALL API');
-       try {
-         const DocumentImageRes = await axios({
-           url: API_URI + '/admin/document',
-           method: 'POST',
-           data: {
-             tenant_id: userId,
-             docType
-           },
-         });
-         if (DocumentImageRes) {
-           console.log('DocumentImageRes ', DocumentImageRes?.data?.data?._id);
-           if (DocumentImageRes?.data?.success) {
-             //   navigate("/roomImages");
-             uploadFilesToAPI(DocumentImageRes?.data?.data?._id);
-           }
-         }
-       } catch (error) {
-         console.log('API error', error);
-       }
-     } else {
-       window.alert('Required Fields Missing');
-     }
-   };
 
+  const submitHandler = async () => {
+    console.log('submitHandler called');
+    if (imageUri) {
+      console.log('CALL API');
+      try {
+        const RequestImageRes = await axios({
+          url: API_URI + '/admin/request',
+          method: 'POST',
+          data: {
+            userId,
+          },
+        });
+        if (RequestImageRes) {
+          console.log('RequestImageRes ', RequestImageRes?.data?.data?._id);
+          if (RequestImageRes?.data?.success) {
+            //   navigate("/roomImages");
+            uploadFilesToAPI(RequestImageRes?.data?.data?._id);
+          }
+        }
+      } catch (error) {
+        console.log('API error', error);
+      }
+    } else {
+      window.alert('Required Fields Missing');
+    }
+  };
 
   const uploadFilesToAPI = async _id => {
     // const data = files;
@@ -189,7 +194,7 @@ const DocumentUpload = ({route}) => {
         },
         fields: {
           model_id: _id,
-          model: 'document',
+          model: 'request',
           model_key: 'media1',
         },
         begin: uploadBegin,
@@ -251,9 +256,9 @@ const DocumentUpload = ({route}) => {
               color: '#000',
               fontWeight: '400',
               fontSize: vf(3),
-              marginVertical: vh(5),
+              marginVertical: vh(2.5),
             }}>
-            please select the file to upload
+            please select the request
           </Text>
           <Dropdown
             style={styles.dropdown}
@@ -289,7 +294,53 @@ const DocumentUpload = ({route}) => {
             )}
           />
         </View>
-        <TouchableOpacity
+        <View style={styles.title}>
+          <Text style={{fontSize: vf(3), color: '#000'}}>Requests</Text>
+        </View>
+        <TextInput
+          placeholder="Message"
+          multiline={true}
+          numberOfLines={10}
+          style={styles.textArea}
+
+          //   onChangeText={e => {
+          //     console.log(e);
+          //     setUsersData({
+          //       ...usersData,
+          //       address1: e,
+          //     });
+          //   }}
+          //   value={usersData?.address1}
+        />
+        <TouchableOpacity onPress={() => selectAllFiles()}>
+          <View style={styles.button}>
+            <Text style={{color: '#fff', fontSize: vf(3)}}>+</Text>
+          </View>
+        </TouchableOpacity>
+        {/* <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginVertical: vh(4),
+            height: vh(7),
+            width: vw(40),
+            backgroundColor: '#89C93D',
+            borderRadius: vw(5),
+            padding: 5,
+          }}>
+          <Text
+            style={{
+              color: '#fff',
+              alignSelf: 'center',
+              fontSize: vf(2.5),
+              borderRadius: 50,
+            }}>
+           Upload
+          </Text>
+        </View> */}
+        {/* <TouchableOpacity
           style={{
             borderWidth: 1,
             height: vh(30),
@@ -309,14 +360,20 @@ const DocumentUpload = ({route}) => {
             style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
             resizeMode="cover"
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={{marginVertical: vh(3)}}>
           <Text style={{textAlign: 'center'}}>{label ? label : ' '}</Text>
         </View>
-        <TextInput
+        {/* <TextInput
           placeholder="Aadhar Card Number"
-          style={{height: vh(9), width: vw(90),borderBottomWidth:1,padding:20,paddingHorizontal:30}}
-        />
+          style={{
+            height: vh(9),
+            width: vw(90),
+            borderBottomWidth: 1,
+            padding: 20,
+            paddingHorizontal: 30,
+          }}
+        /> */}
         {imageUri ? (
           <View
             style={{
@@ -325,8 +382,7 @@ const DocumentUpload = ({route}) => {
             }}>
             <TouchableOpacity
               onPress={() => submitHandler()}
-              style={{width: 250}}
-            >
+              style={{width: 250}}>
               <View
                 style={{
                   padding: 15,
@@ -354,7 +410,7 @@ const DocumentUpload = ({route}) => {
   );
 };
 
-export default DocumentUpload;
+export default Request;
 
 const styles = StyleSheet.create({
   dropdown: {
@@ -388,5 +444,31 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: vh(5),
     fontSize: vf(2),
+  },
+  title: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  textArea: {
+    height: 100,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 8,
+    textAlignVertical: 'top',
+    borderColor: '#A09C9C',
+  },
+  button: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    backgroundColor: '#204D6C',
+    width: vw(15),
+    height: vh(5),
+    borderRadius: 10,
   },
 });
