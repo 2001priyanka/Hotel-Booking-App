@@ -27,6 +27,7 @@ import {useSelector} from 'react-redux';
 const data = [
   {label: 'Aadhar card', value: 'AADHAR'},
   {label: 'Pan card', value: 'PAN'},
+  {label: 'Document', value: 'DOCUMENT'},
   {label: 'Address proof', value: 'ADDRESS'},
   {label: 'Cheque copy', value: 'CHEQUE'},
   {label: 'Passport', value: 'PASSWORD'},
@@ -314,7 +315,7 @@ const DocumentUpload = ({route}) => {
           <Text style={{textAlign: 'center'}}>{label ? label : ' '}</Text>
         </View>
         <TextInput
-          placeholder="Aadhar Card Number"
+          placeholder="DOCUMENTS"
           style={{height: vh(9), width: vw(90),borderBottomWidth:1,padding:20,paddingHorizontal:30}}
         />
         {imageUri ? (
@@ -329,8 +330,8 @@ const DocumentUpload = ({route}) => {
             >
               <View
                 style={{
-                  padding: 15,
-                  marginTop: 2,
+                  paddingVertical: 15,
+                  marginTop:20,
                   borderRadius: 15,
                   flexDirection: 'row',
                   justifyContent: 'center',

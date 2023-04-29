@@ -49,7 +49,7 @@ const Request = ({route}) => {
   const [documentImageData, setDocumentImageData] = useState({
     tenant_id: '',
   });
-
+  const [message, setMessage] = useState([])
   const [value, setValue] = useState();
   const [isTrue, setIsTrue] = useState(false);
   // let userId = '6422b8e68d924ec8e15ea7e4';
@@ -239,7 +239,6 @@ const Request = ({route}) => {
               width: vw(12),
               backgroundColor: `rgba(0,0,0,0.1)`,
               borderRadius: vw(5),
-              // margin: vw(5),
             }}>
             <IconFa name="chevron-left" size={20} />
           </View>
@@ -297,8 +296,14 @@ const Request = ({route}) => {
         <View style={styles.title}>
           <Text style={{fontSize: vf(3), color: '#000'}}>Requests</Text>
         </View>
+        <View style={{paddingHorizontal: 15, marginTop: 30}}>
+          <Text style={{color: 'black', fontSize: vf(2)}}>
+            Request Message:
+          </Text>
+        </View>
         <TextInput
           placeholder="Message"
+          label="Message"
           multiline={true}
           numberOfLines={10}
           style={styles.textArea}

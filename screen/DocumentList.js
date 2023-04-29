@@ -258,78 +258,176 @@ const DocumentList = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFa
-                name="file-document-outline"
-                style={{fontSize: vf(3.5), paddingRight: 30}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 120,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Pan
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => onNextPressed1('PAN')}>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                View
-              </Text>
-            </TouchableOpacity>
+        <View style={styles.uppersection1}>
+          <View>
+            <IconFa
+              name="file-document-outline"
+              style={{fontSize: vf(3.5), paddingRight: 30}}
+            />
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles.uppersection1}>
-            <View>
-              <IconFA
-                name="id-card-o"
-                style={{fontSize: vf(3.5), paddingRight: 10}}
-              />
-            </View>
-            <View>
-              <Text
-                style={{
-                  paddingRight: 80,
-                  fontSize: vf(2),
-                  color: 'black',
-                  // marginTop: 4,
-                }}>
-                Document
-              </Text>
-            </View>
-            <TouchableOpacity>
-              <Text
-                style={{
-                  color: '#fff',
-                  // alignSelf: 'center',
-                  backgroundColor: '#204D6C',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 30,
-                  // marginTop: 30,
-                  paddingRight: 30,
-                }}>
-                View
-              </Text>
-            </TouchableOpacity>
+          <View>
+            <Text
+              style={{
+                paddingRight: 100,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Pan
+            </Text>
           </View>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => onNextPressed1('PAN')}>
+            <Text
+              style={{
+                color: '#fff',
+                // alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 5,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              View
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.uppersection1}>
+          <View>
+            <IconFA
+              name="id-card-o"
+              style={{fontSize: vf(3.5), paddingRight: 10}}
+            />
+          </View>
+          <View>
+            <Text
+              style={{
+                paddingRight: 70,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Document
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => onNextPressed1('DOCUMENT')}>
+            <Text
+              style={{
+                color: '#fff',
+                // alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 5,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              View
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.uppersection1}>
+          <View>
+            <IconFA
+              name="id-card-o"
+              style={{fontSize: vf(3.5), paddingRight: 10}}
+            />
+          </View>
+          <View>
+            <Text
+              style={{
+                paddingRight: 80,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Address
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => onNextPressed1('ADDRESS')}>
+            <Text
+              style={{
+                color: '#fff',
+                // alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 5,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              View
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.uppersection1}>
+          <View>
+            <IconFA
+              name="id-card-o"
+              style={{fontSize: vf(3.5), paddingRight: 10}}
+            />
+          </View>
+          <View>
+            <Text
+              style={{
+                paddingRight: 80,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Cheque
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => onNextPressed1('CHEQUE')}>
+            <Text
+              style={{
+                color: '#fff',
+                // alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 5,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              View
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.uppersection1}>
+          <View>
+            <IconFA
+              name="id-card-o"
+              style={{fontSize: vf(3.5), paddingRight: 10}}
+            />
+          </View>
+          <View>
+            <Text
+              style={{
+                paddingRight: 80,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Passport
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => onNextPressed1('PASSWORD')}>
+            <Text
+              style={{
+                color: '#fff',
+                // alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 5,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              View
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         <View
           style={{
@@ -394,5 +492,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F4F8',
     height: vh(10),
   },
- 
 });
