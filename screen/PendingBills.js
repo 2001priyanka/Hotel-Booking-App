@@ -79,20 +79,6 @@ const PendingBills = () => {
       console.warn(err);
     }
   };
-  // const userImage=async()=>{
-  //   try {
-  //     const res=await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.allFiles],
-  //     })
-  //     console.log(res)
-  //   } catch (error) {
-  //     if (DocumentPicker.isCancel(error)) {
-  //       console.log("error -----", error);
-  //     } else {
-  //       throw error;
-  //     }
-  //   }
-  // }
   const selectAllFiles = async () => {
     setFiles(null);
     // setFile(null);

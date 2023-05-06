@@ -20,9 +20,9 @@ import {
 } from 'react-native-responsive-dimensions';
 import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
-const Dashboard = ({}) => {
+const RoomList = ({}) => {
   const route = useRoute();
-  const userData = route?.params?.data;
+  const userData = route?.params?.data;   
 
   // console.log(userData);
   const navigation = useNavigation();
@@ -217,6 +217,6 @@ const Dashboard = ({}) => {
   );
 };
 
-export default Dashboard;
+export default RoomList;
 
 const styles = StyleSheet.create({});

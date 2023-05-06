@@ -36,7 +36,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="profile"
+            initialRouteName="RoomList"
             screenOptions={{
               headerTitleAlign: 'center',
               headerShadowVisible: false,
@@ -60,7 +60,6 @@ const App = () => {
             <Stack.Screen name="PendingBills" component={PendingBills} />
             <Stack.Screen name="BillsDetails" component={BillsDetails} />
             <Stack.Screen name="Request" component={Request} />
-
           </Stack.Navigator>
           {/* <Footer/> */}
         </NavigationContainer>
