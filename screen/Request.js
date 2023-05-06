@@ -49,7 +49,7 @@ const Request = ({route}) => {
   const [documentImageData, setDocumentImageData] = useState({
     tenant_id: '',
   });
-  const [message, setMessage] = useState([])
+  const [message, setMessage] = useState([]);
   const [value, setValue] = useState();
   const [isTrue, setIsTrue] = useState(false);
   // let userId = '6422b8e68d924ec8e15ea7e4';
@@ -124,7 +124,9 @@ const Request = ({route}) => {
           url: API_URI + '/admin/request',
           method: 'POST',
           data: {
-            userId,
+            user_id: userId,
+            title: 'test',
+            message: 'This is a test',
           },
         });
         if (RequestImageRes) {
