@@ -23,6 +23,7 @@ import DocumentList from './screen/DocumentList';
 import PendingBills from './screen/PendingBills';
 import BillsDetails from './screen/BillsDetails';
 import Request from './screen/Request';
+import ShowInterest from './screen/ShowInterest';
 // import Request from './screen/Request';
 
 
@@ -60,6 +61,7 @@ const App = () => {
             <Stack.Screen name="PendingBills" component={PendingBills} />
             <Stack.Screen name="BillsDetails" component={BillsDetails} />
             <Stack.Screen name="Request" component={Request} />
+            <Stack.Screen name="ShowInterest" component={ShowInterest} />
           </Stack.Navigator>
           {/* <Footer/> */}
         </NavigationContainer>

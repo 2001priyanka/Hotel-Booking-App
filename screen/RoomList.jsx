@@ -22,10 +22,10 @@ import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
 const RoomList = ({}) => {
   const route = useRoute();
-  const userData = route?.params?.data;   
+  const userData = route?.params?.data;
 
-  // console.log(userData);
   const navigation = useNavigation();
+
   const onNextPressed = param => {
     const data = {
       key: param,
@@ -146,7 +146,7 @@ const RoomList = ({}) => {
       </View>
     );
   };
-  
+
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -199,7 +199,6 @@ const RoomList = ({}) => {
         </TouchableOpacity>
       </View>
       <View>
-        
         <View style={{paddingHorizontal: vw(5), marginVertical: vh(1)}}>
           <Text style={{fontSize: vf(2), color: '#000', marginTop: vh(2)}}>
             Explore Nearby Estate

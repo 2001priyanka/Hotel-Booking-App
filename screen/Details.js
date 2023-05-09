@@ -24,6 +24,16 @@ const Details = ({route}) => {
   const {data: roomId} = route?.params;
   console.log('data', roomId.key);
 
+  const navigation = useNavigation();
+  const onNextPressed = param => {
+    const data = {
+      key: param,
+    };
+    console.log('data', data);
+    console.log('param', param);
+    navigation.navigate('ShowInterest', {data});
+  };
+
   const [roomsDetails, setRoomsDetails] = useState({});
   // const [buidingsDetails, setBuidingsDetails] = useState([]);
 
@@ -42,21 +52,6 @@ const Details = ({route}) => {
       console.log('error', error);
     }
   };
-
-  // const getSingleBuildingDetails = async () => {
-  //   try {
-  //     const res = await {
-  //       url: API_URI + `/user/building`,
-  //       method: 'GET',
-  //     };
-  //     if (res) {
-  //       console.log('getSingleBuildingDetails', res);
-  //       setBuidingsDetails(res?.data?.results);
-  //     }
-  //   } catch (error) {
-  //     console.log('error', error);
-  //   }
-  // };
 
   useEffect(() => {
     if (roomId) {
@@ -115,19 +110,21 @@ const Details = ({route}) => {
             justifyContent: 'space-around',
             marginTop: 30,
           }}>
-          <View
-            style={{
-              backgroundColor: '#8BC83F',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 20,
-              paddingHorizontal: 30,
-              height: vh(7),
-              width: vw(70),
-            }}>
-            <Text style={{color: 'white'}}>Rent</Text>
-          </View>
+          <TouchableOpacity onPress={() => onNextPressed(roomId.key)}>
+            <View
+              style={{
+                backgroundColor: '#8BC83F',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 20,
+                paddingHorizontal: 30,
+                height: vh(7),
+                width: vw(70),
+              }}>
+              <Text style={{color: 'white'}}>Show Interest</Text>
+            </View>
+          </TouchableOpacity>
           {/* <View
             style={{
               backgroundColor: '#F5F4F8',
@@ -242,7 +239,7 @@ const Details = ({route}) => {
           {/* <View>
                 <Text>hello</Text>
             </View> */}
-          <IconFa name="map-marker" style={{fontSize:20}} />
+          <IconFa name="map-marker" style={{fontSize: 20}} />
           <View>
             <Text style={{paddingLeft: 10, color: 'black'}}>
               {roomsDetails.building_id &&
@@ -250,7 +247,6 @@ const Details = ({route}) => {
             </Text>
           </View>
         </View>
-        
       </ScrollView>
     </SafeAreaView>
   );
