@@ -24,6 +24,11 @@ import PendingBills from './screen/PendingBills';
 import BillsDetails from './screen/BillsDetails';
 import Request from './screen/Request';
 import ShowInterest from './screen/ShowInterest';
+import Payments from './screen/Payments';
+import Gpay from './screen/Gpay';
+import Neft from './screen/Neft';
+import Referral from './screen/Referral';
+import Feedback from './screen/Feedback';
 // import Request from './screen/Request';
 
 
@@ -37,7 +42,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="dashboard"
+            initialRouteName="Feedback"
             screenOptions={{
               headerTitleAlign: 'center',
               headerShadowVisible: false,
@@ -62,6 +67,12 @@ const App = () => {
             <Stack.Screen name="BillsDetails" component={BillsDetails} />
             <Stack.Screen name="Request" component={Request} />
             <Stack.Screen name="ShowInterest" component={ShowInterest} />
+            <Stack.Screen name="Payments" component={Payments} />
+            <Stack.Screen name="Gpay" component={Gpay} />
+            <Stack.Screen name="Neft" component={Neft} />
+            <Stack.Screen name="Referral" component={Referral} />
+            <Stack.Screen name="Feedback" component={Feedback} />
+            {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
           {/* <Footer/> */}
         </NavigationContainer>

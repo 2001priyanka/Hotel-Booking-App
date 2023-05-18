@@ -125,22 +125,53 @@ const ShowInterest = ({route}) => {
                 textAlign: 'center',
                 color: '#000',
                 fontWeight: '400',
-                fontSize: vf(3),
+                fontSize: vf(3.5),
                 marginVertical: vh(2),
+                fontWeight: '500',
               }}>
-              Contact Us
+              Enquire Now
             </Text>
           </View>
-          <View>
-            <Text style={{color: 'black', fontSize: vf(2)}}>
-              Building Name :
-              {roomsDetails.building_id && roomsDetails.building_id[0]?.name}
-            </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginTop: 20,
+              borderRadius: 20,
+            }}>
+            {roomsDetails?.photo && (
+              <Image
+                // source={require('../images/11.jpg')}
+                source={{
+                  uri: BASE_URL + roomsDetails?.photo?.replace('Storage\\', ''),
+                }}
+                style={{height: vh(40), width: vw(90), borderRadius: 20}}
+              />
+            )}
           </View>
-          <View style={{marginTop: 20}}>
-            <Text style={{color: 'black', fontSize: vf(2)}}>
-              Rent: Rs {roomsDetails && roomsDetails?.rent}
-            </Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 30,
+            }}>
+            <View>
+              <Text style={{fontSize: vf(2.5), color: 'black'}}>
+                {roomsDetails?.building_id &&
+                  roomsDetails?.building_id[0]?.name}
+              </Text>
+              <Text style={{fontSize: vf(2)}}>
+                <IconFa name="map-marker" style={{fontSize: vf(2)}} />
+                {roomsDetails.building_id && roomsDetails.building_id[0]?.state}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: vf(2.5), color: 'black'}}>
+                Rs{roomsDetails?.rent}
+              </Text>
+              <Text style={{fontSize: vf(2)}}>per month</Text>
+            </View>
           </View>
           <View style={{marginTop: 30}}>
             <Text style={{color: 'black', fontSize: vf(2), padding: 10}}>
@@ -157,7 +188,7 @@ const ShowInterest = ({route}) => {
               console.log(e);
               setAllocationData({
                 ...allocationData,
-                message: e
+                message: e,
               });
             }}
             value={allocationData?.address1}
@@ -174,7 +205,7 @@ const ShowInterest = ({route}) => {
                 height: vh(7),
                 width: vw(80),
                 backgroundColor: '#89C93D',
-                borderRadius: vw(5),
+                borderRadius: vw(3),
                 padding: 5,
               }}>
               <Text
@@ -182,33 +213,13 @@ const ShowInterest = ({route}) => {
                   color: '#fff',
                   alignSelf: 'center',
                   fontSize: vf(2.5),
-                  borderRadius: 50,
+                  // borderRadius: 0,
+                  fontWeight: '500',
                 }}>
                 Show Interest
               </Text>
             </View>
           </TouchableOpacity>
-          {/* <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            height: vh(30),
-            width: vw(90),
-            marginTop: vh(4),
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: vw(2),
-          }}
-          onPress={() => selectAllFiles()}>
-          <Image
-            source={
-              imageUri
-                ? {uri: imageUri}
-                : {uri: BASE_URL + user?.document.replace('Storage\\', '/')}
-            }
-            style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
-            resizeMode="cover"
-          />
-        </TouchableOpacity> */}
 
           {/* <TextInput
           placeholder="Aadhar Card Number"

@@ -36,6 +36,10 @@ const PendingBills = () => {
   const viewBillDetails = bill => {
     navigation.navigate('BillsDetails', bill);
   };
+
+  const viewPaymentsDetails = bill => {
+    navigation.navigate('Payments', bill);
+  };
   // const [bills, setBills] = useState([]);
   const [pendingBills, setPendingBills] = useState([]);
 
@@ -315,6 +319,7 @@ const PendingBills = () => {
             ...styles.buttonRow,
           }}>
           <TouchableOpacity
+            onPress={viewPaymentsDetails}
             style={{
               ...styles.actionButton,
               backgroundColor: '#EE023D',

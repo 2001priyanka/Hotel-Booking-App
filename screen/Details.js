@@ -78,7 +78,7 @@ const Details = ({route}) => {
               source={{
                 uri: BASE_URL + roomsDetails?.photo?.replace('Storage\\', ''),
               }}
-              style={{height: vh(50), width: vw(90), borderRadius: 40}}
+              style={{height: vh(40), width: vw(90), borderRadius: 40}}
             />
           )}
         </View>
@@ -89,7 +89,7 @@ const Details = ({route}) => {
             marginTop: 30,
           }}>
           <View>
-            <Text style={{fontSize: vf(3), color: 'black'}}>
+            <Text style={{fontSize: vf(2.5), color: 'black'}}>
               {roomsDetails?.building_id && roomsDetails?.building_id[0]?.name}
             </Text>
             <Text style={{fontSize: vf(2)}}>
@@ -98,7 +98,7 @@ const Details = ({route}) => {
             </Text>
           </View>
           <View>
-            <Text style={{fontSize: vf(3), color: 'black'}}>
+            <Text style={{fontSize: vf(2.5), color: 'black'}}>
               Rs{roomsDetails?.rent}
             </Text>
             <Text style={{fontSize: vf(2)}}>per month</Text>
@@ -122,20 +122,10 @@ const Details = ({route}) => {
                 height: vh(7),
                 width: vw(70),
               }}>
-              <Text style={{color: 'white'}}>Show Interest</Text>
+              <Text style={{color: 'white',fontSize:vf(2.5),fontWeight:'500'}}>Show Interest</Text>
             </View>
           </TouchableOpacity>
-          {/* <View
-            style={{
-              backgroundColor: '#F5F4F8',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 20,
-              paddingHorizontal: 40,
-            }}>
-            <Text>Buy</Text>
-          </View> */}
+          
         </View>
         <View style={styles.uppersection1}>
           <View>
