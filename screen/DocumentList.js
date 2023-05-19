@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  Linking,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -427,6 +428,65 @@ const DocumentList = () => {
               View
             </Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.uppersection1}>
+          {/* <View>
+            <IconFA
+              name="id-card-o"
+              style={{fontSize: vf(3.5), paddingRight: 10}}
+            />
+          </View> */}
+          <View>
+            <Text
+              style={{
+                paddingRight: 30,
+                fontSize: vf(2),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              download police
+            </Text>
+            <Text style={{fontSize: vf(2), color: 'black'}}>
+              {' '}
+              verification form
+            </Text>
+          </View>
+          {/* <TouchableOpacity
+            onPress={() => onNextPressed1('POLICE VERIFICATION FORM')}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                backgroundColor: '#204D6C',
+                borderRadius: 50,
+                padding: 9,
+                paddingHorizontal: 30,
+                // marginTop: 30,
+                paddingRight: 30,
+              }}>
+              Download
+             
+            </Text>
+           
+          </TouchableOpacity> */}
+          <Text
+            style={{
+              color: '#fff',
+              alignSelf: 'center',
+              backgroundColor: '#204D6C',
+              borderRadius: 50,
+              padding: 9,
+              paddingHorizontal: 30,
+              // marginTop: 30,
+              paddingRight: 30,
+            }}
+            onPress={() =>
+              Linking.openURL(
+                'https://upload.wikimedia.org/wikipedia/en/8/8b/Google_Wave.png',
+              )
+            }>
+            Download
+          </Text>
         </View>
 
         <View
