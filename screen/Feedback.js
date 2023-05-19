@@ -41,51 +41,94 @@ const Feedback = ({route}) => {
     navigation.navigate('RoomList');
   };
   const docType = route?.params;
-  const [imageUri, setimageUri] = useState(null);
-  const [files, setFiles] = useState([]);
-  const [label, setLabel] = useState(' ');
-  const [loading, setLoading] = useState(null);
-  const [user, setUserData] = useState(null);
-  const [documentImageData, setDocumentImageData] = useState({
-    tenant_id: '',
+  // const [imageUri, setimageUri] = useState(null);
+  // const [files, setFiles] = useState([]);
+  // const [label, setLabel] = useState(' ');
+  // const [loading, setLoading] = useState(null);
+  // const [user, setUserData] = useState(null);
+  // const [documentImageData, setDocumentImageData] = useState({
+  //   tenant_id: '',
+  // });
+  const [feedbackData, setFeedbackData] = useState({
+    user_id: '',
+    mobile: '',
+    email: '',
+    message: '',
   });
-  const [message, setMessage] = useState([]);
-  const [value, setValue] = useState();
-  const [isTrue, setIsTrue] = useState(false);
+  // const [message, setMessage] = useState([]);
+  // const [value, setValue] = useState();
+  // const [isTrue, setIsTrue] = useState(false);
   // let userId = '6422b8e68d924ec8e15ea7e4';
   const userId = useSelector(reduxState => reduxState?.login?.user?.id);
   console.log(userId);
 
   const submitHandler = async () => {
     console.log('submitHandler called');
-    if (imageUri) {
-      console.log('CALL API');
-      try {
-        const RequestImageRes = await axios({
-          url: API_URI + '/admin/request',
-          method: 'POST',
-          data: {
-            user_id: userId,
-            title: 'test',
-            message: 'This is a test',
-          },
-        });
-        if (RequestImageRes) {
-          console.log('RequestImageRes ', RequestImageRes?.data?.data?._id);
-          if (RequestImageRes?.data?.success) {
-            //   navigate("/roomImages");
-            // uploadFilesToAPI(RequestImageRes?.data?.data?._id);
-          }
+    // if (feedbackData.user_id) {
+    //   console.log('CALL API');
+    try {
+      const feedbackRes = await axios({
+        url: API_URI + '/admin/feedback',
+        method: 'POST',
+        data: {
+          // ...feedbackData,
+          user_id: userId,
+          // title: 'test',
+          message: 'This is a test',
+          mobile:'832842347',
+          email:'test@gmail.com'
+        },
+      });
+      if (feedbackRes) {
+        console.log('feedbackRes ', feedbackRes?.data?.data?._id);
+        if (feedbackRes?.data?.success) {
+          //   navigate("/roomImages");
+          // uploadFilesToAPI(feedbackRes?.data?.data?._id);
         }
-      } catch (error) {
-        console.log('API error', error);
       }
-    } else {
-      window.alert('Required Fields Missing');
+    } catch (error) {
+      console.log('API error', error);
     }
+    // } else {
+    //   window.alert('Required Fields Missing');
+    // }
   };
 
-  console.log(imageUri);
+  // const submitHandler = async () => {
+  //   console.log('submitHandler called');
+  //   if (
+  //     feedbackData.user_id != '' &&
+  //     feedbackData.mobile != '' &&
+  //     feedbackData.email != '' &&
+  //     feedbackData.message
+  //   ) {
+  //     console.log('CALL API');
+
+  //     try {
+  //       const feedbackRes = await axios({
+  //         url: API_URI + '/admin/feedback',
+  //         method: 'POST',
+  //         data: {
+  //           ...feedbackData,
+  //         },
+  //       });
+
+  //       if (feedbackRes) {
+  //         console.log('feedbackRes ', feedbackRes?.data?.data?._id);
+  //         // if (feedbackRes?.data?.success) {
+  //         //   //   navigate("/roomImages");
+  //         //   // uploadFilesToAPI(feedbackRes?.data?.data?._id);
+  //         // }
+  //       }
+  //     } catch (error) {
+  //       console.log('API error', error);
+  //     }
+  //   } else {
+  //     window.alert('Required Fields Missing');
+  //   }
+  // };
+
+  // console.log(imageUri);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
@@ -136,15 +179,14 @@ const Feedback = ({route}) => {
           multiline={true}
           numberOfLines={2}
           style={styles.textArea}
-
-          //   onChangeText={e => {
-          //     console.log(e);
-          //     setUsersData({
-          //       ...usersData,
-          //       address1: e,
-          //     });
-          //   }}
-          //   value={usersData?.address1}
+          onChangeText={e => {
+            console.log(e);
+            setFeedbackData({
+              ...feedbackData,
+              user_id: e,
+            });
+          }}
+          value={feedbackData?.user_id}
         />
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Email:</Text>
@@ -155,15 +197,14 @@ const Feedback = ({route}) => {
           multiline={true}
           numberOfLines={2}
           style={styles.textArea}
-
-          //   onChangeText={e => {
-          //     console.log(e);
-          //     setUsersData({
-          //       ...usersData,
-          //       address1: e,
-          //     });
-          //   }}
-          //   value={usersData?.address1}
+          onChangeText={e => {
+            console.log(e);
+            setFeedbackData({
+              ...feedbackData,
+              email: e,
+            });
+          }}
+          value={feedbackData?.email}
         />
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Mobile:</Text>
@@ -174,15 +215,14 @@ const Feedback = ({route}) => {
           multiline={true}
           numberOfLines={2}
           style={styles.textArea}
-
-          //   onChangeText={e => {
-          //     console.log(e);
-          //     setUsersData({
-          //       ...usersData,
-          //       address1: e,
-          //     });
-          //   }}
-          //   value={usersData?.address1}
+          onChangeText={e => {
+            console.log(e);
+            setFeedbackData({
+              ...feedbackData,
+              mobile: e,
+            });
+          }}
+          value={feedbackData?.mobile}
         />
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Message:</Text>
@@ -193,15 +233,14 @@ const Feedback = ({route}) => {
           multiline={true}
           numberOfLines={7}
           style={styles.textArea}
-
-          //   onChangeText={e => {
-          //     console.log(e);
-          //     setUsersData({
-          //       ...usersData,
-          //       address1: e,
-          //     });
-          //   }}
-          //   value={usersData?.address1}
+          onChangeText={e => {
+            console.log(e);
+            setFeedbackData({
+              ...feedbackData,
+              message: e,
+            });
+          }}
+          value={feedbackData?.message}
         />
 
         <View

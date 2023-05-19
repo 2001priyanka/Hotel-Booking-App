@@ -49,6 +49,12 @@ const Profile = () => {
   const onNextPressed4 = () => {
     navigation.navigate('Request');
   };
+  const onNextPressed5 = () => {
+    navigation.navigate('Feedback');
+  };
+  const onNextPressed7 = () => {
+    navigation.navigate('Referral');
+  };
 
   const [userData, setUserData] = useState({
     name: '',
@@ -436,6 +442,34 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={onNextPressed5}>
+          <View style={styles.box}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.2),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              Feedback
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onNextPressed7}>
+          <View style={styles.box}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.2),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              Referral
+            </Text>
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity>
           <View
             style={{
@@ -475,7 +509,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     marginVertical: vh(2),
-    height: vh(8),
+    height: vh(7),
     width: vw(90),
     // marginHorizontal: vw(1.5),
     backgroundColor: '#204D6C',
