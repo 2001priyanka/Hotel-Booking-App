@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AppIntroSlider from 'react-native-app-intro-slider';
@@ -20,11 +21,13 @@ import {
 } from 'react-native-responsive-dimensions';
 import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 const ShowInterest = ({route}) => {
   const {data: roomId} = route?.params;
   console.log('data', roomId);
-
+  const userId = useSelector(reduxState => reduxState?.login?.user?.id);
+  console.log(userId);
   const [roomsDetails, setRoomsDetails] = useState({});
   const [allocationData, setAllocationData] = useState({
     message: '',
@@ -79,16 +82,23 @@ const ShowInterest = ({route}) => {
 
       try {
         const allocationRes = await axios({
-          url: API_URI + '/admin/allocation',
+          url: API_URI + '/user/allocation',
           method: 'POST',
           data: {
             ...allocationData,
+            room_id: roomId.key,
+            user_id: userId,
+            status: 'PENDING_APPROVAL',
           },
         });
 
         if (allocationRes) {
           console.log('allocationRes ', allocationRes);
           if (allocationRes?.data?.success) {
+            Alert.alert(
+              'Enquiry Sent',
+              'Thank You for showing interest in our room \nWe will get in touch with you soon!',
+            );
             // navigate('/allocations');
           }
         }

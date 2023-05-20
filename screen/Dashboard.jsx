@@ -78,6 +78,7 @@ const Dashboard = ({}) => {
   }, []);
 
   const _renderItem = ({item, index}) => {
+    console.log('index',index,item);
     return (
       <View
         key={index + item?._id}

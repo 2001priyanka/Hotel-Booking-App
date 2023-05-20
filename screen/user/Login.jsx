@@ -31,8 +31,8 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: '',
-    password: '',
+    username: 'me@ianto.in',
+    password: '123456',
   });
   useEffect(() => {
     GoogleSignin.configure({
@@ -162,7 +162,7 @@ const Login = ({navigation}) => {
               onChangeText={text =>
                 setLoginData({...loginData, username: text})
               }
-              value={loginData.email}
+              value={loginData.username}
               style={{height: vh(9), width: vw(100)}}
             />
           </View>
