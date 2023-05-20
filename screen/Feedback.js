@@ -27,73 +27,84 @@ import axios from 'axios';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
-const data = [
-  {label: 'Electricity', value: 'ELECTRICITY'},
-  {label: 'maintenance', value: 'MAINTENANCE'},
-  {label: 'Plumbing', value: 'PLUMBING'},
-  //   {label: 'Cheque copy', value: 'CHEQUE'},
-  //   {label: 'Passport', value: 'PASSWORD'},
-];
-
 const Feedback = ({route}) => {
   const navigation = useNavigation();
   const onNextPressed = () => {
     navigation.navigate('RoomList');
   };
   const docType = route?.params;
-  // const [imageUri, setimageUri] = useState(null);
-  // const [files, setFiles] = useState([]);
-  // const [label, setLabel] = useState(' ');
-  // const [loading, setLoading] = useState(null);
-  // const [user, setUserData] = useState(null);
-  // const [documentImageData, setDocumentImageData] = useState({
-  //   tenant_id: '',
-  // });
+
   const [feedbackData, setFeedbackData] = useState({
     user_id: '',
     mobile: '',
     email: '',
     message: '',
   });
-  // const [message, setMessage] = useState([]);
-  // const [value, setValue] = useState();
-  // const [isTrue, setIsTrue] = useState(false);
-  // let userId = '6422b8e68d924ec8e15ea7e4';
+  // userId = '6422b8e68d924ec8e15ea7e4';
   const userId = useSelector(reduxState => reduxState?.login?.user?.id);
   console.log(userId);
 
-  const submitHandler = async () => {
-    console.log('submitHandler called');
-    // if (feedbackData.user_id) {
-    //   console.log('CALL API');
+  const getFeedbackData = async () => {
     try {
-      const feedbackRes = await axios({
-        url: API_URI + '/admin/feedback',
+      const res = await axios({
+        url: API_URI + '/user/feedback',
         method: 'POST',
-        data: {
-          // ...feedbackData,
-          user_id: userId,
-          // title: 'test',
-          message: 'This is a test',
-          mobile:'832842347',
-          email:'test@gmail.com'
-        },
+        // data: {
+        //   message:'hello want to see the rooms'
+        // }
       });
-      if (feedbackRes) {
-        console.log('feedbackRes ', feedbackRes?.data?.data?._id);
-        if (feedbackRes?.data?.success) {
-          //   navigate("/roomImages");
-          // uploadFilesToAPI(feedbackRes?.data?.data?._id);
-        }
+      if (res) {
+        console.log('getFeedbackData', res);
+        setFeedbackData(res?.data?.results);
       }
     } catch (error) {
-      console.log('API error', error);
+      console.log('error', error);
     }
-    // } else {
-    //   window.alert('Required Fields Missing');
-    // }
   };
 
+  const submitHandler = async () => {
+    console.log('submitHandler called');
+    if (
+      // allocationData.room_id != '' &&
+      // allocationData.user_id != '' &&
+      // allocationData.owner_id != '' &&
+      // allocationData.manager_id != '' &&
+      feedbackData.message
+      // allocationData.rent != '' &&
+      // allocationData.deposit) {
+    ) {
+      console.log('CALL API');
+      try {
+        const feedbackRes = await axios({
+          url: API_URI + '/admin/feedback',
+          method: 'POST',
+          data: {
+            ...feedbackData,
+            // user_id: userId,
+            // title: 'test',
+            // message: 'This is a test',
+            // mobile: '832842347',
+            // email: 'test@gmail.com',
+          },
+        });
+        if (feedbackRes) {
+          console.log('feedbackRes ', feedbackRes);
+          if (feedbackRes?.data?.success) {
+            //   navigate("/roomImages");
+            // uploadFilesToAPI(feedbackRes?.data?.data?._id);
+          }
+        }
+      } catch (error) {
+        console.log('API error', error);
+      }
+    } else {
+      window.alert('Required Fields Missing');
+    }
+  };
+
+  useEffect(() => {
+    getFeedbackData();
+  }, []);
   // const submitHandler = async () => {
   //   console.log('submitHandler called');
   //   if (

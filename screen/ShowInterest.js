@@ -191,7 +191,7 @@ const ShowInterest = ({route}) => {
                 message: e,
               });
             }}
-            value={allocationData?.address1}
+            value={allocationData?.message}
           />
 
           <TouchableOpacity onPress={submitHandler}>

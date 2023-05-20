@@ -31,7 +31,7 @@ const data = [
   {label: 'Address proof', value: 'ADDRESS'},
   {label: 'Cheque copy', value: 'CHEQUE'},
   {label: 'Passport', value: 'PASSWORD'},
-  {label: 'police verification form', value: ' POLICE VERIFICATION FORM'},
+  {label: 'police verification form', value: 'POLICE VERIFICATION FORM'},
 ];
 
 const DocumentUpload = ({route}) => {
