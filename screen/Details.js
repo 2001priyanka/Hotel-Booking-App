@@ -81,7 +81,7 @@ const Details = ({route}) => {
               style={{height: vh(40), width: vw(90), borderRadius: 40}}
             />
           )}
-        </View>
+        </View> 
         <View
           style={{
             flexDirection: 'row',
