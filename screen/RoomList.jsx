@@ -84,7 +84,7 @@ const RoomList = ({}) => {
           width: vw(45),
           marginHorizontal: vw(1.5),
           backgroundColor: `rgba(0,0,0,0.1)`,
-          borderRadius: vw(5),
+          borderRadius: vw(2),
           // elevation:1
           padding: 5,
         }}>
@@ -99,8 +99,8 @@ const RoomList = ({}) => {
                 resizeMode="contain"
                 style={{
                   height: vh(22),
-                  width: vw(40),
-                  borderRadius: vw(5),
+                  width: vw(43),
+                  borderRadius: vw(2),
                 }}
               />
               <Text

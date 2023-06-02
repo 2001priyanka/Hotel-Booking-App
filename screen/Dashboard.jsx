@@ -8,11 +8,13 @@ import {
   ScrollView,
   TextInput,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import {useRoute, useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -23,7 +25,9 @@ import axios from 'axios';
 const Dashboard = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
-
+ const userId = useSelector(
+   reduxsState => reduxsState?.login?.user,
+ );
   // console.log(userData);
   const navigation = useNavigation();
   const onNextPressed = param => {
@@ -39,22 +43,64 @@ const Dashboard = ({}) => {
    }
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
+  // const [userData, setUserData] = useState([]);
   const [roomstype, setRoomstype] = useState([
     {
+      img: (
+        <ImageBackground
+          source={require('../images/house8.jpg')}
+          style={{
+            width: '105%',
+            height: '105%',
+            // borderRadius: 20,
+          }}
+          imageStyle={{borderRadius: 10}}></ImageBackground>
+      ),
       icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Budget Rooms',
+      priceRange: '8000-12000',
     },
     {
+      img: (
+        <ImageBackground
+          source={require('../images/modern-balcony-design.jpg')}
+          style={{
+            width: '105%',
+            height: '105%',
+            borderRadius: 20,
+          }}
+          imageStyle={{borderRadius: 10}}></ImageBackground>
+      ),
       icon: <IconFa name="balcony" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Balcony Rooms',
+      priceRange: '12000-25000',
     },
     {
+      img: (
+        <ImageBackground
+          source={require('../images/house6.jpg')}
+          style={{width: '105%', height: '105%'}}
+          imageStyle={{borderRadius: 10}}></ImageBackground>
+      ),
+      icon: (
+        <IconFA
+          name="rupee"
+          style={{marginTop: 20, fontSize: vf(4), borderRadius: 20}}
+        />
+      ),
+      name: 'Premium Rooms',
+      priceRange: '25000-35000',
+    },
+    {
+      img: (
+        <ImageBackground
+          source={require('../images/bhkrooms.jpg')}
+          style={{width: '105%', height: '105%'}}
+          imageStyle={{borderRadius: 10}}></ImageBackground>
+      ),
       icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Premium Rooms',
-    },
-    {
-      icon: <IconFa name="home" style={{marginTop: 20, fontSize: vf(4)}} />,
-      name: 'Suites-BHK',
+      priceRange: '25000-35000',
     },
   ]);
 
@@ -72,9 +118,24 @@ const Dashboard = ({}) => {
       console.log('error', error);
     }
   };
+  // const getUserData = async () => {
+  //   try {
+  //     const res = await axios({
+  //       url: API_URI + `/user/user/`,
+  //       method: 'GET',
+  //     });
+  //     if (res) {
+  //       console.log('getUserData', res);
+  //       setUserData(res?.data?.results);
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
 
   useEffect(() => {
     getAllRooms();
+    // getUserData();
   }, []);
 
   const _renderItem = ({item, index}) => {
@@ -83,11 +144,11 @@ const Dashboard = ({}) => {
       <View
         key={index + item?._id}
         style={{
-          height: vh(32),
+          height: vh(33),
           width: vw(45),
           marginHorizontal: vw(1.5),
           backgroundColor: `rgba(0,0,0,0.1)`,
-          borderRadius: vw(5),
+          borderRadius: vw(2),
           // elevation:1
           padding: 5,
         }}>
@@ -102,8 +163,8 @@ const Dashboard = ({}) => {
                 resizeMode="contain"
                 style={{
                   height: vh(22),
-                  width: vw(40),
-                  borderRadius: vw(5),
+                  width: vw(43),
+                  borderRadius: vw(2),
                 }}
               />
               <Text
@@ -158,15 +219,19 @@ const Dashboard = ({}) => {
           width: vw(45),
           marginHorizontal: vw(1.5),
           margin: 10,
-          backgroundColor: `rgba(0,0,0,0.1)`,
-          borderRadius: vw(5),
+          // backgroundColor: `rgba(0,0,0,0.1)`,
+          borderRadius: vw(2),
           padding: 5,
         }}>
+        <View style={{borderRadius: 20}}>{item.img}</View>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
+            position: 'absolute',
+            top: 15,
+            right: 30,
           }}>
           <Text
             style={{
@@ -178,13 +243,32 @@ const Dashboard = ({}) => {
             {item.name}
           </Text>
         </View>
+
+        <Text
+          style={{
+            alignItems: 'center',
+            color: '#08A216',
+            fontWeight: '800',
+            fontSize: vf(2),
+            position: 'absolute',
+            top: 40,
+            right: 30,
+          }}>
+          {item.priceRange}
+        </Text>
         <View
           style={{
             alignItems: 'center',
+            position: 'absolute',
+            top: 40,
+            right: 70,
           }}>
           {item.icon}
         </View>
-        <TouchableOpacity onPress={onNextPressed1}>
+
+        <TouchableOpacity
+          style={{position: 'absolute', top: 70, right: 40}}
+          onPress={onNextPressed1}>
           <Text
             style={{
               color: '#fff',
@@ -254,17 +338,17 @@ const Dashboard = ({}) => {
       </View>
       <View>
         <View style={{padding: 10}}>
-          <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
+          <Text style={{fontSize: vf(3), color: '#000', letterSpacing: 0.5}}>
             Hey,
             <Text style={{color: '#204D6C', fontWeight: '700'}}>
               {`${
-                userData?.email
-                  ? userData.email.split('@')[0].slice(0, 6)
-                  : userData?.name
-              }...`}
+                userId?.email
+                  ? userId.email
+                  : userId?.name
+              }`}
             </Text>
           </Text>
-          <Text style={{fontSize: vf(3.5), color: '#000', letterSpacing: 0.5}}>
+          <Text style={{fontSize: vf(3), color: '#000', letterSpacing: 0.5}}>
             Let's start exploring
           </Text>
           <View
