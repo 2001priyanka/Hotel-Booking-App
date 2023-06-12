@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: 'me@ianto.in',
+    username: 'priyanka',
     password: '123456',
   });
   useEffect(() => {
@@ -120,7 +120,7 @@ const Login = ({navigation}) => {
       currentProfile,
     ) {
       if (currentProfile) {
-        console.log(currentProfile);
+        console.log(currentProfile);  
         userData = currentProfile;
         navigation.navigate('dashboard', {userData});
       }

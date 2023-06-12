@@ -10,11 +10,18 @@ import {
   FlatList,
   ImageBackground,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import Slider from 'rn-range-slider';
+import Thumb from '../Slider/Thumb';
+import Rail from '../Slider/Rail';
+import RailSelected from '../Slider/RailSelected';
+import Notch from '../Slider/Notch';
+import Label from '../Slider/Label';
+import TextButton from '../components/TextButton';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -25,9 +32,7 @@ import axios from 'axios';
 const Dashboard = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
- const userId = useSelector(
-   reduxsState => reduxsState?.login?.user,
- );
+  const userId = useSelector(reduxsState => reduxsState?.login?.user);
   // console.log(userData);
   const navigation = useNavigation();
   const onNextPressed = param => {
@@ -38,9 +43,40 @@ const Dashboard = ({}) => {
     console.log('param', param);
     navigation.navigate('Details', {data});
   };
-   const onNextPressed1 = ()=>{
-    navigation.navigate('RoomList')
-   }
+  const onNextPressed1 = () => {
+    navigation.navigate('RoomList');
+  };
+
+  const [rangeDisabled, setRangeDisabled] = useState(false);
+  const [low, setLow] = useState(0);
+  const [high, setHigh] = useState(100);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(100);
+  const [floatingLabel, setFloatingLabel] = useState(false);
+
+  const renderThumb = useCallback(() => <Thumb />, []);
+  const renderRail = useCallback(() => <Rail />, []);
+  const renderRailSelected = useCallback(() => <RailSelected />, []);
+  const renderLabel = useCallback(value => <Label text={value} />, []);
+  const renderNotch = useCallback(() => <Notch />, []);
+  const handleValueChange = useCallback((low, high) => {
+    setLow(low);
+    setHigh(high);
+  }, []);
+
+    const toggleRangeEnabled = useCallback(
+      () => setRangeDisabled(!rangeDisabled),
+      [rangeDisabled],
+    );
+    const setMinTo50 = useCallback(() => setMin(50), []);
+    const setMinTo0 = useCallback(() => setMin(0), []);
+    const setMaxTo100 = useCallback(() => setMax(100), []);
+    const setMaxTo500 = useCallback(() => setMax(500), []);
+    const toggleFloatingLabel = useCallback(
+      () => setFloatingLabel(!floatingLabel),
+      [floatingLabel],
+    );
+
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
   // const [userData, setUserData] = useState([]);
@@ -104,6 +140,9 @@ const Dashboard = ({}) => {
     },
   ]);
 
+  const filterRoomsByPrice = (rooms, maxPrice) => {
+    return rooms.filter(room => room.priceRange <= maxPrice);
+  };
   const getAllRooms = async () => {
     try {
       const res = await axios({
@@ -139,7 +178,7 @@ const Dashboard = ({}) => {
   }, []);
 
   const _renderItem = ({item, index}) => {
-    console.log('index',index,item);
+    console.log('index', index, item);
     return (
       <View
         key={index + item?._id}
@@ -147,6 +186,7 @@ const Dashboard = ({}) => {
           height: vh(33),
           width: vw(45),
           marginHorizontal: vw(1.5),
+          marginVertical: vh(1),
           backgroundColor: `rgba(0,0,0,0.1)`,
           borderRadius: vw(2),
           // elevation:1
@@ -341,11 +381,7 @@ const Dashboard = ({}) => {
           <Text style={{fontSize: vf(3), color: '#000', letterSpacing: 0.5}}>
             Hey,
             <Text style={{color: '#204D6C', fontWeight: '700'}}>
-              {`${
-                userId?.email
-                  ? userId.email
-                  : userId?.name
-              }`}
+              {`${userId?.username ? userId.username : userId?.name}`}
             </Text>
           </Text>
           <Text style={{fontSize: vf(3), color: '#000', letterSpacing: 0.5}}>
@@ -370,7 +406,62 @@ const Dashboard = ({}) => {
               <IconFa name="microphone-outline" size={25} />
             </View>
           </View>
+          <Slider
+            style={styles.slider}
+            min={0}
+            max={100}
+            step={1}
+            floatingLabel
+            renderThumb={renderThumb}
+            renderRail={renderRail}
+            renderRailSelected={renderRailSelected}
+            renderLabel={renderLabel}
+            renderNotch={renderNotch}
+            onValueChanged={handleValueChange}
+          />
+          <View style={styles.horizontalContainer}>
+            <Text style={styles.valueText}>{low}</Text>
+            <Text style={styles.valueText}>{high}</Text>
+          </View>
+          <View style={styles.horizontalContainer}>
+            <TextButton
+              text="Toggle floating"
+              containerStyle={styles.button}
+              onPress={toggleFloatingLabel}
+            />
+            <TextButton
+              text={rangeDisabled ? 'Enable range' : 'Disable range'}
+              containerStyle={styles.button}
+              onPress={toggleRangeEnabled}
+            />
+          </View>
+          <View style={styles.horizontalContainer}>
+            <TextButton
+              text="Set min to 0"
+              containerStyle={styles.button}
+              onPress={setMinTo0}
+            />
+            <TextButton
+              text="Set min to 50"
+              containerStyle={styles.button}
+              onPress={setMinTo50}
+            />
+          </View>
+          <View style={styles.horizontalContainer}>
+            <TextButton
+              text="Set max to 100"
+              containerStyle={styles.button}
+              onPress={setMaxTo100}
+            />
+            <TextButton
+              text="Set max to 500"
+              containerStyle={styles.button}
+              onPress={setMaxTo500}
+            />
+          </View>
+          {/* <View style={{height: 1000}} /> */}
         </View>
+
         <FlatList
           data={roomstype}
           renderItem={_renderItem1}
@@ -430,4 +521,34 @@ const Dashboard = ({}) => {
 
 export default Dashboard;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    root: {
+    alignItems: 'stretch',
+    padding: 12,
+    flex: 1,
+    backgroundColor: '#555',
+  },
+  slider: {
+  },
+  button: {
+  },
+  header: {
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 12,
+  },
+  horizontalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+  },
+  valueText: {
+    width: 50,
+    color: 'white',
+    fontSize: 20,
+  },
+});

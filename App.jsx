@@ -29,6 +29,7 @@ import Gpay from './screen/Gpay';
 import Neft from './screen/Neft';
 import Referral from './screen/Referral';
 import Feedback from './screen/Feedback';
+// import DocumentUpload2 from './screen/uploadDocument/DocumentUpload2';
 // import Request from './screen/Request';
 
 
@@ -72,6 +73,7 @@ const App = () => {
             <Stack.Screen name="Neft" component={Neft} />
             <Stack.Screen name="Referral" component={Referral} />
             <Stack.Screen name="Feedback" component={Feedback} />
+            {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
           {/* <Footer/> */}

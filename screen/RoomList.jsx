@@ -83,6 +83,7 @@ const RoomList = ({}) => {
           height: vh(32),
           width: vw(45),
           marginHorizontal: vw(1.5),
+          marginVertical:vh(1),
           backgroundColor: `rgba(0,0,0,0.1)`,
           borderRadius: vw(2),
           // elevation:1
