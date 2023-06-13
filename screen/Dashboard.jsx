@@ -48,8 +48,8 @@ const Dashboard = ({}) => {
   };
 
   const [rangeDisabled, setRangeDisabled] = useState(false);
-  const [low, setLow] = useState(0);
-  const [high, setHigh] = useState(100);
+  const [low, setLow] = useState(1000);
+  const [high, setHigh] = useState(100000);
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(100);
   const [floatingLabel, setFloatingLabel] = useState(false);
@@ -59,26 +59,45 @@ const Dashboard = ({}) => {
   const renderRailSelected = useCallback(() => <RailSelected />, []);
   const renderLabel = useCallback(value => <Label text={value} />, []);
   const renderNotch = useCallback(() => <Notch />, []);
-  const handleValueChange = useCallback((low, high) => {
-    setLow(low);
-    setHigh(high);
-  }, []);
+  const handleValueChange = (ulow, uhigh) => {
+    setLow(ulow);
+    setHigh(uhigh);
+    console.log('priceRange', ulow, uhigh,);
+  };
 
-    const toggleRangeEnabled = useCallback(
-      () => setRangeDisabled(!rangeDisabled),
-      [rangeDisabled],
-    );
-    const setMinTo50 = useCallback(() => setMin(50), []);
-    const setMinTo0 = useCallback(() => setMin(0), []);
-    const setMaxTo100 = useCallback(() => setMax(100), []);
-    const setMaxTo500 = useCallback(() => setMax(500), []);
-    const toggleFloatingLabel = useCallback(
-      () => setFloatingLabel(!floatingLabel),
-      [floatingLabel],
-    );
+  useEffect(()=>{
+     const tempRooms = originalRoom.filter(room => {
+      console.log(
+        'tempRooms',
+        room,
+        +room.rent,
+        +low,
+        // +low >= +room.rent,
+        +room.rent >= low,
+        +room.rent <= high,
+        +room.rent >= low && +room.rent <= high,
+      );
+      return +room.rent >= low && +room.rent <= high;
+    });
+    setRoomsData(tempRooms);
+  },[low,high])
+
+  const toggleRangeEnabled = useCallback(
+    () => setRangeDisabled(!rangeDisabled),
+    [rangeDisabled],
+  );
+  const setMinTo50 = useCallback(() => setMin(50), []);
+  const setMinTo0 = useCallback(() => setMin(0), []);
+  const setMaxTo100 = useCallback(() => setMax(100), []);
+  const setMaxTo500 = useCallback(() => setMax(500), []);
+  const toggleFloatingLabel = useCallback(
+    () => setFloatingLabel(!floatingLabel),
+    [floatingLabel],
+  );
 
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
+  const [originalRoom, setOriginalRoom] = useState([]);
   // const [userData, setUserData] = useState([]);
   const [roomstype, setRoomstype] = useState([
     {
@@ -152,6 +171,7 @@ const Dashboard = ({}) => {
       if (res) {
         console.log('getAllRooms', res);
         setRoomsData(res?.data?.results);
+        setOriginalRoom(res?.data?.results);
       }
     } catch (error) {
       console.log('error', error);
@@ -406,19 +426,21 @@ const Dashboard = ({}) => {
               <IconFa name="microphone-outline" size={25} />
             </View>
           </View>
-          <Slider
-            style={styles.slider}
-            min={0}
-            max={100}
-            step={1}
-            floatingLabel
-            renderThumb={renderThumb}
-            renderRail={renderRail}
-            renderRailSelected={renderRailSelected}
-            renderLabel={renderLabel}
-            renderNotch={renderNotch}
-            onValueChanged={handleValueChange}
-          />
+          {originalRoom?.length > 0 && (
+            <Slider
+              style={styles.slider}
+              min={1000}
+              max={100000}
+              step={1000}
+              floatingLabel
+              renderThumb={renderThumb}
+              renderRail={renderRail}
+              renderRailSelected={renderRailSelected}
+              renderLabel={renderLabel}
+              renderNotch={renderNotch}
+              onValueChanged={handleValueChange}
+            />
+          )}
           <View style={styles.horizontalContainer}>
             <Text style={styles.valueText}>{low}</Text>
             <Text style={styles.valueText}>{high}</Text>
@@ -522,16 +544,14 @@ const Dashboard = ({}) => {
 export default Dashboard;
 
 const styles = StyleSheet.create({
-    root: {
+  root: {
     alignItems: 'stretch',
     padding: 12,
     flex: 1,
     backgroundColor: '#555',
   },
-  slider: {
-  },
-  button: {
-  },
+  slider: {},
+  button: {},
   header: {
     alignItems: 'center',
     backgroundColor: 'black',
