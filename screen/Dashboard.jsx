@@ -426,6 +426,11 @@ const Dashboard = ({}) => {
               <IconFa name="microphone-outline" size={25} />
             </View>
           </View>
+          <View style={{flexDirection:'row',justifyContent:'center',marginVertical:10}}>
+            <Text style={{fontSize: 20, color: 'black', alignItems: 'center'}}>
+              Filter your room Price
+            </Text>
+          </View>
           {originalRoom?.length > 0 && (
             <Slider
               style={styles.slider}
@@ -445,7 +450,7 @@ const Dashboard = ({}) => {
             <Text style={styles.valueText}>{low}</Text>
             <Text style={styles.valueText}>{high}</Text>
           </View>
-          <View style={styles.horizontalContainer}>
+          {/* <View style={styles.horizontalContainer}>
             <TextButton
               text="Toggle floating"
               containerStyle={styles.button}
@@ -456,10 +461,10 @@ const Dashboard = ({}) => {
               containerStyle={styles.button}
               onPress={toggleRangeEnabled}
             />
-          </View>
-          <View style={styles.horizontalContainer}>
+          </View> */}
+          {/* <View style={styles.horizontalContainer}>
             <TextButton
-              text="Set min to 0"
+              text="Set min to 1000"
               containerStyle={styles.button}
               onPress={setMinTo0}
             />
@@ -468,8 +473,8 @@ const Dashboard = ({}) => {
               containerStyle={styles.button}
               onPress={setMinTo50}
             />
-          </View>
-          <View style={styles.horizontalContainer}>
+          </View> */}
+          {/* <View style={styles.horizontalContainer}>
             <TextButton
               text="Set max to 100"
               containerStyle={styles.button}
@@ -480,7 +485,7 @@ const Dashboard = ({}) => {
               containerStyle={styles.button}
               onPress={setMaxTo500}
             />
-          </View>
+          </View> */}
           {/* <View style={{height: 1000}} /> */}
         </View>
 
@@ -546,11 +551,14 @@ export default Dashboard;
 const styles = StyleSheet.create({
   root: {
     alignItems: 'stretch',
-    padding: 12,
+    padding: 5,
+
     flex: 1,
     backgroundColor: '#555',
   },
-  slider: {},
+  slider: {
+    marginVertical: 20,
+  },
   button: {},
   header: {
     alignItems: 'center',
@@ -560,15 +568,16 @@ const styles = StyleSheet.create({
   horizontalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
+    // marginTop: 10,
+    paddingHorizontal: 30,
   },
   text: {
     color: 'white',
     fontSize: 20,
   },
   valueText: {
-    width: 50,
-    color: 'white',
+    // width: 50,
+    color: 'black',
     fontSize: 20,
   },
 });
