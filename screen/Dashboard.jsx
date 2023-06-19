@@ -15,13 +15,13 @@ import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import {useRoute, useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
-import Slider from 'rn-range-slider';
-import Thumb from '../Slider/Thumb';
-import Rail from '../Slider/Rail';
-import RailSelected from '../Slider/RailSelected';
-import Notch from '../Slider/Notch';
-import Label from '../Slider/Label';
-import TextButton from '../components/TextButton';
+// import Slider from 'rn-range-slider';
+// import Thumb from '../Slider/Thumb';
+// import Rail from '../Slider/Rail';
+// import RailSelected from '../Slider/RailSelected';
+// import Notch from '../Slider/Notch';
+// import Label from '../Slider/Label';
+// import TextButton from '../components/TextButton';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -47,53 +47,53 @@ const Dashboard = ({}) => {
     navigation.navigate('RoomList');
   };
 
-  const [rangeDisabled, setRangeDisabled] = useState(false);
-  const [low, setLow] = useState(1000);
-  const [high, setHigh] = useState(100000);
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(100);
-  const [floatingLabel, setFloatingLabel] = useState(false);
+  // const [rangeDisabled, setRangeDisabled] = useState(false);
+  // const [low, setLow] = useState(1000);
+  // const [high, setHigh] = useState(100000);
+  // const [min, setMin] = useState(0);
+  // const [max, setMax] = useState(100);
+  // const [floatingLabel, setFloatingLabel] = useState(false);
 
-  const renderThumb = useCallback(() => <Thumb />, []);
-  const renderRail = useCallback(() => <Rail />, []);
-  const renderRailSelected = useCallback(() => <RailSelected />, []);
-  const renderLabel = useCallback(value => <Label text={value} />, []);
-  const renderNotch = useCallback(() => <Notch />, []);
-  const handleValueChange = (ulow, uhigh) => {
-    setLow(ulow);
-    setHigh(uhigh);
-    console.log('priceRange', ulow, uhigh,);
-  };
+  // const renderThumb = useCallback(() => <Thumb />, []);
+  // const renderRail = useCallback(() => <Rail />, []);
+  // const renderRailSelected = useCallback(() => <RailSelected />, []);
+  // const renderLabel = useCallback(value => <Label text={value} />, []);
+  // const renderNotch = useCallback(() => <Notch />, []);
+  // const handleValueChange = (ulow, uhigh) => {
+  //   setLow(ulow);
+  //   setHigh(uhigh);
+  //   console.log('priceRange', ulow, uhigh,);
+  // };
 
-  useEffect(()=>{
-     const tempRooms = originalRoom.filter(room => {
-      console.log(
-        'tempRooms',
-        room,
-        +room.rent,
-        +low,
-        // +low >= +room.rent,
-        +room.rent >= low,
-        +room.rent <= high,
-        +room.rent >= low && +room.rent <= high,
-      );
-      return +room.rent >= low && +room.rent <= high;
-    });
-    setRoomsData(tempRooms);
-  },[low,high])
+  // useEffect(()=>{
+  //    const tempRooms = originalRoom.filter(room => {
+  //     console.log(
+  //       'tempRooms',
+  //       room,
+  //       +room.rent,
+  //       +low,
+  //       // +low >= +room.rent,
+  //       +room.rent >= low,
+  //       +room.rent <= high,
+  //       +room.rent >= low && +room.rent <= high,
+  //     );
+  //     return +room.rent >= low && +room.rent <= high;
+  //   });
+  //   setRoomsData(tempRooms);
+  // },[low,high])
 
-  const toggleRangeEnabled = useCallback(
-    () => setRangeDisabled(!rangeDisabled),
-    [rangeDisabled],
-  );
-  const setMinTo50 = useCallback(() => setMin(50), []);
-  const setMinTo0 = useCallback(() => setMin(0), []);
-  const setMaxTo100 = useCallback(() => setMax(100), []);
-  const setMaxTo500 = useCallback(() => setMax(500), []);
-  const toggleFloatingLabel = useCallback(
-    () => setFloatingLabel(!floatingLabel),
-    [floatingLabel],
-  );
+  // const toggleRangeEnabled = useCallback(
+  //   () => setRangeDisabled(!rangeDisabled),
+  //   [rangeDisabled],
+  // );
+  // const setMinTo50 = useCallback(() => setMin(50), []);
+  // const setMinTo0 = useCallback(() => setMin(0), []);
+  // const setMaxTo100 = useCallback(() => setMax(100), []);
+  // const setMaxTo500 = useCallback(() => setMax(500), []);
+  // const toggleFloatingLabel = useCallback(
+  //   () => setFloatingLabel(!floatingLabel),
+  //   [floatingLabel],
+  // );
 
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
@@ -171,7 +171,7 @@ const Dashboard = ({}) => {
       if (res) {
         console.log('getAllRooms', res);
         setRoomsData(res?.data?.results);
-        setOriginalRoom(res?.data?.results);
+        // setOriginalRoom(res?.data?.results);
       }
     } catch (error) {
       console.log('error', error);
@@ -426,12 +426,12 @@ const Dashboard = ({}) => {
               <IconFa name="microphone-outline" size={25} />
             </View>
           </View>
-          <View style={{flexDirection:'row',justifyContent:'center',marginVertical:10}}>
+          {/* <View style={{flexDirection:'row',justifyContent:'center',marginVertical:10}}>
             <Text style={{fontSize: 20, color: 'black', alignItems: 'center'}}>
               Filter your room Price
             </Text>
-          </View>
-          {originalRoom?.length > 0 && (
+          </View> */}
+          {/* {originalRoom?.length > 0 && (
             <Slider
               style={styles.slider}
               min={1000}
@@ -445,48 +445,11 @@ const Dashboard = ({}) => {
               renderNotch={renderNotch}
               onValueChanged={handleValueChange}
             />
-          )}
-          <View style={styles.horizontalContainer}>
+          )} */}
+          {/* <View style={styles.horizontalContainer}>
             <Text style={styles.valueText}>{low}</Text>
             <Text style={styles.valueText}>{high}</Text>
-          </View>
-          {/* <View style={styles.horizontalContainer}>
-            <TextButton
-              text="Toggle floating"
-              containerStyle={styles.button}
-              onPress={toggleFloatingLabel}
-            />
-            <TextButton
-              text={rangeDisabled ? 'Enable range' : 'Disable range'}
-              containerStyle={styles.button}
-              onPress={toggleRangeEnabled}
-            />
           </View> */}
-          {/* <View style={styles.horizontalContainer}>
-            <TextButton
-              text="Set min to 1000"
-              containerStyle={styles.button}
-              onPress={setMinTo0}
-            />
-            <TextButton
-              text="Set min to 50"
-              containerStyle={styles.button}
-              onPress={setMinTo50}
-            />
-          </View> */}
-          {/* <View style={styles.horizontalContainer}>
-            <TextButton
-              text="Set max to 100"
-              containerStyle={styles.button}
-              onPress={setMaxTo100}
-            />
-            <TextButton
-              text="Set max to 500"
-              containerStyle={styles.button}
-              onPress={setMaxTo500}
-            />
-          </View> */}
-          {/* <View style={{height: 1000}} /> */}
         </View>
 
         <FlatList

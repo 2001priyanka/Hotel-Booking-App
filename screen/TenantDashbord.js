@@ -48,54 +48,6 @@ const TenantDashbord = ({}) => {
     navigation.navigate('RoomList');
   };
 
-  //   const [rangeDisabled, setRangeDisabled] = useState(false);
-  //   const [low, setLow] = useState(1000);
-  //   const [high, setHigh] = useState(100000);
-  //   const [min, setMin] = useState(0);
-  //   const [max, setMax] = useState(100);
-  //   const [floatingLabel, setFloatingLabel] = useState(false);
-
-  //   const renderThumb = useCallback(() => <Thumb />, []);
-  //   const renderRail = useCallback(() => <Rail />, []);
-  //   const renderRailSelected = useCallback(() => <RailSelected />, []);
-  //   const renderLabel = useCallback(value => <Label text={value} />, []);
-  //   const renderNotch = useCallback(() => <Notch />, []);
-  //   const handleValueChange = (ulow, uhigh) => {
-  //     setLow(ulow);
-  //     setHigh(uhigh);
-  //     console.log('priceRange', ulow, uhigh);
-  //   };
-
-  //   useEffect(() => {
-  //     const tempRooms = originalRoom.filter(room => {
-  //       console.log(
-  //         'tempRooms',
-  //         room,
-  //         +room.rent,
-  //         +low,
-  //         // +low >= +room.rent,
-  //         +room.rent >= low,
-  //         +room.rent <= high,
-  //         +room.rent >= low && +room.rent <= high,
-  //       );
-  //       return +room.rent >= low && +room.rent <= high;
-  //     });
-  //     setRoomsData(tempRooms);
-  //   }, [low, high]);
-
-  //   const toggleRangeEnabled = useCallback(
-  //     () => setRangeDisabled(!rangeDisabled),
-  //     [rangeDisabled],
-  //   );
-  //   const setMinTo50 = useCallback(() => setMin(50), []);
-  //   const setMinTo0 = useCallback(() => setMin(0), []);
-  //   const setMaxTo100 = useCallback(() => setMax(100), []);
-  //   const setMaxTo500 = useCallback(() => setMax(500), []);
-  //   const toggleFloatingLabel = useCallback(
-  //     () => setFloatingLabel(!floatingLabel),
-  //     [floatingLabel],
-  //   );
-
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
   const [originalRoom, setOriginalRoom] = useState([]);
@@ -108,8 +60,8 @@ const TenantDashbord = ({}) => {
           style={{
             width: '105%',
             height: '105%',
-            flexDirection:'row',
-            justifyContent:'center',
+            flexDirection: 'row',
+            justifyContent: 'center',
             // borderRadius: 20,
           }}
           imageStyle={{borderRadius: 10}}></ImageBackground>
@@ -118,48 +70,6 @@ const TenantDashbord = ({}) => {
       name: 'Budget Rooms',
       priceRange: '8000-12000',
     },
-    // {
-    //   img: (
-    //     <ImageBackground
-    //       source={require('../images/modern-balcony-design.jpg')}
-    //       style={{
-    //         width: '105%',
-    //         height: '105%',
-    //         borderRadius: 20,
-    //       }}
-    //       imageStyle={{borderRadius: 10}}></ImageBackground>
-    //   ),
-    //   icon: <IconFa name="balcony" style={{marginTop: 20, fontSize: vf(4)}} />,
-    //   name: 'Balcony Rooms',
-    //   priceRange: '12000-25000',
-    // },
-    // {
-    //   img: (
-    //     <ImageBackground
-    //       source={require('../images/house6.jpg')}
-    //       style={{width: '105%', height: '105%'}}
-    //       imageStyle={{borderRadius: 10}}></ImageBackground>
-    //   ),
-    //   icon: (
-    //     <IconFA
-    //       name="rupee"
-    //       style={{marginTop: 20, fontSize: vf(4), borderRadius: 20}}
-    //     />
-    //   ),
-    //   name: 'Premium Rooms',
-    //   priceRange: '25000-35000',
-    // },
-    // {
-    //   img: (
-    //     <ImageBackground
-    //       source={require('../images/bhkrooms.jpg')}
-    //       style={{width: '105%', height: '105%'}}
-    //       imageStyle={{borderRadius: 10}}></ImageBackground>
-    //   ),
-    //   icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
-    //   name: 'Premium Rooms',
-    //   priceRange: '25000-35000',
-    // },
   ]);
 
   //   const getAllRooms = async () => {
@@ -182,91 +92,13 @@ const TenantDashbord = ({}) => {
   //     getAllRooms();
 
   //   }, []);
-
-  const _renderItem = ({item, index}) => {
-    console.log('index', index, item);
-    return (
-      <View
-        key={index + item?._id}
-        style={{
-          height: vh(33),
-          width: vw(45),
-          marginHorizontal: vw(1.5),
-          marginVertical: vh(1),
-          backgroundColor: `rgba(0,0,0,0.1)`,
-          borderRadius: vw(2),
-          // elevation:1
-          padding: 5,
-        }}>
-        <TouchableOpacity onPress={() => onNextPressed(item._id)}>
-          <View>
-            <View style={{position: 'relative'}}>
-              <Image
-                // source={require('../images/house1.jpg')}
-                source={{
-                  uri: BASE_URL + item?.photo?.replace('Storage\\', ''),
-                }}
-                resizeMode="contain"
-                style={{
-                  height: vh(22),
-                  width: vw(43),
-                  borderRadius: vw(2),
-                }}
-              />
-              <Text
-                style={{
-                  color: '#fff',
-                  backgroundColor: '#000',
-                  borderRadius: 50,
-                  padding: 5,
-                  paddingHorizontal: 10,
-                  position: 'absolute',
-                  bottom: 12,
-                  right: 15,
-                }}>
-                Rs {item.rent}
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={{
-                  color: '#000',
-                  fontWeight: '600',
-                  fontSize: vf(2),
-                  padding: vw(2),
-                }}>
-                {item.building_id[0]?.name}
-              </Text>
-              <View style={{flexDirection: 'row', gap: 10}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // marginVertical: vh(1),
-                  }}>
-                  <IconFa name="map-marker" size={15} />
-                  <Text style={{fontSize: vf(1.5), color: '#000'}}>
-                    {item.building_id && item.building_id[0]?.address1}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
   const _renderItem1 = ({item, index}) => {
     return (
       <View
         key={index + item?._id}
         style={{
-          height: vh(20),
-          width: vw(45),
-          marginHorizontal: vw(1.5),
-          margin: 10,
-          // backgroundColor: `rgba(0,0,0,0.1)`,
-          borderRadius: vw(2),
+          height: vh(35),
+          width: vw(91),
           padding: 5,
         }}>
         <View style={{borderRadius: 20}}>{item.img}</View>
@@ -276,8 +108,8 @@ const TenantDashbord = ({}) => {
             justifyContent: 'center',
             alignItems: 'center',
             position: 'absolute',
-            top: 15,
-            right: 30,
+            top:40,
+            right: 100,
           }}>
           <Text
             style={{
@@ -286,7 +118,7 @@ const TenantDashbord = ({}) => {
               fontSize: vf(2),
               // padding: vw(2),
             }}>
-            {item.name}
+            {/* {item.name} */}
           </Text>
         </View>
 
@@ -297,23 +129,23 @@ const TenantDashbord = ({}) => {
             fontWeight: '800',
             fontSize: vf(2),
             position: 'absolute',
-            top: 40,
-            right: 30,
+            top: 80,
+            right: 100,
           }}>
-          {item.priceRange}
+          {/* {item.priceRange} */}
         </Text>
         <View
           style={{
             alignItems: 'center',
             position: 'absolute',
             top: 40,
-            right: 70,
+            right: 10,
           }}>
-          {item.icon}
+          {/* {item.icon} */}
         </View>
 
         <TouchableOpacity
-          style={{position: 'absolute', top: 70, right: 40}}
+          style={{position: 'absolute', top: 70, right: 110}}
           onPress={onNextPressed1}>
           <Text
             style={{
@@ -323,7 +155,7 @@ const TenantDashbord = ({}) => {
               borderRadius: 50,
               padding: 5,
               paddingHorizontal: 30,
-              marginTop: 30,
+              marginTop:100,
             }}>
             View
           </Text>
@@ -407,19 +239,7 @@ const TenantDashbord = ({}) => {
           </View>
         </View>
 
-        <FlatList
-          data={roomstype}
-          renderItem={_renderItem1}
-          numColumns={2}
-          contentContainerStyle={{padding: vw(1.5)}}
-        />
-
-        <FlatList
-          data={roomsData}
-          renderItem={_renderItem}
-          numColumns={2}
-          contentContainerStyle={{padding: vw(1.5)}}
-        />
+        <FlatList data={roomstype} renderItem={_renderItem1} />
       </View>
       <View
         style={{
@@ -446,7 +266,7 @@ const TenantDashbord = ({}) => {
               borderRadius: 10,
               paddingHorizontal: 20,
             }}>
-            Rs.
+            Rs.1000
             {/* {item.amount} */}
           </Text>
         </View>
@@ -671,7 +491,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    marginTop:20,
+    marginTop: 20,
     // elevation: 5,
   },
 });

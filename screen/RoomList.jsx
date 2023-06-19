@@ -9,7 +9,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import {useRoute, useNavigation} from '@react-navigation/native';
@@ -20,6 +20,13 @@ import {
 } from 'react-native-responsive-dimensions';
 import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
+import Slider from 'rn-range-slider';
+import Thumb from '../Slider/Thumb';
+import Rail from '../Slider/Rail';
+import RailSelected from '../Slider/RailSelected';
+import Notch from '../Slider/Notch';
+import Label from '../Slider/Label';
+
 const RoomList = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
@@ -35,8 +42,58 @@ const RoomList = ({}) => {
     navigation.navigate('Details', {data});
   };
 
+  const [rangeDisabled, setRangeDisabled] = useState(false);
+  const [low, setLow] = useState(1000);
+  const [high, setHigh] = useState(100000);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(100);
+  const [floatingLabel, setFloatingLabel] = useState(false);
+
+  const renderThumb = useCallback(() => <Thumb />, []);
+  const renderRail = useCallback(() => <Rail />, []);
+  const renderRailSelected = useCallback(() => <RailSelected />, []);
+  const renderLabel = useCallback(value => <Label text={value} />, []);
+  const renderNotch = useCallback(() => <Notch />, []);
+  const handleValueChange = (ulow, uhigh) => {
+    setLow(ulow);
+    setHigh(uhigh);
+    console.log('priceRange', ulow, uhigh);
+  };
+
+  useEffect(() => {
+    const tempRooms = originalRoom.filter(room => {
+      console.log(
+        'tempRooms',
+        room,
+        +room.rent,
+        +low,
+        // +low >= +room.rent,
+        +room.rent >= low,
+        +room.rent <= high,
+        +room.rent >= low && +room.rent <= high,
+      );
+      return +room.rent >= low && +room.rent <= high;
+    });
+    setRoomsData(tempRooms);
+  }, [low, high]);
+
+  const toggleRangeEnabled = useCallback(
+    () => setRangeDisabled(!rangeDisabled),
+    [rangeDisabled],
+  );
+
+  const setMinTo50 = useCallback(() => setMin(50), []);
+  const setMinTo0 = useCallback(() => setMin(0), []);
+  const setMaxTo100 = useCallback(() => setMax(100), []);
+  const setMaxTo500 = useCallback(() => setMax(500), []);
+  const toggleFloatingLabel = useCallback(
+    () => setFloatingLabel(!floatingLabel),
+    [floatingLabel],
+  );
+
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
+  const [originalRoom, setOriginalRoom] = useState([]);
   const [roomstype, setRoomstype] = useState([
     {
       icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
@@ -65,6 +122,7 @@ const RoomList = ({}) => {
       if (res) {
         console.log('getAllRooms', res);
         setRoomsData(res?.data?.results);
+        setOriginalRoom(res?.data?.results);
       }
     } catch (error) {
       console.log('error', error);
@@ -83,7 +141,7 @@ const RoomList = ({}) => {
           height: vh(32),
           width: vw(45),
           marginHorizontal: vw(1.5),
-          marginVertical:vh(1),
+          marginVertical: vh(1),
           backgroundColor: `rgba(0,0,0,0.1)`,
           borderRadius: vw(2),
           // elevation:1
@@ -206,6 +264,26 @@ const RoomList = ({}) => {
           </Text>
         </View>
 
+        {originalRoom?.length > 0 && (
+          <Slider
+            style={styles.slider}
+            min={1000}
+            max={100000}
+            step={1000}
+            floatingLabel
+            renderThumb={renderThumb}
+            renderRail={renderRail}
+            renderRailSelected={renderRailSelected}
+            renderLabel={renderLabel}
+            renderNotch={renderNotch}
+            onValueChanged={handleValueChange}
+          />
+        )}
+        <View style={styles.horizontalContainer}>
+          <Text style={styles.valueText}>{low}</Text>
+          <Text style={styles.valueText}>{high}</Text>
+        </View>
+
         <FlatList
           data={roomsData}
           renderItem={_renderItem}
@@ -219,4 +297,36 @@ const RoomList = ({}) => {
 
 export default RoomList;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  root: {
+    alignItems: 'stretch',
+    padding: 5,
+
+    flex: 1,
+    backgroundColor: '#555',
+  },
+  slider: {
+    marginVertical: 20,
+  },
+  button: {},
+  header: {
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding: 12,
+  },
+  horizontalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // marginTop: 10,
+    paddingHorizontal: 30,
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+  },
+  valueText: {
+    // width: 50,
+    color: 'black',
+    fontSize: 20,
+  },
+});
