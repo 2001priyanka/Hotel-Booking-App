@@ -116,13 +116,22 @@ const RoomList = ({}) => {
   const getAllRooms = async () => {
     try {
       const res = await axios({
-        url: API_URI + `/user/room/`,
+        url: API_URI + `/user/allocation/`,
         method: 'GET',
       });
       if (res) {
-        console.log('getAllRooms', res);
-        setRoomsData(res?.data?.results);
-        setOriginalRoom(res?.data?.results);
+        console.log('getAllRooms', res?.data?.results);
+        let myRooms = [];
+        res?.data?.results &&
+          res?.data?.results.map(item => {
+            myRooms.push({
+              ...item?.room_id[0],
+              status: item?.status,
+            });
+          });
+
+        setRoomsData(myRooms);
+        setOriginalRoom(myRooms);
       }
     } catch (error) {
       console.log('error', error);
@@ -134,11 +143,12 @@ const RoomList = ({}) => {
   }, []);
 
   const _renderItem = ({item, index}) => {
+    console.log('_renderItem getAllRooms', item);
     return (
       <View
         key={index + item?._id}
         style={{
-          height: vh(32),
+          height: vh(35),
           width: vw(45),
           marginHorizontal: vw(1.5),
           marginVertical: vh(1),
@@ -184,8 +194,53 @@ const RoomList = ({}) => {
                   fontSize: vf(2),
                   padding: vw(2),
                 }}>
-                {item.building_id[0]?.name}
+                {item.building_id[0] ? item.building_id[0]?.name : null}
               </Text>
+              {item.status == 'PENDING_APPROVAL' && (
+                <Text
+                  style={{
+                    color: '#000',
+                    fontWeight: '600',
+                    fontSize: vf(2),
+                    padding: vw(2),
+                    backgroundColor: '#82B1FF',
+                    borderRadius: 25,
+                    textAlign: 'center',
+                    marginBottom: 3,
+                  }}>
+                  Pending Approval
+                </Text>
+              )}
+              {item.status == 'CANCELLED' && (
+                <Text
+                  style={{
+                    color: '#FFF',
+                    fontWeight: '600',
+                    fontSize: vf(2),
+                    padding: vw(2),
+                    backgroundColor: '#B71C1C',
+                    borderRadius: 25,
+                    textAlign: 'center',
+                    marginBottom: 3,
+                  }}>
+                  CANCELLED
+                </Text>
+              )}
+              {item.status == 'APPROVED' && (
+                <Text
+                  style={{
+                    color: '#FFF',
+                    fontWeight: '600',
+                    fontSize: vf(2),
+                    padding: vw(2),
+                    backgroundColor: '#76FF03',
+                    borderRadius: 25,
+                    textAlign: 'center',
+                    marginBottom: 3,
+                  }}>
+                  Approved
+                </Text>
+              )}
               <View style={{flexDirection: 'row', gap: 10}}>
                 <View
                   style={{

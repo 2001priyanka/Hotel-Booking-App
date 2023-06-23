@@ -81,7 +81,7 @@ const Details = ({route}) => {
               style={{height: vh(40), width: vw(90), borderRadius: 40}}
             />
           )}
-        </View> 
+        </View>
         <View
           style={{
             flexDirection: 'row',
@@ -110,7 +110,12 @@ const Details = ({route}) => {
             justifyContent: 'space-around',
             marginTop: 30,
           }}>
-          <TouchableOpacity onPress={() => onNextPressed(roomId.key)}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('ShowInterest', {
+                data: {key: roomId.key},
+              })
+            }>
             <View
               style={{
                 backgroundColor: '#8BC83F',
@@ -122,10 +127,12 @@ const Details = ({route}) => {
                 height: vh(7),
                 width: vw(70),
               }}>
-              <Text style={{color: 'white',fontSize:vf(2.5),fontWeight:'500'}}>Show Interest</Text>
+              <Text
+                style={{color: 'white', fontSize: vf(2.5), fontWeight: '500'}}>
+                Show Interest
+              </Text>
             </View>
           </TouchableOpacity>
-          
         </View>
         <View style={styles.uppersection1}>
           <View>
