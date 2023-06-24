@@ -121,9 +121,10 @@ const DocumentUpload = ({route}) => {
            url: API_URI + '/admin/document',
            method: 'POST',
            data: {
-            //  tenant_id: userId,
-            //  docType
+             //  tenant_id: userId,
+             //  docType
              ...documentNo,
+             documentCategory:'USER',
            },
          });
          if (DocumentImageRes) {

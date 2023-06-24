@@ -194,7 +194,9 @@ const RoomList = ({}) => {
                   fontSize: vf(2),
                   padding: vw(2),
                 }}>
-                {item.building_id[0] ? item.building_id[0]?.name : null}
+                {item.building_id && item.building_id[0]
+                  ? item.building_id[0]?.name
+                  : null}
               </Text>
               {item.status == 'PENDING_APPROVAL' && (
                 <Text
@@ -250,7 +252,7 @@ const RoomList = ({}) => {
                   }}>
                   <IconFa name="map-marker" size={15} />
                   <Text style={{fontSize: vf(1.5), color: '#000'}}>
-                    {item.building_id[0]?.address1}
+                    {item.building_id && item.building_id[0]?.address1}
                   </Text>
                 </View>
               </View>

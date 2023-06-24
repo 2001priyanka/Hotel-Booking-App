@@ -80,6 +80,7 @@ const Feedback = ({route}) => {
           method: 'POST',
           data: {
             ...feedbackData,
+            feedbackCategory: 'USER',
             // user_id: userId,
             // title: 'test',
             // message: 'This is a test',
@@ -181,10 +182,10 @@ const Feedback = ({route}) => {
         <View style={styles.title}>
           <Text style={{fontSize: vf(3), color: '#000'}}>Feedback</Text>
         </View>
-        <View style={{paddingHorizontal: 15, marginTop: 30}}>
+        {/* <View style={{paddingHorizontal: 15, marginTop: 30}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>UserName:</Text>
-        </View>
-        <TextInput
+        </View> */}
+        {/* <TextInput
           placeholder="UserName"
           label="UserName"
           multiline={true}
@@ -198,7 +199,7 @@ const Feedback = ({route}) => {
             });
           }}
           value={feedbackData?.user_id}
-        />
+        /> */}
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Email:</Text>
         </View>
