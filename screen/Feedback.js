@@ -28,14 +28,13 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
 const Feedback = ({route}) => {
+  const {data: roomId} = route?.params;
+  console.log('data', roomId.key);
   const navigation = useNavigation();
-  const onNextPressed = () => {
-    navigation.navigate('RoomList');
-  };
+
   const docType = route?.params;
 
   const [feedbackData, setFeedbackData] = useState({
-    user_id: '',
     mobile: '',
     email: '',
     message: '',
@@ -47,7 +46,7 @@ const Feedback = ({route}) => {
   const getFeedbackData = async () => {
     try {
       const res = await axios({
-        url: API_URI + '/user/feedback',
+        url: API_URI + `/user/feedback/${roomId.key}`,
         method: 'POST',
         // data: {
         //   message:'hello want to see the rooms'
@@ -64,28 +63,22 @@ const Feedback = ({route}) => {
 
   const submitHandler = async () => {
     console.log('submitHandler called');
-    if (
-      // allocationData.room_id != '' &&
-      // allocationData.user_id != '' &&
-      // allocationData.owner_id != '' &&
-      // allocationData.manager_id != '' &&
-      feedbackData.message
-      // allocationData.rent != '' &&
-      // allocationData.deposit) {
-    ) {
+    if (feedbackData.message) {
       console.log('CALL API');
+
       try {
         const feedbackRes = await axios({
-          url: API_URI + '/admin/feedback',
+          url: API_URI + `/user/feedback/${roomId.key}`,
           method: 'POST',
           data: {
             ...feedbackData,
-            feedbackCategory: 'USER',
+            feedbackCategory: 'ROOM',
             // user_id: userId,
             // title: 'test',
             // message: 'This is a test',
             // mobile: '832842347',
             // email: 'test@gmail.com',
+            data: {key: roomId.key},
           },
         });
         if (feedbackRes) {

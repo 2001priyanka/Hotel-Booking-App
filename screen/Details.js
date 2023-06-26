@@ -134,6 +134,36 @@ const Details = ({route}) => {
             </View>
           </TouchableOpacity>
         </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginTop:20,
+          }}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Feedback', {
+                data: {key: roomId.key},
+              })
+            }>
+            <View
+              style={{
+                backgroundColor: '#8BC83F',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 20,
+                // paddingHorizontal: 20,
+                height: vh(7),
+                width: vw(70),
+              }}>
+              <Text
+                style={{color: 'white', fontSize: vf(2.5), fontWeight: '500'}}>
+                Your Feedback
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <View style={styles.uppersection1}>
           <View>
             <Image

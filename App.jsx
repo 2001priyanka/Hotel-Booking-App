@@ -30,6 +30,8 @@ import Neft from './screen/Neft';
 import Referral from './screen/Referral';
 import Feedback from './screen/Feedback';
 import TenantDashbord from './screen/TenantDashbord';
+import ListOfFeedBacks from './screen/ListOfFeedBacks';
+import FeedBackDetails from './screen/FeedBackDetails';
 // import TenantDashbord from './screen/Dashboard';
 // import DocumentUpload2 from './screen/uploadDocument/DocumentUpload2';
 // import Request from './screen/Request';
@@ -76,6 +78,8 @@ const App = () => {
             <Stack.Screen name="Referral" component={Referral} />
             <Stack.Screen name="Feedback" component={Feedback} />
             <Stack.Screen name="tenantDashbord" component={TenantDashbord} />
+            <Stack.Screen name="ListOfFeedBacks" component={ListOfFeedBacks} />
+            <Stack.Screen name="FeedBackDetails" component={FeedBackDetails} />
             {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>

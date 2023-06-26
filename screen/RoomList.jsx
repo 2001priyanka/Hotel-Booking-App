@@ -259,6 +259,7 @@ const RoomList = ({}) => {
             </View>
           </View>
         </TouchableOpacity>
+        
       </View>
     );
   };
@@ -348,6 +349,7 @@ const RoomList = ({}) => {
           contentContainerStyle={{padding: vw(1.5)}}
         />
       </View>
+      
     </ScrollView>
   );
 };

@@ -470,6 +470,21 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ListOfFeedBacks')}>
+          <View style={styles.box}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.2),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              List Of FeedBacks
+            </Text>
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity>
           <View
             style={{
@@ -508,8 +523,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginVertical: vh(2),
-    height: vh(7),
+    marginVertical: vh(1),
+    height: vh(8),
     width: vw(90),
     // marginHorizontal: vw(1.5),
     backgroundColor: '#204D6C',
