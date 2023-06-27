@@ -47,54 +47,9 @@ const Dashboard = ({}) => {
     navigation.navigate('RoomList');
   };
 
-  // const [rangeDisabled, setRangeDisabled] = useState(false);
-  // const [low, setLow] = useState(1000);
-  // const [high, setHigh] = useState(100000);
-  // const [min, setMin] = useState(0);
-  // const [max, setMax] = useState(100);
-  // const [floatingLabel, setFloatingLabel] = useState(false);
 
-  // const renderThumb = useCallback(() => <Thumb />, []);
-  // const renderRail = useCallback(() => <Rail />, []);
-  // const renderRailSelected = useCallback(() => <RailSelected />, []);
-  // const renderLabel = useCallback(value => <Label text={value} />, []);
-  // const renderNotch = useCallback(() => <Notch />, []);
-  // const handleValueChange = (ulow, uhigh) => {
-  //   setLow(ulow);
-  //   setHigh(uhigh);
-  //   console.log('priceRange', ulow, uhigh,);
-  // };
-
-  // useEffect(()=>{
-  //    const tempRooms = originalRoom.filter(room => {
-  //     console.log(
-  //       'tempRooms',
-  //       room,
-  //       +room.rent,
-  //       +low,
-  //       // +low >= +room.rent,
-  //       +room.rent >= low,
-  //       +room.rent <= high,
-  //       +room.rent >= low && +room.rent <= high,
-  //     );
-  //     return +room.rent >= low && +room.rent <= high;
-  //   });
-  //   setRoomsData(tempRooms);
-  // },[low,high])
-
-  // const toggleRangeEnabled = useCallback(
-  //   () => setRangeDisabled(!rangeDisabled),
-  //   [rangeDisabled],
-  // );
-  // const setMinTo50 = useCallback(() => setMin(50), []);
-  // const setMinTo0 = useCallback(() => setMin(0), []);
-  // const setMaxTo100 = useCallback(() => setMax(100), []);
-  // const setMaxTo500 = useCallback(() => setMax(500), []);
-  // const toggleFloatingLabel = useCallback(
-  //   () => setFloatingLabel(!floatingLabel),
-  //   [floatingLabel],
-  // );
-
+ 
+ 
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
   const [originalRoom, setOriginalRoom] = useState([]);
@@ -162,21 +117,21 @@ const Dashboard = ({}) => {
   const filterRoomsByPrice = (rooms, maxPrice) => {
     return rooms.filter(room => room.priceRange <= maxPrice);
   };
-  const getAllRooms = async () => {
-    try {
-      const res = await axios({
-        url: API_URI + `/user/room/`,
-        method: 'GET',
-      });
-      if (res) {
-        console.log('getAllRooms', res);
-        setRoomsData(res?.data?.results);
-        // setOriginalRoom(res?.data?.results);
-      }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+  // const getAllRooms = async () => {
+  //   try {
+  //     const res = await axios({
+  //       url: API_URI + `/user/room/`,
+  //       method: 'GET',
+  //     });
+  //     if (res) {
+  //       console.log('getAllRooms', res);
+  //       setRoomsData(res?.data?.results);
+  //       // setOriginalRoom(res?.data?.results);
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
   // const getUserData = async () => {
   //   try {
   //     const res = await axios({
@@ -192,10 +147,10 @@ const Dashboard = ({}) => {
   //   }
   // };
 
-  useEffect(() => {
-    getAllRooms();
-    // getUserData();
-  }, []);
+  // useEffect(() => {
+  //   getAllRooms();
+  //   // getUserData();
+  // }, []);
 
   const _renderItem = ({item, index}) => {
     console.log('index', index, item);
@@ -494,7 +449,7 @@ const Dashboard = ({}) => {
             </View>
           </ScrollView> */}
           <Text style={{fontSize: vf(2), color: '#000', marginTop: vh(2)}}>
-            Explore Nearby Estate
+            Exclusive Property
           </Text>
         </View>
 

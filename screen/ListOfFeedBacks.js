@@ -24,21 +24,21 @@ import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
 const ListOfFeedBacks = ({}) => {
   const route = useRoute();
-  const userData = route?.params?.data;
+
   const userId = useSelector(reduxsState => reduxsState?.login?.user);
   // console.log(userData);
   const navigation = useNavigation();
+
   const onNextPressed = param => {
     const data = {
       key: param,
     };
     console.log('data', data);
     console.log('param', param);
-    navigation.navigate('Details', {data});
+    navigation.navigate('FeedBackDetails', {data});
   };
-  const onNextPressed1 = () => {
-    navigation.navigate('RoomList');
-  };
+
+
 
   // const [rooms,setRooms] = useState([]);
   const [feedbackData, setFeedbackData] = useState([]);
@@ -127,76 +127,7 @@ const ListOfFeedBacks = ({}) => {
   const _renderItem = ({item, index}) => {
     console.log('index', index, item);
     return (
-      //   <View
-      //     key={index + item?._id}
-      //     style={{
-      //       height: vh(33),
-      //       width: vw(45),
-      //       marginHorizontal: vw(1.5),
-      //       marginVertical: vh(1),
-      //       backgroundColor: `rgba(0,0,0,0.1)`,
-      //       borderRadius: vw(2),
-      //       // elevation:1
-      //       padding: 5,
-      //     }}>
-      //     <TouchableOpacity onPress={() => onNextPressed(item._id)}>
-      //       <View>
-      //         <View style={{position: 'relative'}}>
-      //           {/* <Image
-      //             // source={require('../images/house1.jpg')}
-      //             source={{
-      //               uri: BASE_URL + item?.photo?.replace('Storage\\', ''),
-      //             }}
-      //             resizeMode="contain"
-      //             style={{
-      //               height: vh(22),
-      //               width: vw(43),
-      //               borderRadius: vw(2),
-      //             }}
-      //           /> */}
-      //           <Text
-      //             style={{
-      //               color: '#fff',
-      //               backgroundColor: '#000',
-      //               borderRadius: 50,
-      //               padding: 5,
-      //               paddingHorizontal: 10,
-      //               position: 'absolute',
-      //               bottom: 12,
-      //               right: 15,
-      //             }}>
-      //             Rs {item.message}
-      //           </Text>
-      //         </View>
-      //         <View>
-      //           <Text
-      //             style={{
-      //               color: '#000',
-      //               fontWeight: '600',
-      //               fontSize: vf(2),
-      //               padding: vw(2),
-      //             }}>
-      //             {item.building_id[0]?.name}
-      //           </Text>
-      //           <View style={{flexDirection: 'row', gap: 10}}>
-      //             <View
-      //               style={{
-      //                 flexDirection: 'row',
-      //                 alignItems: 'center',
-      //                 // marginVertical: vh(1),
-      //               }}>
-      //               <IconFa name="map-marker" size={15} />
-      //               <Text style={{fontSize: vf(1.5), color: '#000'}}>
-      //                 {item.building_id && item.building_id[0]?.address1}
-      //               </Text>
-      //             </View>
-      //           </View>
-      //         </View>
-      //       </View>
-      //     </TouchableOpacity>
-      //   </View>
-
-      <TouchableOpacity onPress={() => navigation.navigate('FeedBackDetails')}>
+      <TouchableOpacity onPress={() => onNextPressed(item._id)}>
         <View style={styles.card}>
           <View style={styles.detailsRow}>
             <View

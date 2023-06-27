@@ -28,10 +28,10 @@ import axios from 'axios';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
-const Feedback = ({route}) => {
-  // const {data: roomId} = route?.params;
-  // console.log('data', roomId.key);
-  
+const RoomFeedback = ({route}) => {
+  const {data: roomId} = route?.params;
+  console.log('data', roomId.key);
+
   const navigation = useNavigation();
 
   const docType = route?.params;
@@ -104,41 +104,6 @@ const Feedback = ({route}) => {
   useEffect(() => {
     getFeedbackData();
   }, []);
-  // const submitHandler = async () => {
-  //   console.log('submitHandler called');
-  //   if (
-  //     feedbackData.user_id != '' &&
-  //     feedbackData.mobile != '' &&
-  //     feedbackData.email != '' &&
-  //     feedbackData.message
-  //   ) {
-  //     console.log('CALL API');
-
-  //     try {
-  //       const feedbackRes = await axios({
-  //         url: API_URI + '/admin/feedback',
-  //         method: 'POST',
-  //         data: {
-  //           ...feedbackData,
-  //         },
-  //       });
-
-  //       if (feedbackRes) {
-  //         console.log('feedbackRes ', feedbackRes?.data?.data?._id);
-  //         // if (feedbackRes?.data?.success) {
-  //         //   //   navigate("/roomImages");
-  //         //   // uploadFilesToAPI(feedbackRes?.data?.data?._id);
-  //         // }
-  //       }
-  //     } catch (error) {
-  //       console.log('API error', error);
-  //     }
-  //   } else {
-  //     window.alert('Required Fields Missing');
-  //   }
-  // };
-
-  // console.log(imageUri);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
@@ -166,38 +131,12 @@ const Feedback = ({route}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          {/* <Text
-            style={{
-              textAlign: 'center',
-              color: '#000',
-              fontWeight: '400',
-              fontSize: vf(3),
-              marginVertical: vh(2.5),
-            }}>
-            please select the request
-          </Text> */}
+         
         </View>
         <View style={styles.title}>
           <Text style={{fontSize: vf(3), color: '#000'}}>Feedback</Text>
         </View>
-        {/* <View style={{paddingHorizontal: 15, marginTop: 30}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>UserName:</Text>
-        </View> */}
-        {/* <TextInput
-          placeholder="UserName"
-          label="UserName"
-          multiline={true}
-          numberOfLines={2}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              user_id: e,
-            });
-          }}
-          value={feedbackData?.user_id}
-        /> */}
+       
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Email:</Text>
         </View>
@@ -287,7 +226,7 @@ const Feedback = ({route}) => {
   );
 };
 
-export default Feedback;
+export default RoomFeedback;
 
 const styles = StyleSheet.create({
   dropdown: {

@@ -35,6 +35,7 @@ const Details = ({route}) => {
   };
 
   const [roomsDetails, setRoomsDetails] = useState({});
+  const [feedbackData, setFeedbackData] = useState({});
   // const [buidingsDetails, setBuidingsDetails] = useState([]);
 
   const getSingleRoomsDetails = async () => {
@@ -52,15 +53,34 @@ const Details = ({route}) => {
       console.log('error', error);
     }
   };
+  const getSingleRoomFeedbackDetails = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + `/user/feedback/${roomId.key}`,
+        method: 'GET',
+        // data: roomId.key,
+      });
+      if (res) {
+        console.log('getSingleRoomFeedbackDetails', res);
+        setFeedbackData(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   useEffect(() => {
     if (roomId) {
       getSingleRoomsDetails();
     }
   }, [roomId]);
-  // useEffect(() => {
-  //   getSingleBuildingDetails();
-  // }, []);
+  
+  useEffect(() => {
+    if (roomId) {
+      getSingleRoomFeedbackDetails();
+    }
+  }, [roomId]);
+  
 
   return (
     <SafeAreaView style={{backgroundColor: 'white', height: vh(100)}}>
@@ -138,11 +158,11 @@ const Details = ({route}) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
-            marginTop:20,
+            marginTop: 20,
           }}>
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate('Feedback', {
+              navigation.navigate('RoomFeedback', {
                 data: {key: roomId.key},
               })
             }>

@@ -24,35 +24,27 @@ import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
 const FeedBackDetails = ({}) => {
   const route = useRoute();
-  const userData = route?.params?.data;
+
+  const {data: roomId} = route?.params;
+  console.log('data', roomId.key);
+  
   const userId = useSelector(reduxsState => reduxsState?.login?.user);
   // console.log(userData);
   const navigation = useNavigation();
-  const onNextPressed = param => {
-    const data = {
-      key: param,
-    };
-    console.log('data', data);
-    console.log('param', param);
-    navigation.navigate('Details', {data});
-  };
-  const onNextPressed1 = () => {
-    navigation.navigate('RoomList');
-  };
-
-  // const [rooms,setRooms] = useState([]);
+  
+ 
   const [feedbackData, setFeedbackData] = useState([]);
   const [originalRoom, setOriginalRoom] = useState([]);
-  // const [userData, setUserData] = useState([]);
+ 
 
-  const getAllFeedback = async () => {
+  const getSingleFeedbackData = async () => {
     try {
       const res = await axios({
-        url: API_URI + `/user/feedback/`,
+        url: API_URI + `/user/feedback/${roomId.key}`,
         method: 'GET',
       });
       if (res) {
-        console.log('getAllFeedback', res);
+        console.log('getSingleFeedbackData', res);
         setFeedbackData(res?.data?.results);
         // setOriginalRoom(res?.data?.results);
       }
@@ -62,44 +54,8 @@ const FeedBackDetails = ({}) => {
   };
 
   useEffect(() => {
-    getAllFeedback();
-  }, []);
-
-  //   const _renderItem = ({item, index}) => {
-  //     console.log('index', index, item);
-  //     return (
-  //       <View style={styles.card}>
-  //         <View style={styles.detailsRow}>
-  //           <View
-  //             style={{
-  //               flexDirection: 'column',
-  //               justifyContent: 'flex-start',
-  //               alignItems: 'flex-start',
-  //               width: '100%',
-  //             }}>
-  //             <Text
-  //               style={{
-  //                 // paddingRight: 30,
-  //                 fontSize: vf(1.8),
-  //                 color: 'black',
-  //                 // marginTop: 4,
-  //               }}>
-  //               need services for plumbing
-  //             </Text>
-  //             <Text
-  //               style={{
-  //                 // paddingRight: 30,
-  //                 fontSize: vf(1.8),
-  //                 color: 'black',
-  //                 marginTop: 10,
-  //               }}>
-  //               Resolved!
-  //             </Text>
-  //           </View>
-  //         </View>
-  //       </View>
-  //     );
-  //   };
+    getSingleFeedbackData();
+  }, [roomId]);
 
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -149,7 +105,7 @@ const FeedBackDetails = ({}) => {
                 color: 'black',
                 marginTop: 10,
               }}>
-              Resolved!
+              {feedbackData.remarks}
             </Text>
           </View>
         </View>

@@ -32,6 +32,7 @@ import Feedback from './screen/Feedback';
 import TenantDashbord from './screen/TenantDashbord';
 import ListOfFeedBacks from './screen/ListOfFeedBacks';
 import FeedBackDetails from './screen/FeedBackDetails';
+import RoomFeedback from './screen/RoomFeedback';
 // import TenantDashbord from './screen/Dashboard';
 // import DocumentUpload2 from './screen/uploadDocument/DocumentUpload2';
 // import Request from './screen/Request';
@@ -80,6 +81,7 @@ const App = () => {
             <Stack.Screen name="tenantDashbord" component={TenantDashbord} />
             <Stack.Screen name="ListOfFeedBacks" component={ListOfFeedBacks} />
             <Stack.Screen name="FeedBackDetails" component={FeedBackDetails} />
+            <Stack.Screen name="RoomFeedback" component={RoomFeedback} />
             {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
