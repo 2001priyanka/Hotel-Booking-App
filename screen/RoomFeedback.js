@@ -1,61 +1,50 @@
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
+  FlatList,
   SafeAreaView,
   ScrollView,
   TextInput,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import AppIntroSlider from 'react-native-app-intro-slider';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
   responsiveFontSize as vf,
 } from 'react-native-responsive-dimensions';
-import {Dropdown} from 'react-native-element-dropdown';
-// import {MimeTypeMap} from '../../MimeTypeMap';
-import {MimeTypeMap} from '../MimeTypeMap';
-import DocumentPicker from 'react-native-document-picker';
-import {PermissionsAndroid} from 'react-native';
-import * as RNFS from 'react-native-fs';
-// import {API_URI, BASE_URL} from '../../config/Config';
 import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
-import {useNavigation, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
 const RoomFeedback = ({route}) => {
   const {data: roomId} = route?.params;
-  console.log('data', roomId.key);
-
-  const navigation = useNavigation();
-
-  const docType = route?.params;
-
-  const [feedbackData, setFeedbackData] = useState({
-    mobile: '',
-    email: '',
-    message: '',
-  });
-  // userId = '6422b8e68d924ec8e15ea7e4';
+  console.log('data', roomId);
   const userId = useSelector(reduxState => reduxState?.login?.user?.id);
   console.log(userId);
+  const [feedbackData, setFeedbackData] = useState({
+    message: '',
+  });
+  // const [allocationData, setAllocationData] = useState({
 
-  const getFeedbackData = async () => {
+  // });
+  // const [buidingsDetails, setBuidingsDetails] = useState([]);
+
+  const showFeedbacks = async () => {
     try {
       const res = await axios({
         url: API_URI + `/user/feedback/`,
-        method: 'POST',
-        // data: {
-        //   message:'hello want to see the rooms'
-        // }
+        method: 'GET',
+        // data: roomId.key,
       });
       if (res) {
-        console.log('getFeedbackData', res);
+        console.log('showFeedbacks', res);
         setFeedbackData(res?.data?.results);
       }
     } catch (error) {
@@ -63,34 +52,56 @@ const RoomFeedback = ({route}) => {
     }
   };
 
+  // const getFeedbackData = async () => {
+  //   try {
+  //     const res = await axios({
+  //       url: API_URI + '/user/feedback',
+  //       method: 'POST',
+  //       // data: {
+  //       //   message:'hello want to see the rooms'
+  //       // }
+  //     });
+  //     if (res) {
+  //       console.log('getFeedbackData', res);
+  //       setAllocationData(res?.data?.results);
+  //     }
+  //   } catch (error) {
+  //     console.log('error', error);
+  //   }
+  // };
   const submitHandler = async () => {
     console.log('submitHandler called');
-    if (feedbackData.message) {
+    if (
+      // allocationData.room_id != '' &&
+      // allocationData.user_id != '' &&
+      // allocationData.owner_id != '' &&
+      // allocationData.manager_id != '' &&
+      feedbackData.message
+      // allocationData.rent != '' &&
+      // allocationData.deposit
+    ) {
       console.log('CALL API');
 
       try {
         const feedbackRes = await axios({
-          url: API_URI + `/user/feedback/`,
+          url: API_URI + '/user/feedback',
           method: 'POST',
           data: {
             ...feedbackData,
-            feedbackCategory: 'ADMIN',
-            // user_id: userId,
-            // title: 'test',
-            // message: 'This is a test',
-            // mobile: '832842347',
-            // email: 'test@gmail.com',
+            // room_id: roomId.key,
+            user_id: userId,
+            feedbackCategory: 'ROOM',
           },
         });
+
         if (feedbackRes) {
           console.log('feedbackRes ', feedbackRes);
           if (feedbackRes?.data?.success) {
-            //   navigate("/roomImages");
-            // uploadFilesToAPI(feedbackRes?.data?.data?._id);
             Alert.alert(
               'Feedback Sent',
-              'Thank You for your feedback\nWe will get in touch with you as soon as possible!',
+              'Thank You for your Feedback \nWe will get in touch with you soon!',
             );
+            // navigate('/allocations');
           }
         }
       } catch (error) {
@@ -102,189 +113,130 @@ const RoomFeedback = ({route}) => {
   };
 
   useEffect(() => {
-    getFeedbackData();
-  }, []);
+    if (roomId) {
+      showFeedbacks();
+    }
+  }, [roomId]);
+  // useEffect(() => {
+  //   getSingleBuildingDetails();
+  // }, []);
+
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
-      <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
+    <SafeAreaView style={{backgroundColor: 'white', height: vh(100)}}>
+      <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
+        <View style={{flex: 1, padding: vw(5), position: 'relative'}}>
           <View
             style={{
+              // height: vh(20),
               justifyContent: 'center',
               alignItems: 'center',
-              height: vh(6),
-              width: vw(12),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
             }}>
-            <IconFa name="chevron-left" size={20} />
+            <Text
+              style={{
+                textAlign: 'center',
+                color: '#000',
+                fontWeight: '400',
+                fontSize: vf(3.5),
+                marginVertical: vh(2),
+                fontWeight: '500',
+              }}>
+              Your Feedback
+            </Text>
           </View>
-        </View>
-        <View
-          style={{
-            // height: vh(20),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-         
-        </View>
-        <View style={styles.title}>
-          <Text style={{fontSize: vf(3), color: '#000'}}>Feedback</Text>
-        </View>
-       
-        <View style={{paddingHorizontal: 15, marginTop: 10}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>Email:</Text>
-        </View>
-        <TextInput
-          placeholder="Email"
-          label="Email"
-          multiline={true}
-          numberOfLines={2}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              email: e,
-            });
-          }}
-          value={feedbackData?.email}
-        />
-        <View style={{paddingHorizontal: 15, marginTop: 10}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>Mobile:</Text>
-        </View>
-        <TextInput
-          placeholder="Mobile"
-          label="Mobile"
-          multiline={true}
-          numberOfLines={2}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              mobile: e,
-            });
-          }}
-          value={feedbackData?.mobile}
-        />
-        <View style={{paddingHorizontal: 15, marginTop: 10}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>Message:</Text>
-        </View>
-        <TextInput
-          placeholder="Message"
-          label="Message"
-          multiline={true}
-          numberOfLines={7}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              message: e,
-            });
-          }}
-          value={feedbackData?.message}
-        />
 
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => submitHandler()}
-            style={{width: 250}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 30,
+            }}></View>
+          <View style={{marginTop: 30}}>
+            <Text style={{color: 'black', fontSize: vf(2), padding: 10}}>
+              Message:
+            </Text>
+          </View>
+          <TextInput
+            placeholder="Message"
+            label="Message"
+            multiline={true}
+            numberOfLines={7}
+            style={styles.textArea}
+            onChangeText={e => {
+              console.log(e);
+              setFeedbackData({
+                ...feedbackData,
+                message: e,
+              });
+            }}
+            value={feedbackData?.message}
+          />
+
+          <TouchableOpacity onPress={submitHandler}>
             <View
               style={{
-                padding: 15,
-                marginTop: vh(5),
-                borderRadius: 15,
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
+                alignSelf: 'center',
+                marginVertical: vh(4),
+                height: vh(7),
+                width: vw(80),
                 backgroundColor: '#89C93D',
+                borderRadius: vw(3),
+                padding: 5,
               }}>
               <Text
                 style={{
-                  fontSize: 17,
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.5),
+                  // borderRadius: 0,
                   fontWeight: '500',
-                  color: 'white',
                 }}>
                 upload
               </Text>
             </View>
           </TouchableOpacity>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default RoomFeedback;
 
 const styles = StyleSheet.create({
-  dropdown: {
-    margin: vw(4),
-    height: vh(8),
-    borderBottomColor: '#234459',
-    borderBottomWidth: 0.5,
-    width: vw(70),
-    backgroundColor: '#234459',
-    paddingHorizontal: vw(5),
-    borderRadius: vw(2),
-    // color:'#fff'
-  },
-  icon: {
-    marginRight: 10,
-    color: '#fff',
-  },
-  placeholderStyle: {
-    fontSize: vf(2),
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-  },
-  iconStyle: {
-    width: vw(5),
-    height: vh(3),
-    // color:'#fff'
-  },
-  inputSearchStyle: {
-    height: vh(5),
-    fontSize: vf(2),
-  },
-  title: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  textArea: {
-    // height: 100,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 8,
-    textAlignVertical: 'top',
-    borderColor: '#A09C9C',
-  },
-  button: {
+  uppersection1: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    marginTop: 20,
-    backgroundColor: '#204D6C',
-    width: vw(15),
-    height: vh(5),
-    borderRadius: 10,
+    borderRadius: 30,
+    marginTop: 30,
+    width: vw(90),
+    paddingLeft: 20,
+    backgroundColor: '#F5F4F8',
+    height: vh(10),
+  },
+  uppersection2: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderRadius: 30,
+    marginTop: 30,
+    width: vw(40),
+    backgroundColor: '#F5F4F8',
+    height: vh(7),
+  },
+  textArea: {
+    // height: 100,
+    // margin: 12,
+    borderWidth: 1,
+    // padding: 10,
+    width: vw(90),
+    // height: vh(30),
+    borderRadius: 8,
+    textAlignVertical: 'top',
+    borderColor: '#A09C9C',
   },
 });

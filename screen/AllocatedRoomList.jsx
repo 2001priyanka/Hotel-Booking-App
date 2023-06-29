@@ -33,7 +33,6 @@ const RoomList = ({}) => {
   const userData = route?.params?.data;
 
   const routeData = route?.params?.data;
-
   console.log('userData', userData);
   console.log('route?.params', route?.params);
 
@@ -67,21 +66,20 @@ const RoomList = ({}) => {
   };
 
   useEffect(() => {
-   if(routeData?.startPrice && routeData?.endPrice){
-     const tempRooms = originalRoom.filter(room => {
-       return (
-         +room.rent >= routeData?.startPrice &&
-         +room.rent <= routeData?.endPrice
-       );
-     });
-     setRoomsData(tempRooms);
-   }else{
-     const tempRooms = originalRoom.filter(room => {
+    const tempRooms = originalRoom.filter(room => {
+      console.log(
+        'tempRooms',
+        room,
+        +room.rent,
+        +low,
+        // +low >= +room.rent,
+        +room.rent >= low,
+        +room.rent <= high,
+        +room.rent >= low && +room.rent <= high,
+      );
       return +room.rent >= low && +room.rent <= high;
     });
     setRoomsData(tempRooms);
-   }
-    console.log('priceRange', low, high, routeData);
   }, [low, high]);
 
   const toggleRangeEnabled = useCallback(
@@ -123,22 +121,22 @@ const RoomList = ({}) => {
   const getAllRooms = async () => {
     try {
       const res = await axios({
-        url: API_URI + `/user/room/`,
+        url: API_URI + `/user/allocation/`,
         method: 'GET',
       });
       if (res) {
         console.log('getAllRooms', res?.data?.results);
-
-        let myRooms = res?.data?.results;
+        let myRooms = [];
+        res?.data?.results &&
+          res?.data?.results.map(item => {
+            myRooms.push({
+              ...item?.room_id[0],
+              status: item?.status,
+            });
+          });
 
         setRoomsData(myRooms);
         setOriginalRoom(myRooms);
-        if (routeData?.startPrice) {
-          setLow(routeData?.startPrice);
-        }
-        if (routeData?.endPrice) {
-          setHigh(routeData?.endPrice);
-        }
       }
     } catch (error) {
       console.log('error', error);
@@ -205,6 +203,51 @@ const RoomList = ({}) => {
                   ? item.building_id[0]?.name
                   : null}
               </Text>
+              {item.status == 'PENDING_APPROVAL' && (
+                <Text
+                  style={{
+                    color: '#000',
+                    fontWeight: '600',
+                    fontSize: vf(2),
+                    padding: vw(2),
+                    backgroundColor: '#82B1FF',
+                    borderRadius: 25,
+                    textAlign: 'center',
+                    marginBottom: 3,
+                  }}>
+                  Pending Approval
+                </Text>
+              )}
+              {item.status == 'CANCELLED' && (
+                <Text
+                  style={{
+                    color: '#FFF',
+                    fontWeight: '600',
+                    fontSize: vf(2),
+                    padding: vw(2),
+                    backgroundColor: '#B71C1C',
+                    borderRadius: 25,
+                    textAlign: 'center',
+                    marginBottom: 3,
+                  }}>
+                  CANCELLED
+                </Text>
+              )}
+              {item.status == 'APPROVED' && (
+                <Text
+                  style={{
+                    color: '#FFF',
+                    fontWeight: '600',
+                    fontSize: vf(2),
+                    padding: vw(2),
+                    backgroundColor: '#76FF03',
+                    borderRadius: 25,
+                    textAlign: 'center',
+                    marginBottom: 3,
+                  }}>
+                  Approved
+                </Text>
+              )}
               <View style={{flexDirection: 'row', gap: 10}}>
                 <View
                   style={{
@@ -224,23 +267,7 @@ const RoomList = ({}) => {
       </View>
     );
   };
-  useEffect(() => {
-    if (routeData?.startPrice) {
-      setLow(routeData?.startPrice);
-    }
-    if (routeData?.endPrice) {
-      setHigh(routeData?.endPrice);
-    }
-    if (routeData?.startPrice && routeData?.endPrice) {
-      const tempRooms = originalRoom.filter(room => {
-        return (
-          +room.rent >= routeData?.startPrice &&
-          +room.rent <= routeData?.endPrice
-        );
-      });
-      setRoomsData(tempRooms);
-    }
-  }, [routeData]);
+
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -301,10 +328,9 @@ const RoomList = ({}) => {
 
         {originalRoom?.length > 0 && (
           <Slider
-            // style={styles.slider}
+            style={styles.slider}
             min={1000}
             max={100000}
-            disabled={true}
             step={1000}
             floatingLabel
             renderThumb={renderThumb}
@@ -343,9 +369,6 @@ const styles = StyleSheet.create({
   },
   slider: {
     marginVertical: 20,
-    // display:'block',
-    // disabled:"none"
-
   },
   button: {},
   header: {

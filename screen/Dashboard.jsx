@@ -47,9 +47,6 @@ const Dashboard = ({}) => {
     navigation.navigate('RoomList');
   };
 
-
- 
- 
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
   const [originalRoom, setOriginalRoom] = useState([]);
@@ -69,6 +66,8 @@ const Dashboard = ({}) => {
       icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Budget Rooms',
       priceRange: '8000-12000',
+      startPrice: 8000,
+      endPrice: 12000,
     },
     {
       img: (
@@ -84,6 +83,8 @@ const Dashboard = ({}) => {
       icon: <IconFa name="balcony" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Balcony Rooms',
       priceRange: '12000-25000',
+      startPrice: 12000,
+      endPrice: 25000,
     },
     {
       img: (
@@ -100,6 +101,8 @@ const Dashboard = ({}) => {
       ),
       name: 'Premium Rooms',
       priceRange: '25000-35000',
+      startPrice: 25000,
+      endPrice: 35000,
     },
     {
       img: (
@@ -111,12 +114,11 @@ const Dashboard = ({}) => {
       icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Premium Rooms',
       priceRange: '25000-35000',
+      startPrice: 35000,
+      endPrice: 70000,
     },
   ]);
 
-  const filterRoomsByPrice = (rooms, maxPrice) => {
-    return rooms.filter(room => room.priceRange <= maxPrice);
-  };
   // const getAllRooms = async () => {
   //   try {
   //     const res = await axios({
@@ -283,7 +285,11 @@ const Dashboard = ({}) => {
 
         <TouchableOpacity
           style={{position: 'absolute', top: 70, right: 40}}
-          onPress={onNextPressed1}>
+          onPress={() =>
+            navigation.navigate('RoomList', {
+              data: {startPrice: item.startPrice, endPrice: item.endPrice},
+            })
+          }>
           <Text
             style={{
               color: '#fff',

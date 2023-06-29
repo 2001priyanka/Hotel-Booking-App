@@ -34,28 +34,7 @@ const Profile = () => {
   const route = useRoute();
   const user_data = route.params?.userData;
   const navigation = useNavigation();
-  const onNextPressed = () => {
-    navigation.navigate('RoomList');
-  };
-  const onNextPressed1 = () => {
-    navigation.navigate('DocumentList');
-  };
-  const onNextPressed2 = () => {
-    navigation.navigate('EditProfile');
-  };
-  const onNextPressed3 = () => {
-    navigation.navigate('PendingBills');
-  };
-  const onNextPressed4 = () => {
-    navigation.navigate('Request');
-  };
-  const onNextPressed5 = () => {
-    navigation.navigate('Feedback');
-  };
-  const onNextPressed7 = () => {
-    navigation.navigate('Referral');
-  };
-
+  
   const [userData, setUserData] = useState({
     name: '',
     address1: '',
@@ -266,7 +245,7 @@ const Profile = () => {
             color: '#000',
             fontWeight: '700',
           }}>
-          {user_data?.email.split('@')[0]}
+          {user_data?.email}
         </Text>
         <Text
           style={{
@@ -324,7 +303,7 @@ const Profile = () => {
             </Text>
           </View>
         </View>
-        <TouchableOpacity onPress={onNextPressed2}>
+        <TouchableOpacity onPress={()=> navigation.navigate('EditProfile')}>
           <View
             style={{
               flexDirection: 'row',
@@ -386,7 +365,7 @@ const Profile = () => {
             {userData.address1}
           </Text>
         </View>
-        <TouchableOpacity onPress={onNextPressed}>
+        <TouchableOpacity onPress={()=> navigation.navigate('RoomList')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -400,7 +379,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onNextPressed1}>
+        <TouchableOpacity onPress={()=> navigation.navigate('DocumentList')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -414,7 +393,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onNextPressed3}>
+        <TouchableOpacity onPress={()=> navigation.navigate('PendingBills')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -428,7 +407,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onNextPressed4}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Request')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -442,7 +421,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onNextPressed5}>
+        <TouchableOpacity onPress={()=>{ navigation.navigate('Feedback')}}>
           <View style={styles.box}>
             <Text
               style={{
@@ -456,7 +435,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={onNextPressed7}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Referral')}>
           <View style={styles.box}>
             <Text
               style={{

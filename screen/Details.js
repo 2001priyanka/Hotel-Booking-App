@@ -25,14 +25,8 @@ const Details = ({route}) => {
   console.log('data', roomId.key);
 
   const navigation = useNavigation();
-  const onNextPressed = param => {
-    const data = {
-      key: param,
-    };
-    console.log('data', data);
-    console.log('param', param);
-    navigation.navigate('ShowInterest', {data});
-  };
+  
+
 
   const [roomsDetails, setRoomsDetails] = useState({});
   const [feedbackData, setFeedbackData] = useState({});
