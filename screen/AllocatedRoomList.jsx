@@ -27,7 +27,7 @@ import RailSelected from '../Slider/RailSelected';
 import Notch from '../Slider/Notch';
 import Label from '../Slider/Label';
 
-const RoomList = ({}) => {
+const AllocatedRoomList = ({}) => {
   const route = useRoute();
 
   const userData = route?.params?.data;
@@ -357,7 +357,7 @@ const RoomList = ({}) => {
   );
 };
 
-export default RoomList;
+export default AllocatedRoomList;
 
 const styles = StyleSheet.create({
   root: {
