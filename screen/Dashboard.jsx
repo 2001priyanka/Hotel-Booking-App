@@ -82,8 +82,8 @@ const Dashboard = ({}) => {
       ),
       icon: <IconFa name="balcony" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Balcony Rooms',
-      priceRange: '12000-25000',
-      startPrice: 12000,
+      priceRange: '12001-25000',
+      startPrice: 12001,
       endPrice: 25000,
     },
     {
@@ -100,8 +100,8 @@ const Dashboard = ({}) => {
         />
       ),
       name: 'Premium Rooms',
-      priceRange: '25000-35000',
-      startPrice: 25000,
+      priceRange: '25001-35000',
+      startPrice: 25001,
       endPrice: 35000,
     },
     {
@@ -113,9 +113,9 @@ const Dashboard = ({}) => {
       ),
       icon: <IconFA name="rupee" style={{marginTop: 20, fontSize: vf(4)}} />,
       name: 'Premium Rooms',
-      priceRange: '25000-35000',
-      startPrice: 35000,
-      endPrice: 70000,
+      priceRange: '35001+',
+      startPrice: 35001,
+      endPrice: 999999,
     },
   ]);
 
