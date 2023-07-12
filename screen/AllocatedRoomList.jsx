@@ -26,9 +26,11 @@ import Rail from '../Slider/Rail';
 import RailSelected from '../Slider/RailSelected';
 import Notch from '../Slider/Notch';
 import Label from '../Slider/Label';
+import { useSelector } from 'react-redux';
 
 const AllocatedRoomList = ({}) => {
   const route = useRoute();
+  const token = useSelector(reduxState => reduxState?.login?.user?.accessToken);
 
   const userData = route?.params?.data;
 
@@ -123,6 +125,9 @@ const AllocatedRoomList = ({}) => {
       const res = await axios({
         url: API_URI + `/user/allocation/`,
         method: 'GET',
+        headers:{
+          Authorization : "Bearer "+ token
+        }
       });
       if (res) {
         console.log('getAllRooms', res?.data?.results);
