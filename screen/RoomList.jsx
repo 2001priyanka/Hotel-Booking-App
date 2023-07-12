@@ -67,20 +67,20 @@ const RoomList = ({}) => {
   };
 
   useEffect(() => {
-   if(routeData?.startPrice && routeData?.endPrice){
-     const tempRooms = originalRoom.filter(room => {
-       return (
-         +room.rent >= routeData?.startPrice &&
-         +room.rent <= routeData?.endPrice
-       );
-     });
-     setRoomsData(tempRooms);
-   }else{
-     const tempRooms = originalRoom.filter(room => {
-      return +room.rent >= low && +room.rent <= high;
-    });
-    setRoomsData(tempRooms);
-   }
+    if (routeData?.startPrice && routeData?.endPrice) {
+      const tempRooms = originalRoom.filter(room => {
+        return (
+          +room.rent >= routeData?.startPrice &&
+          +room.rent <= routeData?.endPrice
+        );
+      });
+      setRoomsData(tempRooms);
+    } else {
+      const tempRooms = originalRoom.filter(room => {
+        return +room.rent >= low && +room.rent <= high;
+      });
+      setRoomsData(tempRooms);
+    }
     console.log('priceRange', low, high, routeData);
   }, [low, high]);
 
@@ -293,13 +293,24 @@ const RoomList = ({}) => {
         </TouchableOpacity>
       </View>
       <View>
-        <View style={{paddingHorizontal: vw(5), marginVertical: vh(1)}}>
-          <Text style={{fontSize: vf(2), color: '#000', marginTop: vh(2)}}>
-            Explore Nearby Estate
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            // alignSelf: 'center',
+            alignItems: 'center',
+            paddingHorizontal: vw(5),
+            marginVertical: vh(3),
+          }}>
+          <Text style={{fontSize: vf(2), color: '#000', marginRight: 10}}>
+            Explore Nearby Estate:
           </Text>
+          <Text style={{...styles.valueText, marginRight: 5}}>{low}</Text>
+          <Text style={{...styles.valueText, marginRight: 5}}>to</Text>
+          <Text style={{...styles.valueText}}>{high}</Text>
         </View>
-
-        {originalRoom?.length > 0 && (
+        {/* {originalRoom?.length > 0 && ( */}
+        {false > 0 && (
           <Slider
             // style={styles.slider}
             min={1000}
@@ -315,11 +326,10 @@ const RoomList = ({}) => {
             onValueChanged={handleValueChange}
           />
         )}
-        <View style={styles.horizontalContainer}>
+        <View style={{...styles.horizontalContainer, display: 'none'}}>
           <Text style={styles.valueText}>{low}</Text>
           <Text style={styles.valueText}>{high}</Text>
         </View>
-
         <FlatList
           data={roomsData}
           renderItem={_renderItem}
@@ -345,7 +355,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     // display:'block',
     // disabled:"none"
-
   },
   button: {},
   header: {

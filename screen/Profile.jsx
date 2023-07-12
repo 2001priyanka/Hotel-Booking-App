@@ -365,7 +365,7 @@ const Profile = () => {
             {userData.address1}
           </Text>
         </View>
-        <TouchableOpacity onPress={()=> navigation.navigate('RoomList')}>
+        <TouchableOpacity onPress={()=> navigation.navigate('AllocatedRoomList')}>
           <View style={styles.box}>
             <Text
               style={{
