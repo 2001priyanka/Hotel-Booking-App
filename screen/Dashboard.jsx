@@ -32,7 +32,7 @@ import axios from 'axios';
 const Dashboard = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
-  const userId = useSelector(reduxsState => reduxsState?.login?.user);
+  const userId = useSelector(reduxsState => reduxsState?.login?.user?.user  );
   // console.log(userData);
   const navigation = useNavigation();
   const onNextPressed = param => {
@@ -362,7 +362,7 @@ const Dashboard = ({}) => {
           <Text style={{fontSize: vf(3), color: '#000', letterSpacing: 0.5}}>
             Hey,
             <Text style={{color: '#204D6C', fontWeight: '700'}}>
-              {`${userId?.username ? userId.username : userId?.name}`}
+              {`${userId?.username ? userId.name : userId?.username}`}
             </Text>
           </Text>
           <Text style={{fontSize: vf(3), color: '#000', letterSpacing: 0.5}}>

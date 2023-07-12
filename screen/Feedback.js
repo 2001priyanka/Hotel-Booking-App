@@ -37,8 +37,6 @@ const Feedback = ({route}) => {
   const docType = route?.params;
 
   const [feedbackData, setFeedbackData] = useState({
-    mobile: '',
-    email: '',
     message: '',
   });
   // userId = '6422b8e68d924ec8e15ea7e4';
@@ -91,6 +89,7 @@ const Feedback = ({route}) => {
               'Feedback Sent',
               'Thank You for your feedback\nWe will get in touch with you as soon as possible!',
             );
+            navigation.navigate('ListOfFeedBacks');
           }
         }
       } catch (error) {
@@ -198,7 +197,7 @@ const Feedback = ({route}) => {
           }}
           value={feedbackData?.user_id}
         /> */}
-        <View style={{paddingHorizontal: 15, marginTop: 10}}>
+        {/* <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Email:</Text>
         </View>
         <TextInput
@@ -215,8 +214,8 @@ const Feedback = ({route}) => {
             });
           }}
           value={feedbackData?.email}
-        />
-        <View style={{paddingHorizontal: 15, marginTop: 10}}>
+        /> */}
+        {/* <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Mobile:</Text>
         </View>
         <TextInput
@@ -233,7 +232,7 @@ const Feedback = ({route}) => {
             });
           }}
           value={feedbackData?.mobile}
-        />
+        /> */}
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Message:</Text>
         </View>

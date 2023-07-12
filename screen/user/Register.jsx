@@ -23,8 +23,9 @@ const Register = ({navigation}) => {
   const initialState = {
     name: '',
     email: '',
+    mobile: '',
     password: '',
-    role:'user',
+    role: 'user',
   };
   const [userData, setUserData] = useState(initialState);
 
@@ -34,7 +35,11 @@ const Register = ({navigation}) => {
       const res = await axios({
         url: API_URI + '/auth/signup',
         method: 'POST',
-        data: {...userData, username: userData.email},
+        data: {
+          ...userData,
+          username: userData.email,
+          username: userData.mobile,
+        },
       });
       if(res.status==200){
         console.log(res?.data);
@@ -68,10 +73,10 @@ const Register = ({navigation}) => {
             Create your{' '}
             <Text style={{color: '#204D6C', fontWeight: '700'}}>account</Text>
           </Text>
-          <Text style={{marginVertical: vh(2)}}>
+          {/* <Text style={{marginVertical: vh(2)}}>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry.
-          </Text>
+          </Text> */}
           <View
             style={{
               flexDirection: 'row',
@@ -89,7 +94,27 @@ const Register = ({navigation}) => {
               name="name"
               onChangeText={text => setUserData({...userData, name: text})}
               value={userData.name}
-              style={{height:vh(9),width:vw(100)}}
+              style={{height: vh(9), width: vw(100)}}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: vh(9),
+              backgroundColor: `rgba(0,0,0,0.1)`,
+              borderRadius: vw(2),
+              paddingHorizontal: vw(5),
+              gap: 5,
+              marginTop: vh(2),
+            }}>
+            <IconFa name="phone-outline" size={20} />
+            <TextInput
+              placeholder="Mobile"
+              name="name"
+              onChangeText={text => setUserData({...userData, mobile: text})}
+              value={userData.mobile}
+              style={{height: vh(9), width: vw(100)}}
             />
           </View>
           <View
@@ -108,7 +133,7 @@ const Register = ({navigation}) => {
               placeholder="Email"
               onChangeText={text => setUserData({...userData, email: text})}
               value={userData.email}
-              style={{height:vh(9),width:vw(100)}}
+              style={{height: vh(9), width: vw(100)}}
             />
           </View>
           <View
@@ -127,7 +152,7 @@ const Register = ({navigation}) => {
               placeholder="Password"
               onChangeText={text => setUserData({...userData, password: text})}
               value={userData.password}
-              style={{height:vh(9),width:vw(100)}}
+              style={{height: vh(9), width: vw(100)}}
             />
             {/* /> */}
           </View>

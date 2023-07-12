@@ -27,15 +27,13 @@ const FeedBackDetails = ({}) => {
 
   const {data: roomId} = route?.params;
   console.log('data', roomId.key);
-  
+
   const userId = useSelector(reduxsState => reduxsState?.login?.user);
   // console.log(userData);
   const navigation = useNavigation();
-  
- 
+
   const [feedbackData, setFeedbackData] = useState([]);
   const [originalRoom, setOriginalRoom] = useState([]);
- 
 
   const getSingleFeedbackData = async () => {
     try {
@@ -87,7 +85,7 @@ const FeedBackDetails = ({}) => {
                 color: 'black',
                 // marginTop: 4,
               }}>
-              Need services for plumbing
+              {feedbackData.message}
             </Text>
             <Text
               style={{

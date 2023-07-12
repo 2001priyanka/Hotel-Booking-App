@@ -31,8 +31,8 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: 'info@ianto.in',
-    password: '123456',
+    username: '',
+    password: '',
   });
   useEffect(() => {
     GoogleSignin.configure({

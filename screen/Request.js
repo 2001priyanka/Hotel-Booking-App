@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   ScrollView,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -29,7 +30,7 @@ import {useSelector} from 'react-redux';
 
 const data = [
   {label: 'Electricity', value: 'ELECTRICITY'},
-  {label: 'maintenance', value: 'MAINTENANCE'},
+  {label: 'Maintenance', value: 'MAINTENANCE'},
   {label: 'Plumbing', value: 'PLUMBING'},
   //   {label: 'Cheque copy', value: 'CHEQUE'},
   //   {label: 'Passport', value: 'PASSWORD'},
@@ -125,14 +126,18 @@ const Request = ({route}) => {
           method: 'POST',
           data: {
             user_id: userId,
-            title: 'test',  
+            title: 'test',
             message: 'This is a test',
           },
         });
         if (RequestImageRes) {
           console.log('RequestImageRes ', RequestImageRes?.data?.data?._id);
           if (RequestImageRes?.data?.success) {
-            //   navigate("/roomImages");
+            Alert.alert(
+              'Enquiry Sent',
+              'Thank You for showing interest in our room \nWe will get in touch with you soon!',
+            );
+            navigation.navigate('ListAllRequest');
             uploadFilesToAPI(RequestImageRes?.data?.data?._id);
           }
         }
@@ -230,19 +235,27 @@ const Request = ({route}) => {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             alignItems: 'center',
           }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: vh(6),
-              width: vw(12),
-              backgroundColor: `rgba(0,0,0,0.1)`,
-              borderRadius: vw(5),
-            }}>
-            <IconFa name="chevron-left" size={20} />
+          <IconFa
+            // onPress={navigation.navigate('dashboard')}
+            name="chevron-left"
+            size={30}
+          />
+
+          <View>
+            <Text
+              style={{
+                // textAlign: 'center',
+                paddingLeft: vw(9),
+                color: '#000',
+                fontWeight: '400',
+                fontSize: vf(3),
+                // marginVertical: vh(2.5),
+              }}>
+              Create a request
+            </Text>
           </View>
         </View>
         <View
@@ -256,10 +269,10 @@ const Request = ({route}) => {
               textAlign: 'center',
               color: '#000',
               fontWeight: '400',
-              fontSize: vf(3),
-              marginVertical: vh(2.5),
+              fontSize: vf(2.2),
+              marginTop: vh(10),
             }}>
-            please select the request
+            Select Type of Request
           </Text>
           <Dropdown
             style={styles.dropdown}
@@ -295,9 +308,7 @@ const Request = ({route}) => {
             )}
           />
         </View>
-        <View style={styles.title}>
-          <Text style={{fontSize: vf(3), color: '#000'}}>Requests</Text>
-        </View>
+
         <View style={{paddingHorizontal: 15, marginTop: 30}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>
             Request Message:
@@ -321,97 +332,44 @@ const Request = ({route}) => {
         />
         <TouchableOpacity onPress={() => selectAllFiles()}>
           <View style={styles.button}>
-            <Text style={{color: '#fff', fontSize: vf(3)}}>+</Text>
+            <Text style={{color: '#fff', fontSize: vf(2)}}>Add Photo</Text>
           </View>
         </TouchableOpacity>
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginVertical: vh(4),
-            height: vh(7),
-            width: vw(40),
-            backgroundColor: '#89C93D',
-            borderRadius: vw(5),
-            padding: 5,
-          }}>
-          <Text
-            style={{
-              color: '#fff',
-              alignSelf: 'center',
-              fontSize: vf(2.5),
-              borderRadius: 50,
-            }}>
-           Upload
-          </Text>
-        </View> */}
-        {/* <TouchableOpacity
-          style={{
-            borderWidth: 1,
-            height: vh(30),
-            width: vw(90),
-            marginTop: vh(4),
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: vw(2),
-          }}
-          onPress={() => selectAllFiles()}>
-          <Image
-            source={
-              imageUri
-                ? {uri: imageUri}
-                : {uri: BASE_URL + user?.document.replace('Storage\\', '/')}
-            }
-            style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
-            resizeMode="cover"
-          />
-        </TouchableOpacity> */}
-        <View style={{marginVertical: vh(3)}}>
+
+        {/* <View style={{marginVertical: vh(3)}}>
           <Text style={{textAlign: 'center'}}>{label ? label : ' '}</Text>
-        </View>
-        {/* <TextInput
-          placeholder="Aadhar Card Number"
+        </View> */}
+        <View
           style={{
-            height: vh(9),
-            width: vw(90),
-            borderBottomWidth: 1,
-            padding: 20,
-            paddingHorizontal: 30,
-          }}
-        /> */}
-        {imageUri ? (
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => submitHandler()}
-              style={{width: 250}}>
-              <View
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => submitHandler()}
+            style={{width: 250}}>
+            <View
+              style={styles.Submitbutton}
+              // style={{
+              //   padding: 15,
+              //   // marginTop: 2,
+              //   borderRadius: 15,
+              //   flexDirection: 'row',
+              //   justifyContent: 'center',
+              //   alignItems: 'center',
+              //   backgroundColor: '#89C93D',
+              // }}
+            >
+              <Text
                 style={{
-                  padding: 15,
-                  marginTop: 2,
-                  borderRadius: 15,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#89C93D',
+                  fontSize: 17,
+                  fontWeight: '500',
+                  color: 'white',
                 }}>
-                <Text
-                  style={{
-                    fontSize: 17,
-                    fontWeight: '500',
-                    color: 'white',
-                  }}>
-                  upload
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        ) : null}
+                Submit
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
@@ -474,8 +432,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     backgroundColor: '#204D6C',
-    width: vw(15),
-    height: vh(5),
+    width: vw(60),
+    height: vh(7),
+    borderRadius: 10,
+  },
+  Submitbutton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    backgroundColor: '#89C93D',
+    width: vw(60),
+    height: vh(7),
     borderRadius: 10,
   },
 });

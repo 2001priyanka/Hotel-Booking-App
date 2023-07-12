@@ -24,6 +24,7 @@ import axios from 'axios';
 import {useSelector} from 'react-redux';
 
 const ShowInterest = ({route}) => {
+  const navigation = useNavigation();
   const {data: roomId} = route?.params;
   console.log('data', roomId);
   const userId = useSelector(reduxState => reduxState?.login?.user?.id);
@@ -94,12 +95,13 @@ const ShowInterest = ({route}) => {
 
         if (allocationRes) {
           console.log('allocationRes ', allocationRes);
+
           if (allocationRes?.data?.success) {
             Alert.alert(
               'Enquiry Sent',
               'Thank You for showing interest in our room \nWe will get in touch with you soon!',
             );
-            // navigate('/allocations');
+            navigation.navigate('dashboard');
           }
         }
       } catch (error) {

@@ -34,6 +34,8 @@ import ListOfFeedBacks from './screen/ListOfFeedBacks';
 import FeedBackDetails from './screen/FeedBackDetails';
 import RoomFeedback from './screen/RoomFeedback';
 import AllocatedRoomList from './screen/AllocatedRoomList';
+// import ListOfRequest from './screen/ListOfRequest';
+import ListAllRequest from './screen/ListAllRequest';
 
 
 // import TenantDashbord from './screen/Dashboard';
@@ -85,7 +87,11 @@ const App = () => {
             <Stack.Screen name="ListOfFeedBacks" component={ListOfFeedBacks} />
             <Stack.Screen name="FeedBackDetails" component={FeedBackDetails} />
             <Stack.Screen name="RoomFeedback" component={RoomFeedback} />
-            <Stack.Screen name="AllocatedRoomList" component={AllocatedRoomList} />
+            <Stack.Screen name="ListAllRequest" component={ListAllRequest} />
+            <Stack.Screen
+              name="AllocatedRoomList"
+              component={AllocatedRoomList}
+            />
             {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
