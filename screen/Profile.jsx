@@ -216,7 +216,7 @@ const Profile = () => {
   }, [files]);
 
   return (
-    <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
+    <ScrollView style={{flex: 1, height:vh(100), backgroundColor: '#fff'}}>
       <View style={{padding: vw(3)}}>
         <View
           style={{
@@ -303,7 +303,7 @@ const Profile = () => {
             </Text>
           </View>
         </View>
-        <TouchableOpacity onPress={()=> navigation.navigate('EditProfile')}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditProfile')}>
           <View
             style={{
               flexDirection: 'row',
@@ -365,7 +365,8 @@ const Profile = () => {
             {userData.address1}
           </Text>
         </View>
-        <TouchableOpacity onPress={()=> navigation.navigate('AllocatedRoomList')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AllocatedRoomList')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -379,7 +380,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=> navigation.navigate('DocumentList')}>
+        <TouchableOpacity onPress={() => navigation.navigate('DocumentList')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -393,7 +394,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=> navigation.navigate('PendingBills')}>
+        <TouchableOpacity onPress={() => navigation.navigate('PendingBills')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -407,7 +408,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=> navigation.navigate('Request')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Request')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -421,7 +422,10 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>{ navigation.navigate('Feedback')}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Feedback');
+          }}>
           <View style={styles.box}>
             <Text
               style={{
@@ -435,7 +439,7 @@ const Profile = () => {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=> navigation.navigate('Referral')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Referral')}>
           <View style={styles.box}>
             <Text
               style={{
@@ -460,7 +464,21 @@ const Profile = () => {
                 // marginTop: 20,
                 borderRadius: 50,
               }}>
-              List Of FeedBacks
+              List All FeedBacks
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ListAllRequest')}>
+          <View style={styles.box}>
+            <Text
+              style={{
+                color: '#fff',
+                alignSelf: 'center',
+                fontSize: vf(2.2),
+                // marginTop: 20,
+                borderRadius: 50,
+              }}>
+              List All Requests
             </Text>
           </View>
         </TouchableOpacity>

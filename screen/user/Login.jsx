@@ -31,8 +31,8 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: '',
-    password: '',
+    username: '9167394219',
+    password: '123456',
   });
   useEffect(() => {
     GoogleSignin.configure({
@@ -141,10 +141,10 @@ const Login = ({navigation}) => {
             Let's{' '}
             <Text style={{color: '#204D6C', fontWeight: '700'}}>Sign in</Text>
           </Text>
-          <Text style={{marginVertical: vh(2)}}>
+          {/* <Text style={{marginVertical: vh(2)}}>
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry.
-          </Text>
+          </Text> */}
           <View
             style={{
               flexDirection: 'row',

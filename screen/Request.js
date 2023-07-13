@@ -9,6 +9,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+// import { useSelector } from 'react-redux';
 import React, {useEffect, useState} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -37,9 +38,10 @@ const data = [
 ];
 
 const Request = ({route}) => {
+  const token = useSelector(reduxState => reduxState?.login?.user?.accessToken);
   const navigation = useNavigation();
   const onNextPressed = () => {
-    navigation.navigate('RoomList');
+    navigation.navigate('profile');
   };
   const docType = route?.params;
   const [imageUri, setimageUri] = useState(null);
@@ -128,6 +130,9 @@ const Request = ({route}) => {
             user_id: userId,
             title: 'test',
             message: 'This is a test',
+          },
+          headers: {
+            Authorization: 'Bearer ' + token,
           },
         });
         if (RequestImageRes) {
@@ -238,21 +243,17 @@ const Request = ({route}) => {
             justifyContent: 'flex-start',
             alignItems: 'center',
           }}>
-          <IconFa
-            // onPress={navigation.navigate('dashboard')}
-            name="chevron-left"
-            size={30}
-          />
+          <TouchableOpacity onPress={onNextPressed}>
+            <IconFa name="chevron-left" size={30} />
+          </TouchableOpacity>
 
           <View>
             <Text
               style={{
-                // textAlign: 'center',
                 paddingLeft: vw(9),
                 color: '#000',
                 fontWeight: '400',
                 fontSize: vf(3),
-                // marginVertical: vh(2.5),
               }}>
               Create a request
             </Text>

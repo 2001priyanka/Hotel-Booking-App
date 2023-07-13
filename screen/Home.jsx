@@ -101,7 +101,7 @@ const Home = () => {
              alignItems: 'center',
            }}>
            <Text
-             onPress={onNext1Pressed}
+             onPress={onNext2Pressed}
              style={{color: '#fff', fontWeight: '600', fontSize: vf(2.5)}}>
              Next
            </Text>
