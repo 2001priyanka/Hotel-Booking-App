@@ -9,7 +9,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import React, {useEffect, useState, useCallback} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
@@ -230,22 +230,35 @@ const RoomList = ({}) => {
     );
   };
   useEffect(() => {
-    if (routeData?.startPrice) {
-      setLow(routeData?.startPrice);
-    }
-    if (routeData?.endPrice) {
-      setHigh(routeData?.endPrice);
-    }
+    console.log('routeData', routeData);
+    // if (routeData?.startPrice) {
+    //   setLow(+routeData?.startPrice);
+    // }
+    // if (routeData?.endPrice) {
+    //   setHigh(+routeData?.endPrice);
+    // }
     if (routeData?.startPrice && routeData?.endPrice) {
       const tempRooms = originalRoom.filter(room => {
         return (
-          +room.rent >= routeData?.startPrice &&
-          +room.rent <= routeData?.endPrice
+          +room.rent >= +routeData?.startPrice &&
+          +room.rent <= +routeData?.endPrice
         );
       });
+      console.log('routeData tempRooms', tempRooms);
       setRoomsData(tempRooms);
     }
   }, [routeData]);
+  useEffect(() => {
+    console.log('routeData', low, high);
+
+    if (low && high) {
+      const tempRooms = originalRoom.filter(room => {
+        return +room.rent >= +low && +room.rent <= +high;
+      });
+      console.log('routeData lowhigh tempRooms', tempRooms);
+      setRoomsData(tempRooms);
+    }
+  }, [low, high]);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View

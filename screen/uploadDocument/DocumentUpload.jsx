@@ -35,23 +35,20 @@ const data = [
 ];
 
 const DocumentUpload = ({route}) => {
-  const docType = route?.params
+  const docType = route?.params?.docType;
+  const myDoc = route?.params?.myDoc;
   const [imageUri, setimageUri] = useState(null);
   const [files, setFiles] = useState([]);
   const [label, setLabel] = useState(' ');
   const [loading, setLoading] = useState(null);
   const [user, setUserData] = useState(null);
-   const [documentNo, setDocumentNo] = useState({
-     documentNumber: '',
-     userId,
-     docType,
-   });
- 
+  const [documentNo, setDocumentNo] = useState(null);
+
   const [value, setValue] = useState(docType);
   const [isTrue, setIsTrue] = useState(false);
   // let userId = '6422b8e68d924ec8e15ea7e4';
-  const userId = useSelector(reduxState => reduxState?.login?.user?.id)
-   console.log(userId)
+  const userId = useSelector(reduxState => reduxState?.login?.user?.id);
+  console.log(userId);
   const requestCameraPermission = async () => {
     try {
       const grants = await PermissionsAndroid.requestMultiple([
@@ -111,37 +108,46 @@ const DocumentUpload = ({route}) => {
       }
     }
   };
-  
-   const submitHandler = async () => {
-     console.log('submitHandler called');
-     if (imageUri && docType) {
-       console.log('CALL API');
-       try {
-         const DocumentImageRes = await axios({
-           url: API_URI + '/admin/document',
-           method: 'POST',
-           data: {
-             //  tenant_id: userId,
-             //  docType
-             ...documentNo,
-             documentCategory:'USER',
-           },
-         });
-         if (DocumentImageRes) {
-           console.log('DocumentImageRes ', DocumentImageRes?.data?.data?._id);
-           if (DocumentImageRes?.data?.success) {
-             //   navigate("/roomImages");
-             uploadFilesToAPI(DocumentImageRes?.data?.data?._id);
-           }
-         }
-       } catch (error) {
-         console.log('API error', error);
-       }
-     } else {
-       window.alert('Required Fields Missing');
-     }
-   };
-
+  console.log(
+    'documentNo',
+    documentNo,
+    userId,
+    myDoc,
+    BASE_URL +
+      myDoc?.media1
+        ?.toString()
+        ?.replace('Storage\\', '/')
+        ?.replace('Storage/', '/'),
+  );
+  const submitHandler = async () => {
+    console.log('submitHandler called');
+    if (imageUri && docType) {
+      console.log('CALL API');
+      try {
+        const DocumentImageRes = await axios({
+          url: API_URI + '/admin/document',
+          method: 'POST',
+          data: {
+            tenant_id: userId,
+            docType,
+            documentNumber: documentNo,
+            documentCategory: 'USER',
+          },
+        });
+        if (DocumentImageRes) {
+          console.log('DocumentImageRes ', DocumentImageRes?.data?.data?._id);
+          if (DocumentImageRes?.data?.success) {
+            //   navigate("/roomImages");
+            uploadFilesToAPI(DocumentImageRes?.data?.data?._id);
+          }
+        }
+      } catch (error) {
+        console.log('API error', error);
+      }
+    } else {
+      window.alert('Required Fields Missing');
+    }
+  };
 
   const uploadFilesToAPI = async _id => {
     // const data = files;
@@ -221,7 +227,11 @@ const DocumentUpload = ({route}) => {
       console.log('uploadFilesToAPI UPLOADS', error);
     }
   };
-
+  useEffect(() => {
+    if (myDoc) {
+      setDocumentNo(myDoc?.documentNumber);
+    }
+  }, [myDoc]);
   console.log(imageUri);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -251,7 +261,7 @@ const DocumentUpload = ({route}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text
+          {/* <Text
             style={{
               textAlign: 'center',
               color: '#000',
@@ -293,9 +303,9 @@ const DocumentUpload = ({route}) => {
                 size={20}
               />
             )}
-          />
+          /> */}
         </View>
-        <TouchableOpacity
+        <View
           style={{
             borderWidth: 1,
             height: vh(30),
@@ -304,17 +314,49 @@ const DocumentUpload = ({route}) => {
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: vw(2),
+            display: myDoc ? 'flex' : 'none',
+          }}>
+          {myDoc?.media1 ? (
+            <Image
+              source={{
+                uri:
+                  BASE_URL +
+                  myDoc?.media1
+                    ?.toString()
+                    ?.replace('Storage\\', '/')
+                    ?.replace('Storage/', '/'),
+              }}
+              style={{height: vh(29), width: vw(80), overflow: 'hidden'}}
+              resizeMode="cover"
+            />
+          ) : (
+            <Text>File Corrupt</Text>
+          )}
+        </View>
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            height: myDoc ? vh(8) : vh(30),
+            width: vw(90),
+            marginTop: vh(4),
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: vw(2),
           }}
           onPress={() => selectAllFiles()}>
-          <Image
-            source={
-              imageUri
-                ? {uri: imageUri}
-                : {uri: BASE_URL + user?.document.replace('Storage\\', '/')}
-            }
-            style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
-            resizeMode="cover"
-          />
+          {imageUri ? (
+            <Image
+              source={
+                imageUri
+                  ? {uri: imageUri}
+                  : {uri: BASE_URL + user?.document.replace('Storage\\', '/')}
+              }
+              style={{height: vh(25), width: vw(80), overflow: 'hidden'}}
+              resizeMode="cover"
+            />
+          ) : (
+            <Text>Click to Attach a File</Text>
+          )}
         </TouchableOpacity>
         <View style={{marginVertical: vh(3)}}>
           <Text style={{textAlign: 'center'}}>{label ? label : ' '}</Text>
@@ -330,12 +372,13 @@ const DocumentUpload = ({route}) => {
           }}
           onChangeText={e => {
             console.log(e);
-            setDocumentNo({
-              ...documentNo,
-              documentNumber: e,
-            });
+            setDocumentNo(e);
+            // setDocumentNo({
+            //   ...documentNo,
+            //   documentNumber: e,
+            // });
           }}
-          value={documentNo?.documentNumber}
+          value={documentNo}
         />
         {imageUri ? (
           <View

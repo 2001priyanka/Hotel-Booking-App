@@ -24,6 +24,7 @@ import {API_URI, BASE_URL} from '../config/Config';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import {MimeTypeMap} from '../MimeTypeMap';
+import {useSelector} from 'react-redux';
 // import { API_URI } from '../config/Config';
 
 const DocumentList = () => {
@@ -32,12 +33,48 @@ const DocumentList = () => {
   const [imageUri, setimageUri] = useState(null);
   const route = useRoute();
   const user_data = route.params?.userData;
+  const accessToken = useSelector(
+    reduxsState => reduxsState?.login?.user?.accessToken,
+  );
+  const [avlDocs, setAvlDocs] = useState({
+    AADHAR: null,
+    PAN: null,
+    DOCUMENT: null,
+    ADDRESS: null,
+    CHEQUE: null,
+    PASSPORT: null,
+  });
   const navigation = useNavigation();
   const onNextPressed = () => {
     navigation.navigate('RoomList');
   };
   const onNextPressed1 = docType => {
-    navigation.navigate('document', docType);
+    console.log('documentNo', avlDocs);
+    let myDoc = null;
+    switch (docType) {
+      case 'AADHAR':
+        myDoc = avlDocs.AADHAR;
+        break;
+      case 'PAN':
+        myDoc = avlDocs.PAN;
+        break;
+      case 'DOCUMENT':
+        myDoc = avlDocs.DOCUMENT;
+        break;
+      case 'ADDRESS':
+        myDoc = avlDocs.ADDRESS;
+        break;
+      case 'CHEQUE':
+        myDoc = avlDocs.CHEQUE;
+        break;
+      case 'PASSPORT':
+        myDoc = avlDocs.PASSPORT;
+        break;
+
+      default:
+        break;
+    }
+    navigation.navigate('document', {docType, myDoc});
   };
   const onNextPressed2 = () => {
     navigation.navigate('EditProfile');
@@ -206,9 +243,62 @@ const DocumentList = () => {
       uploadFilesToAPI(user_data?._id);
     }
   }, [files]);
-  // useEffect(() => {
-  //   getUserData();
-  // }, []);
+  const getDocuments = async () => {
+    console.log('DocumentRes CALL API');
+    try {
+      const DocumentRes = await axios({
+        url: API_URI + '/user/document',
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
+      });
+      if (DocumentRes) {
+        const resDocs = DocumentRes?.data?.results;
+        console.log('DocumentRes ', resDocs);
+        let setByResDocs = {
+          AADHAR: null,
+          PAN: null,
+          DOCUMENT: null,
+          ADDRESS: null,
+          CHEQUE: null,
+          PASSPORT: null,
+        };
+        resDocs.map(item => {
+          switch (item.docType) {
+            case 'AADHAR':
+              setByResDocs = {...setByResDocs, AADHAR: item};
+              break;
+            case 'PAN':
+              setByResDocs = {...setByResDocs, PAN: item};
+              break;
+            case 'DOCUMENT':
+              setByResDocs = {...setByResDocs, DOCUMENT: item};
+              break;
+            case 'ADDRESS':
+              setByResDocs = {...setByResDocs, ADDRESS: item};
+              break;
+            case 'CHEQUE':
+              setByResDocs = {...setByResDocs, CHEQUE: item};
+              break;
+            case 'PASSPORT':
+              setByResDocs = {...setByResDocs, PASSPORT: item};
+              break;
+
+            default:
+              break;
+          }
+          setAvlDocs({...avlDocs, ...setByResDocs});
+          console.log('setByResDocs', resDocs, avlDocs, setByResDocs);
+        });
+      }
+    } catch (error) {
+      console.log('API error', error);
+    }
+  };
+  useEffect(() => {
+    getDocuments();
+  }, []);
   // console.log(BASE_URL+user_data.profilePic?.replace('Storage\\','/'));
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -255,7 +345,7 @@ const DocumentList = () => {
                 // marginTop: 30,
                 paddingRight: 30,
               }}>
-              View
+              {avlDocs.AADHAR ? 'View' : 'Upload'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -289,7 +379,7 @@ const DocumentList = () => {
                 // marginTop: 30,
                 paddingRight: 30,
               }}>
-              View
+              {avlDocs.PAN ? 'View' : 'Upload'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -323,7 +413,7 @@ const DocumentList = () => {
                 // marginTop: 30,
                 paddingRight: 30,
               }}>
-              View
+              {avlDocs.DOCUMENT ? 'View' : 'Upload'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -357,7 +447,7 @@ const DocumentList = () => {
                 // marginTop: 30,
                 paddingRight: 30,
               }}>
-              View
+              {avlDocs.ADDRESS ? 'View' : 'Upload'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -391,7 +481,7 @@ const DocumentList = () => {
                 // marginTop: 30,
                 paddingRight: 30,
               }}>
-              View
+              {avlDocs.CHEQUE ? 'View' : 'Upload'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -413,7 +503,7 @@ const DocumentList = () => {
               Passport
             </Text>
           </View>
-          <TouchableOpacity onPress={() => onNextPressed1('PASSWORD')}>
+          <TouchableOpacity onPress={() => onNextPressed1('PASSPORT')}>
             <Text
               style={{
                 color: '#fff',
@@ -425,7 +515,7 @@ const DocumentList = () => {
                 // marginTop: 30,
                 paddingRight: 30,
               }}>
-              View
+              {avlDocs.PASSPORT ? 'View' : 'Upload'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -452,7 +542,7 @@ const DocumentList = () => {
             </Text>
           </View>
           {/* <TouchableOpacity
-            onPress={() => onNextPressed1('POLICE VERIFICATION FORM')}>
+            onPress={() => onNextPressed1X('POLICE VERIFICATION FORM')}>
             <Text
               style={{
                 color: '#fff',
