@@ -9,6 +9,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import React, {useEffect, useState, useCallback} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome';
@@ -28,6 +29,7 @@ import Notch from '../Slider/Notch';
 import Label from '../Slider/Label';
 
 const RoomList = ({}) => {
+  const token = useSelector(reduxState => reduxState?.login?.user?.accessToken);
   const route = useRoute();
 
   const userData = route?.params?.data;
@@ -125,6 +127,9 @@ const RoomList = ({}) => {
       const res = await axios({
         url: API_URI + `/user/room/`,
         method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
       });
       if (res) {
         console.log('getAllRooms', res?.data?.results);

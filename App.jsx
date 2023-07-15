@@ -36,16 +36,10 @@ import RoomFeedback from './screen/RoomFeedback';
 import AllocatedRoomList from './screen/AllocatedRoomList';
 // import ListOfRequest from './screen/ListOfRequest';
 import ListAllRequest from './screen/ListAllRequest';
-
-
+import Footer from './screen/Footer';
 // import TenantDashbord from './screen/Dashboard';
 // import DocumentUpload2 from './screen/uploadDocument/DocumentUpload2';
 // import Request from './screen/Request';
-
-
-
-
-
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
@@ -95,7 +89,7 @@ const App = () => {
             {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
-          {/* <Footer/> */}
+          <Footer />
         </NavigationContainer>
       </PersistGate>
     </Provider>
