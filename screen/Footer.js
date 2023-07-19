@@ -35,26 +35,19 @@ const Footer = () => {
   const onNextPressed3 = () => {
     navigation.navigate('Request');
   };
-  const onNextPressed4 = () => {
-    navigation.navigate('WishList');
-  };
   return (
     <View
       style={{
-        // flex: 1,
         height: vh(8),
         borderWidth: 0,
-        // height: 60,
         width: vw(100),
         backgroundColor: 'white',
-        // backgroundColor: 'lightgray',
       }}>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-around',
           alignSelf: 'center',
-          //   backgroundColor: '#465790',
           width: vw(100),
           height: vh(10),
           alignItems: 'center',
@@ -63,7 +56,6 @@ const Footer = () => {
           onPress={onNextPressed1}
           style={{alignItems: 'center'}}>
           <IconFa name="home-city-outline" style={{color: 'black'}} size={25} />
-          
         </TouchableOpacity>
 
         <TouchableOpacity

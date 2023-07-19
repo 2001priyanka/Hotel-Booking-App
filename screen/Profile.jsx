@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFa1 from 'react-native-vector-icons/Ionicons';
+import {Icon} from 'react-native-elements';
+// import {mdiMessageAlert} from '@mdi/js';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -216,7 +219,7 @@ const Profile = () => {
   }, [files]);
 
   return (
-    <ScrollView style={{flex: 1, height:vh(100), backgroundColor: '#fff'}}>
+    <ScrollView style={{flex: 1, height: vh(100), backgroundColor: '#fff'}}>
       <View style={{padding: vw(3)}}>
         <View
           style={{
@@ -365,123 +368,152 @@ const Profile = () => {
             {userData.address1}
           </Text>
         </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('AllocatedRoomList')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Your Rooms
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DocumentList')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Upload Document
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('PendingBills')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Pending Payments
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Request')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Request
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Feedback');
-          }}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Feedback
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Referral')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              Referral
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('ListOfFeedBacks')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              List All FeedBacks
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('ListAllRequest')}>
-          <View style={styles.box}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.2),
-                // marginTop: 20,
-                borderRadius: 50,
-              }}>
-              List All Requests
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AllocatedRoomList')}>
+            <View style={styles.box}>
+              <Icon reverse name="home" type="fontawesome" color="#517fa4" />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                Your Rooms
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('DocumentList')}>
+            <View style={styles.box}>
+              <Icon reverse name="folder" type="fontawesome" color="#517fa4" />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                Upload Document
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity onPress={() => navigation.navigate('PendingBills')}>
+            <View style={styles.box}>
+              <Icon reverse name="money" type="fontawesome" color="#517fa4" />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                Pending Payments
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Request')}>
+            <View style={styles.box}>
+              <Icon
+                reverse
+                name="bolt"
+                type="fontawesome"
+                color="#517fa4"
+              />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                Request
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Feedback');
+            }}>
+            <View style={styles.box}>
+              <Icon reverse name="message" type="fontawesome" color="#517fa4" />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                Feedback
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Referral')}>
+            <View style={styles.box}>
+              <Icon reverse name="people" color="#517fa4" />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                Referral
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ListOfFeedBacks')}>
+            <View style={styles.box}>
+              <Icon
+                reverse
+                name="book"
+                type="fontawesome"
+                color="#517fa4"
+                // size={40}
+              />
+
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                List All FeedBacks
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('ListAllRequest')}>
+            <View style={styles.box}>
+              <Icon reverse name="list" color="#517fa4" />
+              <Text
+                style={{
+                  color: '#fff',
+                  alignSelf: 'center',
+                  fontSize: vf(2.2),
+                  // marginTop: 20,
+                  borderRadius: 50,
+                }}>
+                List All Requests
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity>
           <View
             style={{
@@ -516,16 +548,16 @@ export default Profile;
 
 const styles = StyleSheet.create({
   box: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flex:1,
+    justifyContent:'center',
     alignItems: 'center',
     alignSelf: 'center',
     marginVertical: vh(1),
-    height: vh(8),
-    width: vw(90),
-    // marginHorizontal: vw(1.5),
+    height: vh(15),
+    width: vw(42),
+    marginHorizontal: vw(1.5),
     backgroundColor: '#204D6C',
-    borderRadius: vw(5),
-    padding: 5,
-  },
+    borderRadius: vw(3),
+    // padding: 5,
+  }               
 });
