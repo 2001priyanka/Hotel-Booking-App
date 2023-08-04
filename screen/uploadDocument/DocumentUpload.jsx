@@ -23,6 +23,7 @@ import * as RNFS from 'react-native-fs';
 import {API_URI, BASE_URL} from '../../config/Config';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const data = [
   {label: 'Aadhar card', value: 'AADHAR'},
@@ -35,6 +36,7 @@ const data = [
 ];
 
 const DocumentUpload = ({route}) => {
+  const navigate = useNavigation()
   const docType = route?.params?.docType;
   const myDoc = route?.params?.myDoc;
   const [imageUri, setimageUri] = useState(null);
@@ -56,55 +58,90 @@ const DocumentUpload = ({route}) => {
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         PermissionsAndroid.PERMISSIONS.CAMERA,
       ]);
+      console.log(
+        'grants',
+        grants,
+        grants['android.permission.CAMERA'] ==
+          PermissionsAndroid.RESULTS.GRANTED ||
+          grants['android.permission.CAMERA'] ==
+            PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN,
+        {
+          CAMERA:
+            grants['android.permission.CAMERA'] ==
+            PermissionsAndroid.RESULTS.GRANTED,
+          WRITE_EXTERNAL_STORAGE:
+            grants['android.permission.WRITE_EXTERNAL_STORAGE'] ==
+            PermissionsAndroid.RESULTS.GRANTED,
+          READ_EXTERNAL_STORAGE:
+            grants['android.permission.READ_EXTERNAL_STORAGE'] ==
+            PermissionsAndroid.RESULTS.GRANTED,
+        },
+        (grants['android.permission.CAMERA'] ==
+          PermissionsAndroid.RESULTS.GRANTED ||
+          grants['android.permission.CAMERA'] ==
+            PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) &&
+          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ==
+            PermissionsAndroid.RESULTS.GRANTED &&
+          grants['android.permission.READ_EXTERNAL_STORAGE'] ==
+            PermissionsAndroid.RESULTS.GRANTED,
+      );
       if (
-        grants['android.permission.CAMERA'] ===
+        (grants['android.permission.CAMERA'] ==
+          PermissionsAndroid.RESULTS.GRANTED ||
+          grants['android.permission.CAMERA'] ==
+            PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) &&
+        grants['android.permission.WRITE_EXTERNAL_STORAGE'] ==
           PermissionsAndroid.RESULTS.GRANTED &&
-        grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
-          PermissionsAndroid.RESULTS.GRANTED &&
-        grants['android.permission.READ_EXTERNAL_STORAGE'] ===
-          PermissionsAndroid.RESULTS.GRANTED &&
-        grants['android.permission.RECORD_AUDIO'] ===
+        grants['android.permission.READ_EXTERNAL_STORAGE'] ==
           PermissionsAndroid.RESULTS.GRANTED
       ) {
         console.log('Camera permission given');
+
+        setIsTrue(true);
+
       } else {
         console.log('Camera permission denied');
       }
     } catch (err) {
-      console.warn(err);
+      console.log('requestCameraPermission', err);
     }
   };
-
+  useEffect(() => {
+     requestCameraPermission();
+  },[])
+console.log('isTrue',isTrue);
   const selectAllFiles = async () => {
     setFiles(null);
     // setFile(null);
-    requestCameraPermission();
+    await requestCameraPermission();
     //Opening Document Picker for selection of one file
-    try {
-      const res = await DocumentPicker.pickMultiple({
-        type: [DocumentPicker.types.allFiles],
-        allowMultiSelection: true,
-      });
-      //Printing the log realted to the file
-      console.log('selectAllFiles res x: ', res);
-      console.log('selectAllFiles typeof res : ' + typeof res);
-      console.log('selectAllFiles URI : ' + res[0].uri);
-      console.log('selectAllFiles Type : ' + res[0].type);
-      console.log('selectAllFiles File Name : ' + res[0].name);
-      console.log('selectAllFiles File Size : ' + res[0].size);
-      setimageUri(res[0].uri);
-      setFiles(res[0]);
-    } catch (err) {
-      setimageUri(null);
-      setFiles(null);
-      //Handling any exception (If any)
-      if (DocumentPicker.isCancel(err)) {
-        //If user canceled the document selection
-        alert('Canceled File Selection');
-      } else {
-        //For Unknown Error
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
+    if (isTrue) {
+      try {
+        const res = await DocumentPicker.pickMultiple({
+          type: [DocumentPicker.types.allFiles],
+          allowMultiSelection: true,
+        });
+        //Printing the log realted to the file
+        console.log('selectAllFiles res x: ', res);
+        console.log('selectAllFiles typeof res : ' + typeof res);
+        console.log('selectAllFiles URI : ' + res[0].uri);
+        console.log('selectAllFiles Type : ' + res[0].type);
+        console.log('selectAllFiles File Name : ' + res[0].name);
+        console.log('selectAllFiles File Size : ' + res[0].size);
+        setimageUri(res[0].uri);
+        setFiles(res[0]);
+      } catch (err) {
+        setimageUri(null);
+        setFiles(null);
+        //Handling any exception (If any)
+        if (DocumentPicker.isCancel(err)) {
+          //If user canceled the document selection
+          alert('Canceled File Selection');
+        } else {
+          //For Unknown Error
+          alert('Unknown Error: ' + JSON.stringify(err));
+          throw err;
+        }
       }
     }
   };
@@ -212,6 +249,7 @@ const DocumentUpload = ({route}) => {
           if (response.statusCode == 200) {
             console.log('uploadFilesToAPI FILES UPLOADED!'); // response.statusCode, response.headers, response.body
             // Alert.alert('Purchase Successful!!');
+            navigate.goBack()
             // navigation.navigate('home');
           } else {
             console.log('uploadFilesToAPI SERVER ERROR');

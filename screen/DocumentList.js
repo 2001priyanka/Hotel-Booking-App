@@ -36,6 +36,9 @@ const DocumentList = () => {
   const accessToken = useSelector(
     reduxsState => reduxsState?.login?.user?.accessToken,
   );
+  const userId = useSelector(
+    reduxsState => reduxsState?.login?.user?.user?._id,
+  );
   const [avlDocs, setAvlDocs] = useState({
     AADHAR: null,
     PAN: null,
@@ -294,6 +297,21 @@ const DocumentList = () => {
       }
     } catch (error) {
       console.log('API error', error);
+    }
+  };
+  const confirmSubmitAll = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/user/user/' + userId,
+        method: 'PUT',
+        data: {confirmSubmitAll: true},
+        headers: {Authorization: 'Bearer ' + accessToken},
+      });
+      if (res) {
+        console.log('API Response user' + userId, res);
+      }
+    } catch (error) {
+      console.log('API Error user' + userId, error);
     }
   };
   useEffect(() => {
@@ -579,7 +597,7 @@ const DocumentList = () => {
           </Text>
         </View>
 
-        <View
+        <TouchableOpacity
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -593,6 +611,9 @@ const DocumentList = () => {
             borderRadius: vw(5),
             padding: 5,
             marginTop: vh(20),
+          }}
+          onPress={() => {
+            confirmSubmitAll();
           }}>
           <Text
             style={{
@@ -604,7 +625,7 @@ const DocumentList = () => {
             }}>
             I have Submitted all document
           </Text>
-        </View>
+        </TouchableOpacity>
 
         {/* <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}>
