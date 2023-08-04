@@ -90,7 +90,11 @@ const Login = ({navigation}) => {
         userData = res?.data;
         dispatch(setIsLoggedIn(true));
         dispatch(setLoggedInUser(userData));
-        navigation.navigate('dashboard', {userData});
+        if (userData?.adminConfirmSubmitAll) {
+          navigation.navigate('dashboard', {userData});
+        } else {
+          navigation.navigate('dashboard', {userData});
+        }
       } else {
         console.log('some credential issue');
       }
@@ -121,7 +125,7 @@ const Login = ({navigation}) => {
       currentProfile,
     ) {
       if (currentProfile) {
-        console.log(currentProfile);  
+        console.log(currentProfile);
         userData = currentProfile;
         navigation.navigate('dashboard', {userData});
       }
