@@ -356,7 +356,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.AADHAR ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -390,7 +390,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.PAN ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -424,7 +424,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.DOCUMENT ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -458,7 +458,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.ADDRESS ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -492,7 +492,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.CHEQUE ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -526,7 +526,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.PASSPORT ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
