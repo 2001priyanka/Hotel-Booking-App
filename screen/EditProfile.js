@@ -219,7 +219,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
     borderColor: '#A09C9C',
-    height: 50,
     textAlignVertical: 'top',
   },
   input3: {

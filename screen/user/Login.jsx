@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: '987654321',
+    username: '963852747',
     // username: '9167394219',
     password: '123456',
   });
@@ -239,7 +239,7 @@ const Login = ({navigation}) => {
               <Text>OR</Text>
             </View>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity
               style={{
                 height: vh(8),
@@ -272,12 +272,20 @@ const Login = ({navigation}) => {
                 style={{width: vw(13), height: vh(5)}}
               />
             </TouchableOpacity>
-          </View>
-          <TouchableOpacity onPress={() => navigation.navigate('register')}>
+          </View> */}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('TermAndCondition')}>
             <Text
               style={{textAlign: 'center', marginTop: vh(1), color: 'gray'}}>
               Don't have an accoun?{' '}
-              <Text style={{color: '#204D6C'}}>Register</Text>
+              <Text
+                style={{
+                  color: '#204D6C',
+                  fontWeight: '500',
+                  fontSize: vf(2.1),
+                }}>
+                Register
+              </Text>
             </Text>
           </TouchableOpacity>
         </View>

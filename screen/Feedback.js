@@ -31,11 +31,11 @@ import {useSelector} from 'react-redux';
 const Feedback = ({route}) => {
   // const {data: roomId} = route?.params;
   // console.log('data', roomId.key);
-  
+
   const navigation = useNavigation();
 
   const docType = route?.params;
-
+  
   const [feedbackData, setFeedbackData] = useState({
     message: '',
   });
@@ -164,75 +164,11 @@ const Feedback = ({route}) => {
             // height: vh(20),
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
-          {/* <Text
-            style={{
-              textAlign: 'center',
-              color: '#000',
-              fontWeight: '400',
-              fontSize: vf(3),
-              marginVertical: vh(2.5),
-            }}>
-            please select the request
-          </Text> */}
-        </View>
+          }}></View>
         <View style={styles.title}>
           <Text style={{fontSize: vf(3), color: '#000'}}>Feedback</Text>
         </View>
-        {/* <View style={{paddingHorizontal: 15, marginTop: 30}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>UserName:</Text>
-        </View> */}
-        {/* <TextInput
-          placeholder="UserName"
-          label="UserName"
-          multiline={true}
-          numberOfLines={2}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              user_id: e,
-            });
-          }}
-          value={feedbackData?.user_id}
-        /> */}
-        {/* <View style={{paddingHorizontal: 15, marginTop: 10}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>Email:</Text>
-        </View>
-        <TextInput
-          placeholder="Email"
-          label="Email"
-          multiline={true}
-          numberOfLines={2}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              email: e,
-            });
-          }}
-          value={feedbackData?.email}
-        /> */}
-        {/* <View style={{paddingHorizontal: 15, marginTop: 10}}>
-          <Text style={{color: 'black', fontSize: vf(2)}}>Mobile:</Text>
-        </View>
-        <TextInput
-          placeholder="Mobile"
-          label="Mobile"
-          multiline={true}
-          numberOfLines={2}
-          style={styles.textArea}
-          onChangeText={e => {
-            console.log(e);
-            setFeedbackData({
-              ...feedbackData,
-              mobile: e,
-            });
-          }}
-          value={feedbackData?.mobile}
-        /> */}
+
         <View style={{paddingHorizontal: 15, marginTop: 10}}>
           <Text style={{color: 'black', fontSize: vf(2)}}>Message:</Text>
         </View>

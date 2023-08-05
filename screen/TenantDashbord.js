@@ -72,26 +72,25 @@ const TenantDashbord = ({}) => {
     },
   ]);
 
-  //   const getAllRooms = async () => {
-  //     try {
-  //       const res = await axios({
-  //         url: API_URI + `/user/room/`,
-  //         method: 'GET',
-  //       });
-  //       if (res) {
-  //         console.log('getAllRooms', res);
-  //         setRoomsData(res?.data?.results);
-  //         setOriginalRoom(res?.data?.results);
-  //       }
-  //     } catch (error) {
-  //       console.log('error', error);
-  //     }
-  //   };
+  const getAllRooms = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/user/room/',
+        method: 'GET',
+      });
+      if (res) {
+        console.log('getAllRooms', res);
+        setRoomsData(res?.data?.results);
+        setOriginalRoom(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
-  //   useEffect(() => {
-  //     getAllRooms();
-
-  //   }, []);
+  useEffect(() => {
+    getAllRooms();
+  }, []);
   const _renderItem1 = ({item, index}) => {
     return (
       <View
@@ -108,7 +107,7 @@ const TenantDashbord = ({}) => {
             justifyContent: 'center',
             alignItems: 'center',
             position: 'absolute',
-            top:40,
+            top: 40,
             right: 100,
           }}>
           <Text
@@ -150,16 +149,45 @@ const TenantDashbord = ({}) => {
           <Text
             style={{
               color: '#fff',
-              alignSelf: 'center',
-              backgroundColor: '#204D6C',
+              backgroundColor: '#000',
               borderRadius: 50,
               padding: 5,
-              paddingHorizontal: 30,
-              marginTop:100,
+              paddingHorizontal: 10,
+              position: 'absolute',
+              bottom: 12,
+              right: 15,
             }}>
-            View
+            Rs {roomsData[0]?.rent}
           </Text>
         </TouchableOpacity>
+        <View>
+          <Text
+            style={{
+              color: '#000',
+              fontWeight: '600',
+              fontSize: vf(2),
+              padding: vw(2),
+            }}>
+            {roomsData?.building_id && roomsData.building_id[0]
+              ? roomsData[0]?.building_id[0]?.name
+              : null}
+          </Text>
+          <Text>Room Number {roomsData[0]?.room_number}</Text>
+          <View style={{flexDirection: 'row', gap: 10}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                // marginVertical: vh(1),
+              }}>
+              <IconFa name="map-marker" size={15} />
+              <Text style={{fontSize: vf(1.5), color: '#000'}}>
+                {roomsData?.building_id &&
+                  roomsData[0]?.building_id[0]?.address1}
+              </Text>
+            </View>
+          </View>
+        </View>
       </View>
     );
   };

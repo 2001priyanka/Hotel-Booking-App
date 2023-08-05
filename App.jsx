@@ -37,6 +37,7 @@ import AllocatedRoomList from './screen/AllocatedRoomList';
 // import ListOfRequest from './screen/ListOfRequest';
 import ListAllRequest from './screen/ListAllRequest';
 import Footer from './screen/Footer';
+import TermAndCondition from './screen/TermAndCondition';
 // import TenantDashbord from './screen/Dashboard';
 // import DocumentUpload2 from './screen/uploadDocument/DocumentUpload2';
 // import Request from './screen/Request';
@@ -47,7 +48,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="dashboard"
+            initialRouteName="Home"
             screenOptions={{
               headerTitleAlign: 'center',
               headerShadowVisible: false,
@@ -83,13 +84,17 @@ const App = () => {
             <Stack.Screen name="RoomFeedback" component={RoomFeedback} />
             <Stack.Screen name="ListAllRequest" component={ListAllRequest} />
             <Stack.Screen
+              name="TermAndCondition"
+              component={TermAndCondition}
+            />
+            <Stack.Screen
               name="AllocatedRoomList"
               component={AllocatedRoomList}
             />
             {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
-          <Footer />
+          {/* <Footer /> */}
         </NavigationContainer>
       </PersistGate>
     </Provider>
