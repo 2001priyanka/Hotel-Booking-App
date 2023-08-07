@@ -36,6 +36,9 @@ const DocumentList = () => {
   const accessToken = useSelector(
     reduxsState => reduxsState?.login?.user?.accessToken,
   );
+  const userId = useSelector(
+    reduxsState => reduxsState?.login?.user?.user?._id,
+  );
   const [avlDocs, setAvlDocs] = useState({
     AADHAR: null,
     PAN: null,
@@ -296,6 +299,21 @@ const DocumentList = () => {
       console.log('API error', error);
     }
   };
+  const confirmSubmitAll = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/user/user/' + userId,
+        method: 'PUT',
+        data: {confirmSubmitAll: true},
+        headers: {Authorization: 'Bearer ' + accessToken},
+      });
+      if (res) {
+        console.log('API Response user' + userId, res);
+      }
+    } catch (error) {
+      console.log('API Error user' + userId, error);
+    }
+  };
   useEffect(() => {
     getDocuments();
   }, []);
@@ -338,7 +356,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.AADHAR ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -372,7 +390,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.PAN ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -406,7 +424,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.DOCUMENT ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -440,7 +458,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.ADDRESS ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -474,7 +492,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.CHEQUE ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -508,7 +526,7 @@ const DocumentList = () => {
               style={{
                 color: '#fff',
                 // alignSelf: 'center',
-                backgroundColor: '#204D6C',
+                backgroundColor: avlDocs.PASSPORT ? '#204D6C' : '#F00',
                 borderRadius: 50,
                 padding: 5,
                 paddingHorizontal: 30,
@@ -579,7 +597,7 @@ const DocumentList = () => {
           </Text>
         </View>
 
-        <View
+        <TouchableOpacity
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
@@ -593,6 +611,9 @@ const DocumentList = () => {
             borderRadius: vw(5),
             padding: 5,
             marginTop: vh(20),
+          }}
+          onPress={() => {
+            confirmSubmitAll();
           }}>
           <Text
             style={{
@@ -604,7 +625,7 @@ const DocumentList = () => {
             }}>
             I have Submitted all document
           </Text>
-        </View>
+        </TouchableOpacity>
 
         {/* <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}>

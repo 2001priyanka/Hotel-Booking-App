@@ -21,11 +21,12 @@ import {
 import {PermissionsAndroid} from 'react-native';
 import * as RNFS from 'react-native-fs';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {API_URI, BASE_URL} from '../config/Config';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import DocumentPicker from 'react-native-document-picker';
 import {MimeTypeMap} from '../MimeTypeMap';
+import {setLoggedOut} from './Redux/Slice/LoginSlice';
 // import { API_URI } from '../config/Config';
 
 const Profile = () => {
@@ -37,7 +38,7 @@ const Profile = () => {
   const route = useRoute();
   const user_data = route.params?.userData;
   const navigation = useNavigation();
-  
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({
     name: '',
     address1: '',
@@ -217,7 +218,10 @@ const Profile = () => {
       uploadFilesToAPI(user_data?._id);
     }
   }, [files]);
-
+  const logout = () => {
+    dispatch(setLoggedOut());
+    navigation.navigate('login');
+  };
   return (
     <ScrollView style={{flex: 1, height: vh(100), backgroundColor: '#fff'}}>
       <View style={{padding: vw(3)}}>
@@ -419,12 +423,7 @@ const Profile = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Request')}>
             <View style={styles.box}>
-              <Icon
-                reverse
-                name="bolt"
-                type="fontawesome"
-                color="#517fa4"
-              />
+              <Icon reverse name="bolt" type="fontawesome" color="#517fa4" />
               <Text
                 style={{
                   color: '#fff',
@@ -514,30 +513,29 @@ const Profile = () => {
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
-          <View
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginVertical: vh(4),
+            height: vh(7),
+            width: vw(40),
+            backgroundColor: '#89C93D',
+            borderRadius: vw(5),
+            padding: 5,
+          }}
+          onPress={logout}>
+          <Text
             style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
+              color: '#fff',
               alignSelf: 'center',
-              marginVertical: vh(4),
-              height: vh(7),
-              width: vw(40),
-              backgroundColor: '#89C93D',
-              borderRadius: vw(5),
-              padding: 5,
+              fontSize: vf(2.5),
+              borderRadius: 50,
             }}>
-            <Text
-              style={{
-                color: '#fff',
-                alignSelf: 'center',
-                fontSize: vf(2.5),
-                borderRadius: 50,
-              }}>
-              LOGOUT
-            </Text>
-          </View>
+            LOGOUT
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -548,8 +546,8 @@ export default Profile;
 
 const styles = StyleSheet.create({
   box: {
-    flex:1,
-    justifyContent:'center',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     marginVertical: vh(1),
@@ -559,5 +557,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#204D6C',
     borderRadius: vw(3),
     // padding: 5,
-  }               
+  },
 });
