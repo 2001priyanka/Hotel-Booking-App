@@ -338,6 +338,87 @@ const TenantDashbord = ({}) => {
       </TouchableOpacity>
     );
   };
+  // const _renderItem2 = ({item, index}) => {
+  //   return (
+  //     <TouchableOpacity onPress={onNextPressed1}>
+  //       <View
+  //         key={index + item?._id}
+  //         style={{
+  //           height: vh(35),
+  //           width: vw(91),
+  //           padding: 5,
+  //         }}>
+  //         {item.img}
+
+  //         <View
+  //           style={{
+  //             alignItems: 'center',
+  //             position: 'absolute',
+  //             top: 40,
+  //             right: 10,
+  //           }}>
+  //           {/* {item.icon} */}
+  //         </View>
+  //         <TouchableOpacity
+  //         // style={{position: 'absolute', top: 70, right: 110}}
+  //         >
+  //           <Text
+  //             style={{
+  //               color: '#fff',
+  //               backgroundColor: '#000',
+  //               borderRadius: 50,
+  //               fontSize: vf(2),
+  //               padding: 5,
+  //               fontWeight: '600',
+  //               paddingHorizontal: 10,
+  //               position: 'absolute',
+  //               bottom: 10,
+  //               // top:5,
+  //               left: 15,
+  //             }}>
+  //             Rs {requestData?.rent}/mo
+  //           </Text>
+  //         </TouchableOpacity>
+  //         <TouchableOpacity>
+  //           <Text
+  //             style={{
+  //               color: '#fff',
+  //               backgroundColor: '#000',
+  //               borderRadius: 50,
+  //               fontSize: vf(2),
+  //               padding: 5,
+  //               fontWeight: '600',
+  //               paddingHorizontal: 10,
+  //               position: 'absolute',
+  //               bottom: 45,
+  //               left: 15,
+  //             }}>
+  //             {roomsData[0]?.building_id && roomsData[0].building_id[0]
+  //               ? roomsData[0]?.building_id[0]?.name
+  //               : null}
+  //           </Text>
+  //         </TouchableOpacity>
+  //         <TouchableOpacity>
+  //           <Text
+  //             style={{
+  //               color: '#fff',
+  //               backgroundColor: '#000',
+  //               borderRadius: 50,
+  //               fontSize: vf(2),
+  //               // padding: 5,
+  //               fontWeight: '600',
+  //               paddingHorizontal: 10,
+  //               position: 'absolute',
+  //               bottom: 80,
+  //               left: 15,
+  //             }}>
+  //             # {roomsData[0]?.room_number}
+  //           </Text>
+  //         </TouchableOpacity>
+  //       </View>
+  //     </TouchableOpacity>
+  //   );
+  // };
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -425,6 +506,7 @@ const TenantDashbord = ({}) => {
         <Text style={{color: 'black', fontSize: vf(2.5)}}>Pending Bills</Text>
       </View>
       <FlatList data={billsData} renderItem={_renderItem} />
+      {/* <FlatList data={requestData} renderItem={_renderItem2} /> */}
       {/* <View
         style={{
           justifyContent: 'center',
