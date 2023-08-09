@@ -31,8 +31,8 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: '70827082',
-    // username: '9167394219',
+    // username: '70827082',
+    username: '9167394219',
     password: '123456',
   });
   useEffect(() => {

@@ -38,6 +38,7 @@ const Footer = () => {
   return (
     <View
       style={{
+        position:'relative',
         height: vh(8),
         borderWidth: 0,
         width: vw(100),

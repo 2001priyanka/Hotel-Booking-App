@@ -7,7 +7,7 @@ export const loginSlice = createSlice({
     user: {
       id: null,
     },
-    isTenant: false,
+    isTenant: true,
   },
   reducers: {
     setIsLoggedIn: (state, action) => {

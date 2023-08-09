@@ -48,7 +48,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="login"
+            initialRouteName="tenantDashbord"
             screenOptions={{
               headerTitleAlign: 'center',
               headerShadowVisible: false,
@@ -60,7 +60,6 @@ const App = () => {
             <Stack.Screen name="register" component={Register} />
             <Stack.Screen name="dashboard" component={Dashboard} />
             <Stack.Screen name="tenantDashbord" component={TenantDashbord} />
-
             <Stack.Screen name="type" component={EstateType} />
             <Stack.Screen name="agent" component={EstateAgent} />
             <Stack.Screen name="profile" component={Profile} />
@@ -95,7 +94,7 @@ const App = () => {
             {/* <Stack.Screen name="DocumentUpload2" component={DocumentUpload2} /> */}
             {/* <Stack.Screen name="Payments" component={Payment} /> */}
           </Stack.Navigator>
-          {/* <Footer /> */}
+          <Footer />
         </NavigationContainer>
       </PersistGate>
     </Provider>

@@ -320,12 +320,10 @@ const RoomList = ({}) => {
             paddingHorizontal: vw(5),
             marginVertical: vh(3),
           }}>
-          <Text style={{fontSize: vf(2), color: '#000', marginRight: 10}}>
-            Explore Nearby Estate:
-          </Text>
-          <Text style={{...styles.valueText, marginRight: 5}}>{low}</Text>
-          <Text style={{...styles.valueText, marginRight: 5}}>to</Text>
-          <Text style={{...styles.valueText}}>{high}</Text>
+         
+          {/* <Text style={{...styles.valueText, marginRight: 5}}>{low}</Text> */}
+          {/* <Text style={{...styles.valueText, marginRight: 5}}>to</Text> */}
+          {/* <Text style={{...styles.valueText}}>{high}</Text> */}
         </View>
         {/* {originalRoom?.length > 0 && ( */}
         {false > 0 && (

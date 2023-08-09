@@ -29,6 +29,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {API_URI, BASE_URL} from '../config/Config';
 import axios from 'axios';
+import Footer from './Footer';
 
 const TenantDashbord = ({}) => {
   const route = useRoute();
@@ -51,7 +52,8 @@ const TenantDashbord = ({}) => {
   // const [rooms,setRooms] = useState([]);
   const [roomsData, setRoomsData] = useState([]);
   const [originalRoom, setOriginalRoom] = useState([]);
-  // const [userData, setUserData] = useState([]);
+  const [billsData, setBillsData] = useState([]);
+  const [requestData, setRequestData] = useState([]);
   const [roomstype, setRoomstype] = useState([
     {
       img: (
@@ -87,108 +89,253 @@ const TenantDashbord = ({}) => {
       console.log('error', error);
     }
   };
+  const getRequestData = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/user/request/',
+        method: 'GET',
+      });
+      if (res) {
+        console.log('getRequestData', res);
+        setRequestData(res?.data?.results);
+        // setOriginalRoom(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  const getAllBills = async () => {
+    try {
+      const res = await axios({
+        url: API_URI + '/user/bill/',
+        method: 'GET',
+      });
+      if (res) {
+        console.log('getAllBills', res);
+        setBillsData(res?.data?.results);
+        // setOriginalRoom(res?.data?.results);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   useEffect(() => {
     getAllRooms();
+    getAllBills();
+    getRequestData();
   }, []);
-  const _renderItem1 = ({item, index}) => {
+
+  const _renderItem = ({item, index}) => {
     return (
-      <View
-        key={index + item?._id}
-        style={{
-          height: vh(35),
-          width: vw(91),
-          padding: 5,
-        }}>
-        <View style={{borderRadius: 20}}>{item.img}</View>
+      <View style={{...styles.card}}>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            top: 40,
-            right: 100,
+            ...styles.titleRow,
           }}>
+          <Text style={{fontSize: vf(2.5), color: '#000'}}>
+            {item.billType}
+           
+          </Text>
           <Text
             style={{
+              fontSize: vf(2.5),
               color: '#000',
-              fontWeight: '600',
-              fontSize: vf(2),
-              // padding: vw(2),
+              backgroundColor: '#d7d7d7',
+              borderRadius: 10,
+              paddingHorizontal: 20,
             }}>
-            {/* {item.name} */}
+            
+            {item.amount}
           </Text>
         </View>
-
-        <Text
-          style={{
-            alignItems: 'center',
-            color: '#08A216',
-            fontWeight: '800',
-            fontSize: vf(2),
-            position: 'absolute',
-            top: 80,
-            right: 100,
-          }}>
-          {/* {item.priceRange} */}
-        </Text>
-        <View
-          style={{
-            alignItems: 'center',
-            position: 'absolute',
-            top: 40,
-            right: 10,
-          }}>
-          {/* {item.icon} */}
-        </View>
-
-        <TouchableOpacity
-          style={{position: 'absolute', top: 70, right: 110}}
-          onPress={onNextPressed1}>
-          <Text
+        <View style={styles.detailsRow}>
+          <View
             style={{
-              color: '#fff',
-              backgroundColor: '#000',
-              borderRadius: 50,
-              padding: 5,
-              paddingHorizontal: 10,
-              position: 'absolute',
-              bottom: 12,
-              right: 15,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '25%',
             }}>
-            Rs {roomsData[0]?.rent}
-          </Text>
-        </TouchableOpacity>
-        <View>
-          <Text
-            style={{
-              color: '#000',
-              fontWeight: '600',
-              fontSize: vf(2),
-              padding: vw(2),
-            }}>
-            {roomsData?.building_id && roomsData.building_id[0]
-              ? roomsData[0]?.building_id[0]?.name
-              : null}
-          </Text>
-          <Text>Room Number {roomsData[0]?.room_number}</Text>
-          <View style={{flexDirection: 'row', gap: 10}}>
-            <View
+            <Text
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                // marginVertical: vh(1),
+                // paddingRight: 30,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
               }}>
-              <IconFa name="map-marker" size={15} />
-              <Text style={{fontSize: vf(1.5), color: '#000'}}>
-                {roomsData?.building_id &&
-                  roomsData[0]?.building_id[0]?.address1}
-              </Text>
-            </View>
+              billDate
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.billDate}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '25%',
+            }}>
+            <Text
+              style={{
+                // paddingRight: 30,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              dueDate
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.dueDate}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '40%',
+            }}>
+            <Text
+              style={{
+                // paddingRight: 5,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Over Due Amount
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.overdueAmount}
+            </Text>
           </View>
         </View>
+        <View
+          style={{
+            ...styles.buttonRow,
+          }}>
+          <TouchableOpacity
+            // onPress={viewPaymentsDetails}
+            style={{
+              ...styles.actionButton,
+              backgroundColor: '#EE023D',
+              width: '50%',
+              borderBottomLeftRadius: 10,
+            }}>
+            <Text style={{color: '#fff'}}>pay</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            // onPress={() => viewBillDetails(item)}
+            style={{
+              ...styles.actionButton,
+              backgroundColor: '#89C93D',
+              width: '50%',
+              borderBottomRightRadius: 10,
+            }}>
+            <Text style={{color: '#fff'}}>View</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+    );
+  };
+  const _renderItem1 = ({item, index}) => {
+    return (
+      <TouchableOpacity onPress={onNextPressed1}>
+        <View
+          key={index + item?._id}
+          style={{
+            height: vh(35),
+            width: vw(91),
+            padding: 5,
+          }}>
+          {item.img}
+
+          <View
+            style={{
+              alignItems: 'center',
+              position: 'absolute',
+              top: 40,
+              right: 10,
+            }}>
+            {/* {item.icon} */}
+          </View>
+          <TouchableOpacity
+          // style={{position: 'absolute', top: 70, right: 110}}
+          >
+            <Text
+              style={{
+                color: '#fff',
+                backgroundColor: '#000',
+                borderRadius: 50,
+                fontSize: vf(2),
+                padding: 5,
+                fontWeight: '600',
+                paddingHorizontal: 10,
+                position: 'absolute',
+                bottom: 10,
+                // top:5,
+                left: 15,
+              }}>
+              Rs {roomsData[0]?.rent}/mo
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: '#fff',
+                backgroundColor: '#000',
+                borderRadius: 50,
+                fontSize: vf(2),
+                padding: 5,
+                fontWeight: '600',
+                paddingHorizontal: 10,
+                position: 'absolute',
+                bottom: 45,
+                left: 15,
+              }}>
+              {roomsData[0]?.building_id && roomsData[0].building_id[0]
+                ? roomsData[0]?.building_id[0]?.name
+                : null}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              style={{
+                color: '#fff',
+                backgroundColor: '#000',
+                borderRadius: 50,
+                fontSize: vf(2),
+                // padding: 5,
+                fontWeight: '600',
+                paddingHorizontal: 10,
+                position: 'absolute',
+                bottom: 80,
+                left: 15,
+              }}>
+              # {roomsData[0]?.room_number}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -277,134 +424,8 @@ const TenantDashbord = ({}) => {
         }}>
         <Text style={{color: 'black', fontSize: vf(2.5)}}>Pending Bills</Text>
       </View>
-      <View style={{...styles.card}}>
-        <View
-          style={{
-            ...styles.titleRow,
-          }}>
-          <Text style={{fontSize: vf(2.5), color: '#000'}}>
-            {/* {item.billType} */}
-            Bill:Electricity
-          </Text>
-          <Text
-            style={{
-              fontSize: vf(2.5),
-              color: '#000',
-              backgroundColor: '#d7d7d7',
-              borderRadius: 10,
-              paddingHorizontal: 20,
-            }}>
-            Rs.1000
-            {/* {item.amount} */}
-          </Text>
-        </View>
-        <View style={styles.detailsRow}>
-          <View
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '25%',
-            }}>
-            <Text
-              style={{
-                // paddingRight: 30,
-                fontSize: vf(1.8),
-                color: 'black',
-                // marginTop: 4,
-              }}>
-              billDate
-            </Text>
-            <Text
-              style={{
-                // paddingRight: 80,
-                fontSize: vf(1.6),
-                color: 'black',
-                // marginTop: 4,
-              }}>
-              {/* {item.billDate} */}billDate
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '25%',
-            }}>
-            <Text
-              style={{
-                // paddingRight: 30,
-                fontSize: vf(1.8),
-                color: 'black',
-                // marginTop: 4,
-              }}>
-              dueDate
-            </Text>
-            <Text
-              style={{
-                // paddingRight: 80,
-                fontSize: vf(1.6),
-                color: 'black',
-                // marginTop: 4,
-              }}>
-              {/* {item.dueDate} */}dueDate
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '40%',
-            }}>
-            <Text
-              style={{
-                // paddingRight: 5,
-                fontSize: vf(1.8),
-                color: 'black',
-                // marginTop: 4,
-              }}>
-              Over Due Amount
-            </Text>
-            <Text
-              style={{
-                // paddingRight: 80,
-                fontSize: vf(1.6),
-                color: 'black',
-                // marginTop: 4,
-              }}>
-              {/* {item.overdueAmount} */}overdueAmount
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            ...styles.buttonRow,
-          }}>
-          <TouchableOpacity
-            // onPress={viewPaymentsDetails}
-            style={{
-              ...styles.actionButton,
-              backgroundColor: '#EE023D',
-              width: '50%',
-              borderBottomLeftRadius: 10,
-            }}>
-            <Text style={{color: '#fff'}}>pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            // onPress={() => viewBillDetails(item)}
-            style={{
-              ...styles.actionButton,
-              backgroundColor: '#89C93D',
-              width: '50%',
-              borderBottomRightRadius: 10,
-            }}>
-            <Text style={{color: '#fff'}}>View</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View
+      <FlatList data={billsData} renderItem={_renderItem} />
+      {/* <View
         style={{
           justifyContent: 'center',
           alignItems: 'center',
@@ -430,7 +451,8 @@ const TenantDashbord = ({}) => {
             </Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      {/* <Footer/> */}
     </ScrollView>
   );
 };
