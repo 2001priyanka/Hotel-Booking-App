@@ -25,8 +25,6 @@ const Details = ({route}) => {
   console.log('data', roomId.key);
 
   const navigation = useNavigation();
-  
-
 
   const [roomsDetails, setRoomsDetails] = useState({});
   const [feedbackData, setFeedbackData] = useState({});
@@ -68,13 +66,12 @@ const Details = ({route}) => {
       getSingleRoomsDetails();
     }
   }, [roomId]);
-  
+
   useEffect(() => {
     if (roomId) {
       getSingleRoomFeedbackDetails();
     }
   }, [roomId]);
-  
 
   return (
     <SafeAreaView style={{backgroundColor: 'white', height: vh(100)}}>
@@ -86,15 +83,45 @@ const Details = ({route}) => {
             marginTop: 20,
             borderRadius: 20,
           }}>
-          {roomsDetails?.photo && (
-            <Image
-              // source={require('../images/11.jpg')}
-              source={{
-                uri: BASE_URL + roomsDetails?.photo?.replace('Storage\\', ''),
-              }}
-              style={{height: vh(40), width: vw(90), borderRadius: 40}}
-            />
-          )}
+          <FlatList
+            data={roomsDetails?.roomimages}
+            renderItem={({item}) => {
+              const rmImg = item;
+              console.log(
+                'rmImg',
+                rmImg,
+                BASE_URL +
+                  rmImg?.media
+                    ?.replace('Storage\\', '')
+                    .replace('Storage/', ''),
+              );
+              return (
+                <Image
+                  // source={require('../images/11.jpg')}
+                  source={{
+                    uri:
+                      BASE_URL +
+                      rmImg?.media
+                        ?.replace('Storage\\', '')
+                        .replace('Storage/', ''),
+                  }}
+                  style={{
+                    height: vh(40),
+                    width: vw(96),
+                    borderRadius: 40,
+                    marginRight: 5,
+                  }}
+                />
+              );
+            }}
+            numColumns={1}
+            contentContainerStyle={{
+              padding: vw(1.5),
+              // justifyContent: 'center',
+              // alignItems: 'center',
+            }}
+            horizontal
+          />
         </View>
         <View
           style={{

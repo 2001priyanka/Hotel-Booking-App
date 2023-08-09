@@ -59,6 +59,8 @@ const App = () => {
             <Stack.Screen name="login" component={Login} />
             <Stack.Screen name="register" component={Register} />
             <Stack.Screen name="dashboard" component={Dashboard} />
+            <Stack.Screen name="tenantDashbord" component={TenantDashbord} />
+
             <Stack.Screen name="type" component={EstateType} />
             <Stack.Screen name="agent" component={EstateAgent} />
             <Stack.Screen name="profile" component={Profile} />
@@ -78,7 +80,6 @@ const App = () => {
             <Stack.Screen name="Neft" component={Neft} />
             <Stack.Screen name="Referral" component={Referral} />
             <Stack.Screen name="Feedback" component={Feedback} />
-            <Stack.Screen name="tenantDashbord" component={TenantDashbord} />
             <Stack.Screen name="ListOfFeedBacks" component={ListOfFeedBacks} />
             <Stack.Screen name="FeedBackDetails" component={FeedBackDetails} />
             <Stack.Screen name="RoomFeedback" component={RoomFeedback} />

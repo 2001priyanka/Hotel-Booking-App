@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   const [googleAcoount, setGoogleAccount] = useState({});
   const [loginData, setLoginData] = useState({
-    username: '8104925782',
+    username: '70827082',
     // username: '9167394219',
     password: '123456',
   });
@@ -90,8 +90,15 @@ const Login = ({navigation}) => {
         userData = res?.data;
         dispatch(setIsLoggedIn(true));
         dispatch(setLoggedInUser(userData));
-        if (userData?.adminConfirmSubmitAll) {
-          navigation.navigate('dashboard', {userData});
+        let isTenant = false;
+        console.log('userData', userData);
+        userData?.user?.allocations.map(item => {
+          if (item.status == 'APPROVED') {
+            isTenant = true;
+          }
+        });
+        if (isTenant) {
+          navigation.navigate('tenantDashbord', {userData});
         } else {
           navigation.navigate('dashboard', {userData});
         }

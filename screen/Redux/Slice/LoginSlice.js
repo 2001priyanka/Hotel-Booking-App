@@ -7,6 +7,7 @@ export const loginSlice = createSlice({
     user: {
       id: null,
     },
+    isTenant: false,
   },
   reducers: {
     setIsLoggedIn: (state, action) => {
@@ -15,12 +16,21 @@ export const loginSlice = createSlice({
     },
     setLoggedInUser: (state, action) => {
       state.user = action.payload;
+      console.log('action.payload', action.payload);
+      let isTenant = false;
+      action.payload?.user?.allocations.map(item => {
+        if (item.status == 'APPROVED') {
+          isTenant = true;
+        }
+      });
+      state.isTenant = isTenant;
     },
     setLoggedOut: (state, action) => {
       state.isLoggedIn = false;
       state.user = {
         id: null,
       };
+      state.isTenant = false;
     },
   },
 });

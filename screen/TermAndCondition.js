@@ -42,10 +42,16 @@ const TermAndCondition = ({route}) => {
     message: '',
   });
   // userId = '6422b8e68d924ec8e15ea7e4';
-  const userId = useSelector(reduxState => reduxState?.login?.user?.id);
-  console.log(userId);
+  // console.log(, check1);
   const onpressRegister = () => {
-    navigation.navigate('register')
+    if (check1) {
+      navigation.navigate('register');
+    } else {
+      Alert.alert(
+        'Terms & Conditions',
+        'Please Accept the terms and conditions to use the app',
+      );
+    }
   };
   // const submitHandler = async () => {
   //   console.log('submitHandler called');
