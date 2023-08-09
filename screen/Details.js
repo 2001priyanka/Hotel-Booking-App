@@ -28,6 +28,7 @@ const Details = ({route}) => {
 
   const [roomsDetails, setRoomsDetails] = useState({});
   const [feedbackData, setFeedbackData] = useState({});
+  const [isOccupied, setIsOccupied] = useState(false);
   // const [buidingsDetails, setBuidingsDetails] = useState([]);
 
   const getSingleRoomsDetails = async () => {
@@ -40,6 +41,13 @@ const Details = ({route}) => {
       if (res) {
         console.log('getSingleRoomsDetails', res);
         setRoomsDetails(res?.data?.results);
+        let isTenantBOOL = false;
+        res?.data?.results?.allocation_id.map(item => {
+          if (item.status == 'APPROVED') {
+            isTenantBOOL = true;
+          }
+        });
+        setIsOccupied(isTenantBOOL);
       }
     } catch (error) {
       console.log('error', error);
@@ -150,6 +158,7 @@ const Details = ({route}) => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             marginTop: 30,
+            display: isOccupied ? 'none' : 'flex',
           }}>
           <TouchableOpacity
             onPress={() =>
@@ -180,6 +189,7 @@ const Details = ({route}) => {
             flexDirection: 'row',
             justifyContent: 'space-around',
             marginTop: 20,
+            display: isOccupied ? 'none' : 'flex',
           }}>
           <TouchableOpacity
             onPress={() =>
