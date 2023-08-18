@@ -223,7 +223,7 @@ const ListAllRequest = ({}) => {
             marginVertical: vh(1),
           }}>
           <Text style={{fontSize: vf(3), color: '#000', marginTop: vh(2)}}>
-           Requests
+            Requests
           </Text>
         </View>
 

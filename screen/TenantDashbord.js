@@ -35,7 +35,7 @@ const TenantDashbord = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
   const userId = useSelector(reduxsState => reduxsState?.login?.user);
-  // console.log(userData);
+  console.log(userData);
   const navigation = useNavigation();
   const onNextPressed = param => {
     const data = {
@@ -338,87 +338,91 @@ const TenantDashbord = ({}) => {
       </TouchableOpacity>
     );
   };
-  // const _renderItem2 = ({item, index}) => {
-  //   return (
-  //     <TouchableOpacity onPress={onNextPressed1}>
-  //       <View
-  //         key={index + item?._id}
-  //         style={{
-  //           height: vh(35),
-  //           width: vw(91),
-  //           padding: 5,
-  //         }}>
-  //         {item.img}
-
-  //         <View
-  //           style={{
-  //             alignItems: 'center',
-  //             position: 'absolute',
-  //             top: 40,
-  //             right: 10,
-  //           }}>
-  //           {/* {item.icon} */}
-  //         </View>
-  //         <TouchableOpacity
-  //         // style={{position: 'absolute', top: 70, right: 110}}
-  //         >
-  //           <Text
-  //             style={{
-  //               color: '#fff',
-  //               backgroundColor: '#000',
-  //               borderRadius: 50,
-  //               fontSize: vf(2),
-  //               padding: 5,
-  //               fontWeight: '600',
-  //               paddingHorizontal: 10,
-  //               position: 'absolute',
-  //               bottom: 10,
-  //               // top:5,
-  //               left: 15,
-  //             }}>
-  //             Rs {requestData?.rent}/mo
-  //           </Text>
-  //         </TouchableOpacity>
-  //         <TouchableOpacity>
-  //           <Text
-  //             style={{
-  //               color: '#fff',
-  //               backgroundColor: '#000',
-  //               borderRadius: 50,
-  //               fontSize: vf(2),
-  //               padding: 5,
-  //               fontWeight: '600',
-  //               paddingHorizontal: 10,
-  //               position: 'absolute',
-  //               bottom: 45,
-  //               left: 15,
-  //             }}>
-  //             {roomsData[0]?.building_id && roomsData[0].building_id[0]
-  //               ? roomsData[0]?.building_id[0]?.name
-  //               : null}
-  //           </Text>
-  //         </TouchableOpacity>
-  //         <TouchableOpacity>
-  //           <Text
-  //             style={{
-  //               color: '#fff',
-  //               backgroundColor: '#000',
-  //               borderRadius: 50,
-  //               fontSize: vf(2),
-  //               // padding: 5,
-  //               fontWeight: '600',
-  //               paddingHorizontal: 10,
-  //               position: 'absolute',
-  //               bottom: 80,
-  //               left: 15,
-  //             }}>
-  //             # {roomsData[0]?.room_number}
-  //           </Text>
-  //         </TouchableOpacity>
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // };
+  const _renderItem2 = ({item, index}) => {
+    return (
+      <View style={styles.card}>
+        <View style={styles.detailsRow}>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              width: '25%',
+            }}>
+            <Text
+              style={{
+                // paddingRight: 30,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Username
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.user_id && item.user_id[0]?.username}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              width: '40%',
+            }}>
+            <Text
+              style={{
+                // paddingRight: 30,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Building Name
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.building_id && item.building_id[0]?.name}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '30%',
+            }}>
+            <Text
+              style={{
+                // paddingRight: 5,
+                fontSize: vf(1.8),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              Message
+            </Text>
+            <Text
+              style={{
+                // paddingRight: 80,
+                fontSize: vf(1.6),
+                color: 'black',
+                // marginTop: 4,
+              }}>
+              {item.message}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -506,7 +510,15 @@ const TenantDashbord = ({}) => {
         <Text style={{color: 'black', fontSize: vf(2.5)}}>Pending Bills</Text>
       </View>
       <FlatList data={billsData} renderItem={_renderItem} />
-      {/* <FlatList data={requestData} renderItem={_renderItem2} /> */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          marginVertical: 20,
+        }}>
+        <Text style={{color: 'black', fontSize: vf(2.5)}}>All Request</Text>
+      </View>
+      <FlatList data={requestData} renderItem={_renderItem2} />
       {/* <View
         style={{
           justifyContent: 'center',

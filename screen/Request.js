@@ -52,6 +52,11 @@ const Request = ({route}) => {
   const [documentImageData, setDocumentImageData] = useState({
     tenant_id: '',
   });
+  // const [requestData, setRequestData] = useState({
+  //   user_id: '',
+  //   room_id: '',
+  //   message: '',
+  // });
   const [message, setMessage] = useState([]);
   const [value, setValue] = useState();
   const [isTrue, setIsTrue] = useState(false);
@@ -124,12 +129,13 @@ const Request = ({route}) => {
       console.log('CALL API');
       try {
         const RequestImageRes = await axios({
-          url: API_URI + '/admin/request',
+          url: API_URI + '/user/request',
           method: 'POST',
           data: {
+            // ...requestData,
             user_id: userId,
-            title: 'test',
-            message: 'This is a test',
+            // room_id: 'test',
+            message: 'This is a test1',
           },
           headers: {
             Authorization: 'Bearer ' + token,
@@ -144,6 +150,7 @@ const Request = ({route}) => {
             );
             navigation.navigate('ListAllRequest');
             uploadFilesToAPI(RequestImageRes?.data?.data?._id);
+            // setRequestData(RequestImageRes?.data?.results);
           }
         }
       } catch (error) {

@@ -33,7 +33,7 @@ const Dashboard = ({}) => {
   const route = useRoute();
   const userData = route?.params?.data;
   const userId = useSelector(reduxsState => reduxsState?.login?.user?.user  );
-  // console.log(userData);
+  console.log(userId);
   const navigation = useNavigation();
   const onNextPressed = param => {
     const data = {
