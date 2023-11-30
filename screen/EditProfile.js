@@ -13,9 +13,9 @@ import {useNavigation} from '@react-navigation/native';
 // import axios from 'axios';
 import {API_URL} from '../../../Config';
 import axios from 'axios';
-// import {useSelector} from 'react-redux';
+
 import IconFa from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector} from 'react-redux';
+// import {useSelector} from 'react-reduxp';
 import {
   responsiveHeight as vh,
   responsiveWidth as vw,
@@ -30,10 +30,10 @@ const EditProfile = () => {
     email: '',
     address1: '',
   });
-  const token = useSelector(
-    reduxsState => reduxsState?.login?.user?.accessToken,
-  );
-  console.log('token', token);
+  // const token = useSelector(
+  //   reduxsState => reduxsState?.login?.user?.accessToken,
+  // );
+  // console.log('token', token);
 
   const getUserData = async () => {
     if (token) {
@@ -160,12 +160,12 @@ const EditProfile = () => {
                       marginTop: 20,
                       textTransform: 'uppercase',
                     }}>
-                    Email Address:
+                    email:
                   </Text>
 
                   <TextInput
                     style={styles.input2}
-                    placeholder="Email"
+                    placeholder="email"
                     multiline={true}
                     numberOfLines={4}
                     onChangeText={e => {

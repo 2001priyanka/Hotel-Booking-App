@@ -41,14 +41,13 @@ const Register = ({navigation}) => {
           username: userData.mobile,
         },
       });
-      if(res.status==200){
+      if (res.status == 200) {
         console.log(res?.data);
-        setUserData(initialState)
-        navigation.navigate('login')
-      }else{
-        console.log('some credential issue')
+        setUserData(initialState);
+        navigation.navigate('login');
+      } else {
+        console.log('some credential issue');
       }
-      
     } catch (error) {
       console.log(error);
     }

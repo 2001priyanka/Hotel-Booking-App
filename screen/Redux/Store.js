@@ -14,7 +14,7 @@ import {
 } from 'redux-persist';
 
 import loginReducer from '../Redux/Slice/LoginSlice';
-import {cartSlice} from '../Redux/Slice/CartSlice';
+// import {cartSlice} from '../Redux/Slice/CartSlice';
 // import cartReducer from './Slice/CartSlice';
 
 // import homeReducer from './Slice/HomeSlice';

@@ -60,7 +60,7 @@ const DocumentUpload = ({route}) => {
       ]);
       console.log(
         'grants',
-        grants,
+        grants,                                   
         grants['android.permission.CAMERA'] ==
           PermissionsAndroid.RESULTS.GRANTED ||
           grants['android.permission.CAMERA'] ==
